@@ -41,10 +41,15 @@ export function buildCron(mode: 'interval' | 'time', iv: number, iu: 'm' | 'h', 
   return `${min} ${localToUtc24(lh)} * * ${days.includes(-1) ? '*' : days.sort((a, b) => a - b).join(',')}`
 }
 
-export function timeAgo(date: string): string {
-  const s = Math.floor((Date.now() - new Date(date).getTime()) / 1000)
-  if (s < 60) return 'just now'; if (s < 3600) return `${Math.floor(s / 60)}m ago`
-  if (s < 86400) return `${Math.floor(s / 3600)}h ago`; return `${Math.floor(s / 86400)}d ago`
+export function timeAgo(date: string | null | undefined): string {
+  if (!date) return '—'
+  const ms = new Date(date).getTime()
+  if (isNaN(ms)) return '—'
+  const s = Math.floor((Date.now() - ms) / 1000)
+  if (s < 60) return 'just now'
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`
+  return `${Math.floor(s / 86400)}d ago`
 }
 
 export function getSkillStatus(name: string, enabled: boolean, runs: Run[]) {

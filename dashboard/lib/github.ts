@@ -115,7 +115,7 @@ export async function getDirectory(path: string): Promise<Array<{ name: string; 
   return Array.isArray(data) ? data : []
 }
 
-export async function triggerWorkflow(skill: string) {
+export async function triggerWorkflow(skill: string, extraInputs?: Record<string, string>) {
   if (isLocal()) {
     throw new Error('Cannot trigger GitHub Actions locally — set GITHUB_TOKEN and GITHUB_REPO to enable remote runs')
   }
@@ -123,7 +123,7 @@ export async function triggerWorkflow(skill: string) {
   const res = await fetch(`${GITHUB_API}/repos/${repo}/actions/workflows/vigil.yml/dispatches`, {
     method: 'POST',
     headers: authHeaders(token),
-    body: JSON.stringify({ ref: 'main', inputs: { skill } }),
+    body: JSON.stringify({ ref: 'main', inputs: { skill, ...extraInputs } }),
     cache: 'no-store',
   })
   if (!res.ok) throw new Error(`GitHub API ${res.status}: failed to trigger workflow`)

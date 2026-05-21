@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server'
 import { execFileSync, execSync } from 'child_process'
 import { resolve } from 'path'
+import { getWorkflowRuns } from '@/lib/github'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
+
+function isRemote() {
+  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+}
 
 function ghRepo(): string | null {
   try {
@@ -22,6 +27,24 @@ function ghArgsRepo(): string[] {
 }
 
 export async function GET() {
+  if (isRemote()) {
+    try {
+      const raw = await getWorkflowRuns(20)
+      const runs = (raw as Record<string, unknown>[]).map(r => ({
+        id: r.id,
+        workflow: r.display_title || r.name,
+        status: r.status,
+        conclusion: r.conclusion,
+        created_at: r.created_at,
+        url: r.html_url,
+      }))
+      return NextResponse.json({ runs })
+    } catch {
+      return NextResponse.json({ runs: [] })
+    }
+  }
+
+  // Local: use gh CLI
   try {
     const out = execFileSync(
       'gh',

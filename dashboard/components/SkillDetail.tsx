@@ -97,7 +97,7 @@ export function SkillDetail({ skill, runs, model, gateway, busy, onToggle, onRun
       {/* Model */}
       <div className="card-hst p-[var(--space-md)]">
         <div className="text-label mb-[var(--space-sm)]">Capability Level</div>
-        <select value={skill.model} onChange={(e) => onUpdateModel(skill.name, e.target.value)} className="bg-[#1A1A1E] text-primary-100 text-xs px-3 py-2 border-2 border-[rgba(255,255,255,0.10)] outline-none font-mono w-full cursor-pointer focus:border-eva-orange transition-colors">
+        <select value={skill.model} onChange={(e) => onUpdateModel(skill.name, e.target.value)} className="bg-eva-white text-primary-100 text-xs px-3 py-2 border-2 border-[rgba(255,255,255,0.10)] outline-none font-mono w-full cursor-pointer focus:border-eva-orange transition-colors">
           <option value="">Default ({modelOptions.find(m => m.id === model)?.label ?? model})</option>
           {modelOptions.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
         </select>

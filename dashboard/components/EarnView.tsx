@@ -78,7 +78,7 @@ export function EarnView() {
     <div className="max-w-4xl mx-auto p-6 space-y-6 animate-fade-in">
 
       {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-8 relative overflow-hidden">
+      <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-eva-orange/5 via-transparent to-transparent pointer-events-none" />
         <div className="relative space-y-3">
           <div className="text-[10px] font-mono text-eva-orange uppercase tracking-[2.5px]">Skill Economy</div>
@@ -112,7 +112,7 @@ export function EarnView() {
         <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px] mb-3">How fees flow</div>
         <div className="grid grid-cols-3 gap-3">
           {FLOW.map((f, i) => (
-            <div key={f.label} className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-4 space-y-1.5">
+            <div key={f.label} className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-4 space-y-1.5">
               <div className="text-[10px] font-mono text-primary-40 uppercase tracking-wide flex items-center gap-2">
                 <span className="text-primary-30">{String(i + 1).padStart(2, '0')}</span>
                 {f.label}
@@ -131,7 +131,7 @@ export function EarnView() {
         <div className="space-y-3">
           <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">From zero to earning</div>
           {STEPS.map((s) => (
-            <div key={s.n} className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-4 flex gap-4">
+            <div key={s.n} className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-4 flex gap-4">
               <div className="text-[10px] font-mono text-eva-orange shrink-0 pt-0.5">{s.n}</div>
               <div className="space-y-1">
                 <div className="text-xs font-mono text-primary-100">{s.title}</div>
@@ -162,7 +162,7 @@ export function EarnView() {
         {/* Frontmatter */}
         <div className="space-y-3">
           <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">Skill frontmatter</div>
-          <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.07)] overflow-hidden">
+          <div className="bg-eva-black border border-[rgba(255,255,255,0.07)] overflow-hidden">
             <div className="flex items-center justify-between px-4 py-2 border-b border-[rgba(255,255,255,0.06)]">
               <span className="text-[10px] font-mono text-primary-40">skills/my-skill/SKILL.md</span>
               <span className="text-[10px] font-mono text-eva-green uppercase tracking-wide">Required fields</span>
@@ -179,7 +179,7 @@ export function EarnView() {
               })}
             </pre>
           </div>
-          <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-3 space-y-1.5">
+          <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-3 space-y-1.5">
             <div className="text-[10px] font-mono text-primary-40 uppercase tracking-wide">Required fields</div>
             {[
               { field: 'author', desc: 'Your GitHub username — shown in the registry' },
@@ -195,7 +195,7 @@ export function EarnView() {
       </div>
 
       {/* ── Earnings estimator ─────────────────────────────────────────── */}
-      <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-5 space-y-4">
+      <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-5 space-y-4">
         <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">Earnings estimator</div>
         <p className="text-[11px] font-mono text-primary-50 leading-relaxed">
           Your earnings come directly from VIGIL token trading volume — no fixed budget, no discretionary top-ups. 50% of Vigil's bankr cut flows to the creator pool each week.
@@ -214,7 +214,7 @@ export function EarnView() {
                 value={state}
                 onChange={e => set(e.target.value)}
                 placeholder={placeholder}
-                className="w-full bg-[#1A1A1E] border border-[rgba(255,255,255,0.1)] text-primary-100 font-mono text-xs px-3 py-2 outline-none focus:border-[rgba(255,255,255,0.25)] placeholder:text-primary-30"
+                className="w-full bg-eva-white border border-[rgba(255,255,255,0.1)] text-primary-100 font-mono text-xs px-3 py-2 outline-none focus:border-[rgba(255,255,255,0.25)] placeholder:text-primary-30"
               />
             </div>
           ))}
@@ -222,15 +222,15 @@ export function EarnView() {
 
         {/* Breakdown */}
         <div className="grid grid-cols-3 gap-2 pt-1 text-[10px] font-mono text-primary-40">
-          <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.06)] px-3 py-2 flex justify-between">
+          <div className="bg-eva-black border border-[rgba(255,255,255,0.06)] px-3 py-2 flex justify-between">
             <span>Bankr fees (1.2%)</span>
             <span className="text-primary-70">${(volumeN * SWAP_FEE).toFixed(2)}</span>
           </div>
-          <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.06)] px-3 py-2 flex justify-between">
+          <div className="bg-eva-black border border-[rgba(255,255,255,0.06)] px-3 py-2 flex justify-between">
             <span>Vigil's cut (57%)</span>
             <span className="text-primary-70">${vigilEarnings.toFixed(2)}</span>
           </div>
-          <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.06)] px-3 py-2 flex justify-between">
+          <div className="bg-eva-black border border-[rgba(255,255,255,0.06)] px-3 py-2 flex justify-between">
             <span>Creator pool (50%)</span>
             <span className="text-eva-orange">${poolFmt}</span>
           </div>
@@ -247,7 +247,7 @@ export function EarnView() {
       </div>
 
       {/* ── How the pool grows ─────────────────────────────────────────── */}
-      <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-5 space-y-4">
+      <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-5 space-y-4">
         <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">How the pool grows</div>
         <p className="text-[11px] font-mono text-primary-50 leading-relaxed">
           Vigil holds a VIGIL token on Bankr. Every time it trades, 57% of the 1.2% swap fee flows to Vigil automatically. Those earnings fund the weekly creator pool — no manual top-ups, no operator configuration needed.
@@ -258,7 +258,7 @@ export function EarnView() {
             { label: 'More users', sub: 'drive trading volume on the VIGIL token' },
             { label: 'More volume', sub: 'means a larger pool for all skill creators' },
           ].map(({ label, sub }) => (
-            <div key={label} className="bg-[#0D0D10] border border-[rgba(255,255,255,0.06)] p-4 space-y-1.5">
+            <div key={label} className="bg-eva-black border border-[rgba(255,255,255,0.06)] p-4 space-y-1.5">
               <div className="text-xs font-mono text-primary-100">{label}</div>
               <div className="text-[10px] font-mono text-primary-40 leading-relaxed">{sub}</div>
             </div>
@@ -278,7 +278,7 @@ export function EarnView() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-4 hover:border-[rgba(255,255,255,0.15)] transition-colors group block"
+            className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-4 hover:border-[rgba(255,255,255,0.15)] transition-colors group block"
           >
             <div className="text-xs font-mono text-primary-100 group-hover:text-eva-orange transition-colors">{label} →</div>
             <div className="text-[10px] font-mono text-primary-40 mt-1">{sub}</div>

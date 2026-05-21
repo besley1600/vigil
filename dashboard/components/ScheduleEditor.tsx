@@ -15,7 +15,7 @@ export function ScheduleEditor({ cron, onSave }: { cron: string; onSave: (c: str
   const [days, setDays] = useState<number[]>(parsed.mode === 'time' ? parsed.days : [-1])
   const toggleDay = (v: number) => { setMode('time'); if (v === -1) { setDays([-1]); return }; const w = days.filter(d => d !== -1 && d !== v); setDays(days.includes(v) ? (w.length === 0 ? [-1] : w) : [...w, v]) }
 
-  const inputCls = "w-12 bg-[#1A1A1E] text-primary-100 text-xs px-2 py-1.5 border-2 border-[rgba(255,255,255,0.10)] outline-none text-center font-mono focus:border-eva-orange transition-colors"
+  const inputCls = "w-12 bg-eva-white text-primary-100 text-xs px-2 py-1.5 border-2 border-[rgba(255,255,255,0.10)] outline-none text-center font-mono focus:border-eva-orange transition-colors"
 
   return (
     <div className="space-y-3">
@@ -29,7 +29,7 @@ export function ScheduleEditor({ cron, onSave }: { cron: string; onSave: (c: str
           <div className="flex text-xs overflow-hidden border-2 border-[rgba(255,255,255,0.10)]">
             {(['m', 'h'] as const).map(u => (
               <button key={u} onClick={() => { setIu(u); setMode('interval') }}
-                className={`px-2.5 py-1.5 transition-colors font-mono ${iu === u ? 'bg-eva-orange text-white' : 'bg-[#1A1A1E] text-primary-40 hover:text-primary-70'}`}>{u}</button>
+                className={`px-2.5 py-1.5 transition-colors font-mono ${iu === u ? 'bg-eva-orange text-white' : 'bg-eva-white text-primary-40 hover:text-primary-70'}`}>{u}</button>
             ))}
           </div>
         </label>
@@ -44,7 +44,7 @@ export function ScheduleEditor({ cron, onSave }: { cron: string; onSave: (c: str
           <div className="flex text-xs overflow-hidden border-2 border-[rgba(255,255,255,0.10)]">
             {(['AM', 'PM'] as const).map(v => (
               <button key={v} onClick={() => { setAp(v); setMode('time') }}
-                className={`px-2.5 py-1.5 transition-colors font-mono ${ap === v ? 'bg-eva-orange text-white' : 'bg-[#1A1A1E] text-primary-40 hover:text-primary-70'}`}>{v}</button>
+                className={`px-2.5 py-1.5 transition-colors font-mono ${ap === v ? 'bg-eva-orange text-white' : 'bg-eva-white text-primary-40 hover:text-primary-70'}`}>{v}</button>
             ))}
           </div>
         </label>
@@ -55,7 +55,7 @@ export function ScheduleEditor({ cron, onSave }: { cron: string; onSave: (c: str
             <button key={d.value} onClick={() => toggleDay(d.value)}
               className={`text-xs px-2.5 py-1 transition-colors font-mono ${
                 (d.value === -1 ? days.includes(-1) : days.includes(d.value))
-                  ? 'bg-eva-orange text-white' : 'bg-[#1A1A1E] text-primary-40 border-2 border-[rgba(255,255,255,0.10)] hover:text-primary-70'
+                  ? 'bg-eva-orange text-white' : 'bg-eva-white text-primary-40 border-2 border-[rgba(255,255,255,0.10)] hover:text-primary-70'
               }`}>{d.label}</button>
           ))}
         </div>

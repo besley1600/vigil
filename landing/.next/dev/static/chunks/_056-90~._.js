@@ -345,9 +345,9 @@ function Nav() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: scrolled ? 'rgba(9,9,11,0.92)' : 'transparent',
+            backgroundColor: scrolled ? 'rgba(28,30,56,0.92)' : 'transparent',
             backdropFilter: scrolled ? 'blur(12px)' : 'none',
-            borderBottom: scrolled ? '1px solid #27272a' : '1px solid transparent',
+            borderBottom: scrolled ? '1px solid #2E3058' : '1px solid transparent',
             transition: 'all 0.2s ease'
         },
         children: [
@@ -405,13 +405,13 @@ function Nav() {
                         ].map((label)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                 href: `#${label.toLowerCase().replace(/\s+/g, '-')}`,
                                 style: {
-                                    color: '#a1a1aa',
+                                    color: '#d4d4d8',
                                     textDecoration: 'none',
                                     fontSize: '0.875rem',
                                     transition: 'color 0.15s'
                                 },
                                 onMouseEnter: (e)=>e.target.style.color = '#fafafa',
-                                onMouseLeave: (e)=>e.target.style.color = '#a1a1aa',
+                                onMouseLeave: (e)=>e.target.style.color = '#d4d4d8',
                                 children: label
                             }, label, false, {
                                 fileName: "[project]/app/page.tsx",
@@ -436,22 +436,22 @@ function Nav() {
                                 style: {
                                     padding: '0.375rem 0.875rem',
                                     borderRadius: '6px',
-                                    border: '1px solid #27272a',
+                                    border: '1px solid #2E3058',
                                     backgroundColor: 'transparent',
-                                    color: '#a1a1aa',
+                                    color: '#d4d4d8',
                                     fontSize: '0.875rem',
                                     textDecoration: 'none',
                                     transition: 'all 0.15s'
                                 },
                                 onMouseEnter: (e)=>{
                                     const el = e.currentTarget;
-                                    el.style.borderColor = '#3f3f46';
+                                    el.style.borderColor = '#3A3D68';
                                     el.style.color = '#fafafa';
                                 },
                                 onMouseLeave: (e)=>{
                                     const el = e.currentTarget;
-                                    el.style.borderColor = '#27272a';
-                                    el.style.color = '#a1a1aa';
+                                    el.style.borderColor = '#2E3058';
+                                    el.style.color = '#d4d4d8';
                                 },
                                 children: "GitHub"
                             }, void 0, false, {
@@ -541,10 +541,10 @@ function Hero() {
                     gap: '0.5rem',
                     padding: '0.3rem 0.875rem',
                     borderRadius: '100px',
-                    border: '1px solid #27272a',
-                    backgroundColor: '#111113',
+                    border: '1px solid #2E3058',
+                    backgroundColor: '#20224A',
                     fontSize: '0.8rem',
-                    color: '#a1a1aa',
+                    color: '#d4d4d8',
                     marginBottom: '2rem'
                 },
                 children: [
@@ -585,7 +585,7 @@ function Hero() {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 style: {
                     fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
-                    color: '#71717a',
+                    color: '#a1a1aa',
                     maxWidth: '52ch',
                     lineHeight: 1.6,
                     margin: '0 0 2.5rem'
@@ -639,8 +639,8 @@ function Hero() {
                             gap: '0.5rem',
                             padding: '0.75rem 1.75rem',
                             borderRadius: '8px',
-                            border: '1px solid #27272a',
-                            backgroundColor: '#111113',
+                            border: '1px solid #2E3058',
+                            backgroundColor: '#20224A',
                             color: '#fafafa',
                             fontWeight: 600,
                             fontSize: '1rem',
@@ -650,12 +650,12 @@ function Hero() {
                         onMouseEnter: (e)=>{
                             const el = e.currentTarget;
                             el.style.borderColor = '#4f46e5';
-                            el.style.backgroundColor = '#18181b';
+                            el.style.backgroundColor = '#252849';
                         },
                         onMouseLeave: (e)=>{
                             const el = e.currentTarget;
-                            el.style.borderColor = '#27272a';
-                            el.style.backgroundColor = '#111113';
+                            el.style.borderColor = '#2E3058';
+                            el.style.backgroundColor = '#20224A';
                         },
                         children: "Open Web App →"
                     }, void 0, false, {
@@ -674,8 +674,8 @@ function Hero() {
                     width: '100%',
                     maxWidth: '620px',
                     borderRadius: '12px',
-                    border: '1px solid #27272a',
-                    backgroundColor: '#111113',
+                    border: '1px solid #2E3058',
+                    backgroundColor: '#20224A',
                     overflow: 'hidden',
                     textAlign: 'left',
                     boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
@@ -687,8 +687,8 @@ function Hero() {
                             alignItems: 'center',
                             gap: '0.5rem',
                             padding: '0.75rem 1rem',
-                            borderBottom: '1px solid #27272a',
-                            backgroundColor: '#0d0d0f'
+                            borderBottom: '1px solid #2E3058',
+                            backgroundColor: '#141628'
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -734,7 +734,7 @@ function Hero() {
                                 style: {
                                     marginLeft: '0.5rem',
                                     fontSize: '0.75rem',
-                                    color: '#52525b',
+                                    color: '#71717a',
                                     fontFamily: 'var(--font-mono)'
                                 },
                                 children: "vigil.yml"
@@ -755,7 +755,7 @@ function Hero() {
                             padding: '1.25rem',
                             fontSize: '0.8rem',
                             lineHeight: 1.7,
-                            color: '#a1a1aa',
+                            color: '#d4d4d8',
                             fontFamily: 'var(--font-mono)',
                             overflowX: 'auto'
                         },
@@ -885,9 +885,9 @@ function Stats() {
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         style: {
-            borderTop: '1px solid #27272a',
-            borderBottom: '1px solid #27272a',
-            backgroundColor: '#111113',
+            borderTop: '1px solid #2E3058',
+            borderBottom: '1px solid #2E3058',
+            backgroundColor: '#20224A',
             padding: '2rem 1.5rem'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -905,7 +905,7 @@ function Stats() {
                             style: {
                                 fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
                                 fontWeight: 800,
-                                background: 'linear-gradient(135deg, #fafafa, #71717a)',
+                                background: 'linear-gradient(135deg, #fafafa, #a1a1aa)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent'
                             },
@@ -918,7 +918,7 @@ function Stats() {
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
                                 fontSize: '0.875rem',
-                                color: '#52525b',
+                                color: '#71717a',
                                 marginTop: '0.25rem'
                             },
                             children: label
@@ -945,6 +945,214 @@ function Stats() {
     }, this);
 }
 _c6 = Stats;
+function AppPreview() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+        id: "app-preview",
+        style: {
+            padding: '5rem 1.5rem 6rem',
+            position: 'relative',
+            overflow: 'hidden',
+            textAlign: 'center'
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                "aria-hidden": true,
+                style: {
+                    position: 'absolute',
+                    top: '5%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '900px',
+                    height: '500px',
+                    background: 'radial-gradient(ellipse, rgba(79,70,229,0.1) 0%, transparent 70%)',
+                    pointerEvents: 'none'
+                }
+            }, void 0, false, {
+                fileName: "[project]/app/page.tsx",
+                lineNumber: 545,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                    position: 'relative'
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        style: {
+                            fontSize: '0.75rem',
+                            fontFamily: 'var(--font-mono)',
+                            letterSpacing: '0.18em',
+                            textTransform: 'uppercase',
+                            color: '#6366f1',
+                            marginBottom: '0.75rem'
+                        },
+                        children: "Dashboard"
+                    }, void 0, false, {
+                        fileName: "[project]/app/page.tsx",
+                        lineNumber: 560,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        style: {
+                            fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
+                            fontWeight: 800,
+                            color: '#fafafa',
+                            margin: '0 0 1rem',
+                            letterSpacing: '-0.02em'
+                        },
+                        children: "Everything in one view."
+                    }, void 0, false, {
+                        fileName: "[project]/app/page.tsx",
+                        lineNumber: 572,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        style: {
+                            fontSize: '1rem',
+                            color: '#a1a1aa',
+                            maxWidth: '50ch',
+                            margin: '0 auto 3rem',
+                            lineHeight: 1.6
+                        },
+                        children: "Manage skills, monitor runs, and inspect agent output — all from a clean command-centre interface."
+                    }, void 0, false, {
+                        fileName: "[project]/app/page.tsx",
+                        lineNumber: 583,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            borderRadius: '12px',
+                            border: '1px solid rgba(255,255,255,0.09)',
+                            overflow: 'hidden',
+                            boxShadow: '0 40px 120px rgba(0,0,0,0.65), 0 0 0 1px rgba(99,102,241,0.15), 0 0 80px rgba(79,70,229,0.1)',
+                            textAlign: 'left'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '0.625rem 1rem',
+                                    backgroundColor: '#11132A',
+                                    borderBottom: '1px solid rgba(255,255,255,0.07)',
+                                    gap: '0.5rem'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: '50%',
+                                            backgroundColor: '#ef4444',
+                                            display: 'inline-block',
+                                            flexShrink: 0
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 618,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: '50%',
+                                            backgroundColor: '#f59e0b',
+                                            display: 'inline-block',
+                                            flexShrink: 0
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 628,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: '50%',
+                                            backgroundColor: '#22c55e',
+                                            display: 'inline-block',
+                                            flexShrink: 0
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 638,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            flex: 1
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 648,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            fontSize: '0.7rem',
+                                            fontFamily: 'var(--font-mono)',
+                                            color: '#71717a',
+                                            letterSpacing: '0.08em'
+                                        },
+                                        children: "app.vigilhq.ai"
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 649,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            flex: 1
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 659,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/app/page.tsx",
+                                lineNumber: 608,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                src: "/app-preview.png",
+                                alt: "Vigil dashboard — skills management view",
+                                style: {
+                                    display: 'block',
+                                    width: '100%',
+                                    height: 'auto'
+                                }
+                            }, void 0, false, {
+                                fileName: "[project]/app/page.tsx",
+                                lineNumber: 663,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/app/page.tsx",
+                        lineNumber: 597,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/app/page.tsx",
+                lineNumber: 559,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/app/page.tsx",
+        lineNumber: 535,
+        columnNumber: 5
+    }, this);
+}
+_c7 = AppPreview;
 function Features() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "features",
@@ -970,12 +1178,12 @@ function Features() {
                         children: "Built for autonomous operation"
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 537,
+                        lineNumber: 678,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         style: {
-                            color: '#71717a',
+                            color: '#a1a1aa',
                             fontSize: '1.1rem',
                             maxWidth: '48ch',
                             margin: '0 auto'
@@ -983,13 +1191,13 @@ function Features() {
                         children: "Every piece is designed to run unattended — no babysitting, no approval loops, no surprise bills."
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 540,
+                        lineNumber: 681,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 536,
+                lineNumber: 677,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -997,91 +1205,106 @@ function Features() {
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                     gap: '1px',
-                    backgroundColor: '#27272a',
+                    backgroundColor: '#2E3058',
                     borderRadius: '12px',
                     overflow: 'hidden',
-                    border: '1px solid #27272a'
+                    border: '1px solid #2E3058'
                 },
                 children: FEATURES.map(({ Icon, title, desc })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
-                            backgroundColor: '#09090b',
+                            backgroundColor: '#1C1E38',
                             padding: '1.75rem',
                             transition: 'background-color 0.15s'
                         },
-                        onMouseEnter: (e)=>e.currentTarget.style.backgroundColor = '#111113',
-                        onMouseLeave: (e)=>e.currentTarget.style.backgroundColor = '#09090b',
+                        onMouseEnter: (e)=>e.currentTarget.style.backgroundColor = '#20224A',
+                        onMouseLeave: (e)=>e.currentTarget.style.backgroundColor = '#1C1E38',
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
-                                    color: '#4f46e5',
-                                    marginBottom: '0.875rem'
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.625rem',
+                                    marginBottom: '0.5rem'
                                 },
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
-                                    size: 22,
-                                    strokeWidth: 1.75
-                                }, void 0, false, {
-                                    fileName: "[project]/app/page.tsx",
-                                    lineNumber: 568,
-                                    columnNumber: 15
-                                }, this)
-                            }, void 0, false, {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            color: '#4f46e5',
+                                            display: 'flex',
+                                            flexShrink: 0
+                                        },
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
+                                            size: 18,
+                                            strokeWidth: 1.75
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/page.tsx",
+                                            lineNumber: 710,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 709,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        style: {
+                                            fontSize: '1rem',
+                                            fontWeight: 700,
+                                            color: '#fafafa',
+                                            margin: 0
+                                        },
+                                        children: title
+                                    }, void 0, false, {
+                                        fileName: "[project]/app/page.tsx",
+                                        lineNumber: 712,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 567,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                style: {
-                                    fontSize: '1rem',
-                                    fontWeight: 700,
-                                    color: '#fafafa',
-                                    margin: '0 0 0.5rem'
-                                },
-                                children: title
-                            }, void 0, false, {
-                                fileName: "[project]/app/page.tsx",
-                                lineNumber: 570,
+                                lineNumber: 708,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 style: {
                                     fontSize: '0.875rem',
-                                    color: '#71717a',
+                                    color: '#a1a1aa',
                                     lineHeight: 1.6,
                                     margin: 0
                                 },
                                 children: desc
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 571,
+                                lineNumber: 714,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, title, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 557,
+                        lineNumber: 698,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 545,
+                lineNumber: 686,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 535,
+        lineNumber: 676,
         columnNumber: 5
     }, this);
 }
-_c7 = Features;
+_c8 = Features;
 function HowItWorks() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "how-it-works",
         style: {
             padding: '6rem 1.5rem',
-            backgroundColor: '#0d0d0f',
-            borderTop: '1px solid #27272a',
-            borderBottom: '1px solid #27272a'
+            backgroundColor: '#141628',
+            borderTop: '1px solid #2E3058',
+            borderBottom: '1px solid #2E3058'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -1105,25 +1328,25 @@ function HowItWorks() {
                             children: "Up and running in minutes"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 592,
+                            lineNumber: 735,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             style: {
-                                color: '#71717a',
+                                color: '#a1a1aa',
                                 fontSize: '1.1rem',
                                 margin: 0
                             },
                             children: "No infrastructure to provision. No Docker to learn."
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 595,
+                            lineNumber: 738,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 591,
+                    lineNumber: 734,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1149,7 +1372,7 @@ function HowItWorks() {
                                     children: n
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 609,
+                                    lineNumber: 752,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1162,46 +1385,46 @@ function HowItWorks() {
                                     children: title
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 621,
+                                    lineNumber: 764,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     style: {
                                         fontSize: '0.9rem',
-                                        color: '#71717a',
+                                        color: '#a1a1aa',
                                         lineHeight: 1.6,
                                         margin: 0
                                     },
                                     children: desc
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 622,
+                                    lineNumber: 765,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, n, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 608,
+                            lineNumber: 751,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 600,
+                    lineNumber: 743,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 590,
+            lineNumber: 733,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 581,
+        lineNumber: 724,
         columnNumber: 5
     }, this);
 }
-_c8 = HowItWorks;
+_c9 = HowItWorks;
 function Packs() {
     const tagColors = {
         Dev: '#4f46e5',
@@ -1235,25 +1458,25 @@ function Packs() {
                         children: "Curated skill packs"
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 645,
+                        lineNumber: 788,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         style: {
-                            color: '#71717a',
+                            color: '#a1a1aa',
                             fontSize: '1.1rem',
                             margin: 0
                         },
                         children: "Install a pack and your agent is operational in seconds."
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 648,
+                        lineNumber: 791,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 644,
+                lineNumber: 787,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1264,21 +1487,21 @@ function Packs() {
                 },
                 children: PACKS.map(({ name, skills, desc, tag })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
-                            border: '1px solid #27272a',
+                            border: '1px solid #2E3058',
                             borderRadius: '10px',
                             padding: '1.25rem',
-                            backgroundColor: '#111113',
+                            backgroundColor: '#20224A',
                             transition: 'border-color 0.15s, background-color 0.15s'
                         },
                         onMouseEnter: (e)=>{
                             const el = e.currentTarget;
-                            el.style.borderColor = '#3f3f46';
-                            el.style.backgroundColor = '#18181b';
+                            el.style.borderColor = '#3A3D68';
+                            el.style.backgroundColor = '#252849';
                         },
                         onMouseLeave: (e)=>{
                             const el = e.currentTarget;
-                            el.style.borderColor = '#27272a';
-                            el.style.backgroundColor = '#111113';
+                            el.style.borderColor = '#2E3058';
+                            el.style.backgroundColor = '#20224A';
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1298,7 +1521,7 @@ function Packs() {
                                         children: name
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 682,
+                                        lineNumber: 825,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1315,32 +1538,32 @@ function Packs() {
                                         children: tag
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 683,
+                                        lineNumber: 826,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 681,
+                                lineNumber: 824,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 style: {
                                     fontSize: '0.825rem',
-                                    color: '#71717a',
+                                    color: '#a1a1aa',
                                     lineHeight: 1.55,
                                     margin: '0 0 0.75rem'
                                 },
                                 children: desc
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 698,
+                                lineNumber: 841,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
                                     fontSize: '0.75rem',
-                                    color: '#52525b',
+                                    color: '#71717a',
                                     fontFamily: 'var(--font-mono)'
                                 },
                                 children: [
@@ -1349,35 +1572,35 @@ function Packs() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 699,
+                                lineNumber: 842,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, name, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 661,
+                        lineNumber: 804,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 653,
+                lineNumber: 796,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 643,
+        lineNumber: 786,
         columnNumber: 5
     }, this);
 }
-_c9 = Packs;
+_c10 = Packs;
 function Download() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "download",
         style: {
             padding: '6rem 1.5rem',
-            backgroundColor: '#0d0d0f',
-            borderTop: '1px solid #27272a'
+            backgroundColor: '#141628',
+            borderTop: '1px solid #2E3058'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -1412,14 +1635,14 @@ function Download() {
                                     children: "●"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 735,
+                                    lineNumber: 878,
                                     columnNumber: 13
                                 }, this),
                                 "Coming soon"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 721,
+                            lineNumber: 864,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1432,12 +1655,12 @@ function Download() {
                             children: "Vigil Desktop"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 738,
+                            lineNumber: 881,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             style: {
-                                color: '#71717a',
+                                color: '#a1a1aa',
                                 fontSize: '1.1rem',
                                 margin: 0,
                                 maxWidth: '44ch',
@@ -1447,13 +1670,13 @@ function Download() {
                             children: "Native app for Mac, Windows, and Linux — visual editor, tray integration, and auto-updates. Launching soon."
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 741,
+                            lineNumber: 884,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 720,
+                    lineNumber: 863,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1474,24 +1697,24 @@ function Download() {
                                 gap: '0.5rem',
                                 padding: '1.5rem 1rem',
                                 borderRadius: '10px',
-                                border: '1px solid #27272a',
-                                backgroundColor: '#111113'
+                                border: '1px solid #2E3058',
+                                backgroundColor: '#20224A'
                             },
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     style: {
-                                        color: '#a1a1aa'
+                                        color: '#d4d4d8'
                                     },
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                                         size: 28
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 772,
+                                        lineNumber: 915,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 771,
+                                    lineNumber: 914,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1503,51 +1726,51 @@ function Download() {
                                     children: platform
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 774,
+                                    lineNumber: 917,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     style: {
-                                        color: '#71717a',
+                                        color: '#a1a1aa',
                                         fontSize: '0.75rem'
                                     },
                                     children: arch
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 775,
+                                    lineNumber: 918,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     style: {
                                         fontFamily: 'var(--font-mono)',
                                         fontSize: '0.7rem',
-                                        color: '#52525b',
-                                        backgroundColor: '#18181b',
+                                        color: '#71717a',
+                                        backgroundColor: '#252849',
                                         padding: '0.2rem 0.5rem',
                                         borderRadius: '4px',
-                                        border: '1px solid #27272a'
+                                        border: '1px solid #2E3058'
                                     },
                                     children: ext
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 776,
+                                    lineNumber: 919,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, `${platform}-${arch}`, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 758,
+                            lineNumber: 901,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 746,
+                    lineNumber: 889,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     style: {
                         textAlign: 'center',
-                        color: '#52525b',
+                        color: '#71717a',
                         fontSize: '0.8rem'
                     },
                     children: [
@@ -1558,13 +1781,13 @@ function Download() {
                             target: "_blank",
                             rel: "noopener noreferrer",
                             style: {
-                                color: '#71717a',
+                                color: '#a1a1aa',
                                 textDecoration: 'underline'
                             },
                             children: "GitHub Releases"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 795,
+                            lineNumber: 938,
                             columnNumber: 11
                         }, this),
                         ' ',
@@ -1572,29 +1795,29 @@ function Download() {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 793,
+                    lineNumber: 936,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 719,
+            lineNumber: 862,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 711,
+        lineNumber: 854,
         columnNumber: 5
     }, this);
 }
-_c10 = Download;
+_c11 = Download;
 function DeployYourOwn() {
     const vercelUrl = `https://vercel.com/new/clone?repository-url=https://github.com/${GITHUB_REPO}` + `&root=dashboard&project-name=vigil-dashboard` + `&env=GITHUB_TOKEN,GITHUB_REPO` + `&envDescription=GitHub%20PAT%20(repo%2Bworkflow)%20and%20your%20vigil%20repo%20(owner%2Frepo)`;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         style: {
             padding: '6rem 1.5rem',
-            borderTop: '1px solid #27272a',
-            borderBottom: '1px solid #27272a'
+            borderTop: '1px solid #2E3058',
+            borderBottom: '1px solid #2E3058'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -1610,16 +1833,16 @@ function DeployYourOwn() {
                         gap: '0.5rem',
                         padding: '0.3rem 0.875rem',
                         borderRadius: '100px',
-                        border: '1px solid #27272a',
-                        backgroundColor: '#111113',
+                        border: '1px solid #2E3058',
+                        backgroundColor: '#20224A',
                         fontSize: '0.8rem',
-                        color: '#a1a1aa',
+                        color: '#d4d4d8',
                         marginBottom: '1.5rem'
                     },
                     children: "Web version"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 826,
+                    lineNumber: 969,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1632,12 +1855,12 @@ function DeployYourOwn() {
                     children: "Deploy your own dashboard"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 843,
+                    lineNumber: 986,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     style: {
-                        color: '#71717a',
+                        color: '#a1a1aa',
                         fontSize: '1rem',
                         lineHeight: 1.6,
                         margin: '0 0 2rem',
@@ -1648,7 +1871,7 @@ function DeployYourOwn() {
                     children: "Host the Vigil dashboard on Vercel in one click. Connect it to your GitHub fork and manage your agents from anywhere, on any device."
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 846,
+                    lineNumber: 989,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1681,25 +1904,25 @@ function DeployYourOwn() {
                                 d: "M57.5 0L115 100H0L57.5 0z"
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 874,
+                                lineNumber: 1017,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 873,
+                            lineNumber: 1016,
                             columnNumber: 11
                         }, this),
                         "Deploy to Vercel"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 851,
+                    lineNumber: 994,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
-                        backgroundColor: '#111113',
-                        border: '1px solid #27272a',
+                        backgroundColor: '#20224A',
+                        border: '1px solid #2E3058',
                         borderRadius: '10px',
                         padding: '1.25rem',
                         textAlign: 'left'
@@ -1709,7 +1932,7 @@ function DeployYourOwn() {
                             style: {
                                 fontFamily: 'var(--font-mono)',
                                 fontSize: '0.75rem',
-                                color: '#52525b',
+                                color: '#71717a',
                                 margin: '0 0 0.75rem',
                                 textTransform: 'uppercase',
                                 letterSpacing: '0.08em'
@@ -1717,7 +1940,7 @@ function DeployYourOwn() {
                             children: "Required env vars"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 888,
+                            lineNumber: 1031,
                             columnNumber: 11
                         }, this),
                         [
@@ -1747,50 +1970,50 @@ function DeployYourOwn() {
                                         children: name
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 905,
+                                        lineNumber: 1048,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         style: {
                                             fontSize: '0.8rem',
-                                            color: '#71717a'
+                                            color: '#a1a1aa'
                                         },
                                         children: desc
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 915,
+                                        lineNumber: 1058,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, name, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 904,
+                                lineNumber: 1047,
                                 columnNumber: 13
                             }, this))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 879,
+                    lineNumber: 1022,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 825,
+            lineNumber: 968,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 818,
+        lineNumber: 961,
         columnNumber: 5
     }, this);
 }
-_c11 = DeployYourOwn;
+_c12 = DeployYourOwn;
 function Footer() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
         style: {
             padding: '2.5rem 1.5rem',
-            backgroundColor: '#09090b'
+            backgroundColor: '#141628'
         },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -1814,24 +2037,24 @@ function Footer() {
                             size: 22
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 944,
+                            lineNumber: 1087,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                             style: {
                                 fontSize: '0.875rem',
-                                color: '#52525b'
+                                color: '#71717a'
                             },
                             children: "Vigil · Open source, MIT license"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 945,
+                            lineNumber: 1088,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 943,
+                    lineNumber: 1086,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1862,97 +2085,102 @@ function Footer() {
                             rel: "noopener noreferrer",
                             style: {
                                 fontSize: '0.825rem',
-                                color: '#52525b',
+                                color: '#71717a',
                                 textDecoration: 'none',
                                 transition: 'color 0.15s'
                             },
-                            onMouseEnter: (e)=>e.target.style.color = '#a1a1aa',
-                            onMouseLeave: (e)=>e.target.style.color = '#52525b',
+                            onMouseEnter: (e)=>e.target.style.color = '#d4d4d8',
+                            onMouseLeave: (e)=>e.target.style.color = '#71717a',
                             children: label
                         }, label, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 957,
+                            lineNumber: 1100,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 950,
+                    lineNumber: 1093,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 932,
+            lineNumber: 1075,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 926,
+        lineNumber: 1069,
         columnNumber: 5
     }, this);
 }
-_c12 = Footer;
+_c13 = Footer;
 function LandingPage() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Nav, {}, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 985,
+                lineNumber: 1128,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Hero, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 987,
+                        lineNumber: 1130,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Stats, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 988,
+                        lineNumber: 1131,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AppPreview, {}, void 0, false, {
+                        fileName: "[project]/app/page.tsx",
+                        lineNumber: 1132,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Features, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 989,
+                        lineNumber: 1133,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(HowItWorks, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 990,
+                        lineNumber: 1134,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Packs, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 991,
+                        lineNumber: 1135,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Download, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 992,
+                        lineNumber: 1136,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DeployYourOwn, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 993,
+                        lineNumber: 1137,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 986,
+                lineNumber: 1129,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Footer, {}, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 995,
+                lineNumber: 1139,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_c13 = LandingPage;
-var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13;
+_c14 = LandingPage;
+var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14;
 __turbopack_context__.k.register(_c, "AppleIcon");
 __turbopack_context__.k.register(_c1, "WindowsIcon");
 __turbopack_context__.k.register(_c2, "LinuxIcon");
@@ -1960,13 +2188,14 @@ __turbopack_context__.k.register(_c3, "VigilLogo");
 __turbopack_context__.k.register(_c4, "Nav");
 __turbopack_context__.k.register(_c5, "Hero");
 __turbopack_context__.k.register(_c6, "Stats");
-__turbopack_context__.k.register(_c7, "Features");
-__turbopack_context__.k.register(_c8, "HowItWorks");
-__turbopack_context__.k.register(_c9, "Packs");
-__turbopack_context__.k.register(_c10, "Download");
-__turbopack_context__.k.register(_c11, "DeployYourOwn");
-__turbopack_context__.k.register(_c12, "Footer");
-__turbopack_context__.k.register(_c13, "LandingPage");
+__turbopack_context__.k.register(_c7, "AppPreview");
+__turbopack_context__.k.register(_c8, "Features");
+__turbopack_context__.k.register(_c9, "HowItWorks");
+__turbopack_context__.k.register(_c10, "Packs");
+__turbopack_context__.k.register(_c11, "Download");
+__turbopack_context__.k.register(_c12, "DeployYourOwn");
+__turbopack_context__.k.register(_c13, "Footer");
+__turbopack_context__.k.register(_c14, "LandingPage");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

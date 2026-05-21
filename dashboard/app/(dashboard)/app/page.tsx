@@ -200,7 +200,7 @@ export default function Dashboard() {
       <VigilCursor />
 
       {toast && (
-        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 bg-[#1A1A1E] border border-[rgba(255,255,255,0.12)] text-primary-100 px-5 py-2.5 text-xs font-mono tracking-wide shadow-xl animate-slide-in-up">
+        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 bg-eva-white border border-[rgba(255,255,255,0.12)] text-primary-100 px-5 py-2.5 text-xs font-mono tracking-wide shadow-xl animate-slide-in-up">
           {toast}
         </div>
       )}

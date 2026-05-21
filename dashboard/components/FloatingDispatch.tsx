@@ -45,14 +45,14 @@ export function FloatingDispatch({ skills, busy, onRun }: FloatingDispatchProps)
 
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
         {open && (
-          <div className="w-72 bg-[#0D0D10] border border-[rgba(255,255,255,0.14)] shadow-2xl shadow-black/70 p-4 space-y-3 animate-fade-in">
+          <div className="w-72 bg-eva-black border border-[rgba(255,255,255,0.14)] shadow-2xl shadow-black/70 p-4 space-y-3 animate-fade-in">
             <div className="flex items-center justify-between">
               <span className="text-label">Dispatch</span>
               <span className="text-[10px] text-primary-35 font-mono">{enabledSkills.length} available</span>
             </div>
 
             <select ref={selectRef} value={selected} onChange={(e) => setSelected(e.target.value)}
-              className="w-full bg-[#1A1A1E] text-primary-100 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange transition-colors">
+              className="w-full bg-eva-white text-primary-100 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange transition-colors">
               <option value="">Select skill…</option>
               {enabledSkills.map(s => (
                 <option key={s.name} value={s.name}>{displayName(s.name)}</option>
@@ -65,7 +65,7 @@ export function FloatingDispatch({ skills, busy, onRun }: FloatingDispatchProps)
                 value={varInput}
                 onChange={(e) => setVarInput(e.target.value)}
                 placeholder={skill?.var ? `Default: ${skill.var}` : 'Optional input…'}
-                className="w-full bg-[#1A1A1E] text-primary-100 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange transition-colors placeholder:text-primary-35"
+                className="w-full bg-eva-white text-primary-100 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange transition-colors placeholder:text-primary-35"
                 onKeyDown={(e) => e.key === 'Enter' && handleRun()}
               />
             )}
@@ -81,7 +81,7 @@ export function FloatingDispatch({ skills, busy, onRun }: FloatingDispatchProps)
         <button onClick={() => setOpen(o => !o)}
           className={`flex items-center gap-2 text-[11px] font-mono uppercase tracking-[2px] px-4 py-2.5 shadow-lg transition-all ${
             open
-              ? 'bg-[#1A1A1E] text-primary-50 border border-[rgba(255,255,255,0.1)]'
+              ? 'bg-eva-white text-primary-50 border border-[rgba(255,255,255,0.1)]'
               : 'bg-eva-orange text-white hover:opacity-90'
           }`}>
           <span className={`text-base leading-none transition-transform duration-200 ${open ? 'rotate-45' : ''}`}>◉</span>

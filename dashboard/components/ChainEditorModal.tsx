@@ -115,7 +115,7 @@ export function ChainEditorModal({ chain, availableSkills, onClose, onSave }: Ch
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={e => { if (e.target === e.currentTarget) onClose() }}>
-      <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.14)] w-full max-w-xl max-h-[90vh] flex flex-col shadow-2xl shadow-black/70">
+      <div className="bg-eva-black border border-[rgba(255,255,255,0.14)] w-full max-w-xl max-h-[90vh] flex flex-col shadow-2xl shadow-black/70">
 
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[rgba(255,255,255,0.08)] shrink-0">
@@ -136,7 +136,7 @@ export function ChainEditorModal({ chain, availableSkills, onClose, onSave }: Ch
                 onChange={e => setName(e.target.value)}
                 onBlur={() => setName(slugify(name))}
                 placeholder="my-pipeline"
-                className="w-full bg-[#1A1A1E] text-primary-100 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange placeholder:text-primary-35 transition-colors"
+                className="w-full bg-eva-white text-primary-100 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange placeholder:text-primary-35 transition-colors"
               />
             ) : (
               <div className="font-mono text-[12px] text-primary-60 px-3 py-2 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)]">
@@ -165,7 +165,7 @@ export function ChainEditorModal({ chain, availableSkills, onClose, onSave }: Ch
               value={schedule}
               onChange={e => setSchedule(e.target.value)}
               placeholder="cron expression (e.g. 0 7 * * *)"
-              className="w-full bg-[#1A1A1E] text-primary-70 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange placeholder:text-primary-35 transition-colors"
+              className="w-full bg-eva-white text-primary-70 text-xs px-3 py-2 border border-[rgba(255,255,255,0.1)] outline-none font-mono focus:border-eva-orange placeholder:text-primary-35 transition-colors"
             />
           </div>
 
@@ -231,7 +231,7 @@ export function ChainEditorModal({ chain, availableSkills, onClose, onSave }: Ch
                           + skill
                         </button>
                         {skillInputIdx === i && (
-                          <div className="absolute left-0 top-full mt-1 z-10 bg-[#0D0D10] border border-[rgba(255,255,255,0.14)] shadow-xl w-52">
+                          <div className="absolute left-0 top-full mt-1 z-10 bg-eva-black border border-[rgba(255,255,255,0.14)] shadow-xl w-52">
                             <input
                               autoFocus
                               value={skillSearch}

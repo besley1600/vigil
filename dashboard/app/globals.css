@@ -17,13 +17,13 @@
   --color-red:    #F87171;      /* red-400    (error / failure) */
 
   /* Surface stack — each layer slightly lighter */
-  --color-black: #1E1E2C;       /* deepest: page background */
-  --color-white: #282836;       /* cards, panels */
-  --color-gray:  #323244;       /* inputs, hover, elevated interactive */
+  --color-black: #1C1E38;       /* deepest: page background */
+  --color-white: #21244A;       /* cards, panels */
+  --color-gray:  #292D58;       /* inputs, hover, elevated interactive */
 
   /* Page */
-  --background: #1E1E2C;
-  --foreground: rgba(255,255,255,0.92);
+  --background: #1C1E38;
+  --foreground: rgba(255,255,255,0.95);
 
   /* Spacing — 1.4× modular scale */
   --space-xs:  6px;
@@ -70,14 +70,14 @@ body.vigil-app {
 .font-mono    { font-family: var(--font-mono), 'Space Mono', monospace; }
 
 /* Override Tailwind's bg-white to use the dark card surface */
-.bg-white { background-color: #282836 !important; }
+.bg-white { background-color: #21244A !important; }
 
 ::selection       { background: var(--color-orange); color: #fff; }
 ::-moz-selection  { background: var(--color-orange); color: #fff; }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #1A1A28; }
+::-webkit-scrollbar-track { background: #15172E; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 0; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
 
@@ -104,7 +104,7 @@ body.vigil-app {
 
 /* ── Background — dot grid + top glow ──────────────────────────────────── */
 .bg-grid {
-  background-color: #1E1E2C;
+  background-color: #1C1E38;
   background-image:
     radial-gradient(ellipse 70% 45% at 50% 0%, rgba(99,102,241,0.07) 0%, transparent 75%),
     radial-gradient(circle, rgba(99,102,241,0.16) 1px, transparent 1px);
@@ -117,7 +117,7 @@ body.vigil-app {
   font-size: 10px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.50);
+  color: rgba(255,255,255,0.62);
 }
 .text-micro {
   font-family: var(--font-mono), 'Space Mono', monospace;
@@ -126,17 +126,17 @@ body.vigil-app {
   text-transform: uppercase;
 }
 
-/* ── Text-opacity scale — WCAG AA on #1D1D27 ───────────────────────────── */
+/* ── Text-opacity scale — WCAG AA on #21244A ───────────────────────────── */
 .text-primary-100 { color: rgba(255,255,255,0.97); }
-.text-primary-70  { color: rgba(255,255,255,0.82); }
-.text-primary-60  { color: rgba(255,255,255,0.72); }
-.text-primary-50  { color: rgba(255,255,255,0.65); }
-.text-primary-40  { color: rgba(255,255,255,0.58); }
-.text-primary-35  { color: rgba(255,255,255,0.55); }
+.text-primary-70  { color: rgba(255,255,255,0.88); }
+.text-primary-60  { color: rgba(255,255,255,0.80); }
+.text-primary-50  { color: rgba(255,255,255,0.72); }
+.text-primary-40  { color: rgba(255,255,255,0.65); }
+.text-primary-35  { color: rgba(255,255,255,0.60); }
 
 /* ── Card ──────────────────────────────────────────────────────────────── */
 .card-hst {
-  background-color: #282836;
+  background-color: #21244A;
   border: 1px solid rgba(255,255,255,0.10);
   transition: border-color 0.15s ease;
 }
@@ -217,6 +217,12 @@ body.vigil-app {
   100% { background-position: -200% 0; }
 }
 .animate-shimmer-gradient { animation: shimmer-gradient 1.5s linear infinite; }
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.05) 80%);
+  background-size: 200% 100%;
+  animation: shimmer-gradient 1.8s linear infinite;
+}
 
 @keyframes pulse-dot {
   0%,100% { opacity: 1; transform: scale(1); }

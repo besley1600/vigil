@@ -9,6 +9,20 @@
       --tw-skew-y: initial;
       --tw-border-style: solid;
       --tw-outline-style: solid;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
+      --tw-ease: initial;
     }
   }
 }
@@ -17,6 +31,7 @@
   :root, :host {
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     --font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+    --ease-in-out: cubic-bezier(.4, 0, .2, 1);
     --default-transition-duration: .15s;
     --default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     --default-font-family: var(--font-sans);
@@ -285,6 +300,10 @@
     position: relative;
   }
 
+  .block {
+    display: block;
+  }
+
   .flex {
     display: flex;
   }
@@ -295,6 +314,10 @@
 
   .hidden {
     display: none;
+  }
+
+  .inline {
+    display: inline;
   }
 
   .inline-block {
@@ -331,10 +354,19 @@
     outline-width: 1px;
   }
 
+  .filter {
+    filter: var(--tw-blur, ) var(--tw-brightness, ) var(--tw-contrast, ) var(--tw-grayscale, ) var(--tw-hue-rotate, ) var(--tw-invert, ) var(--tw-saturate, ) var(--tw-sepia, ) var(--tw-drop-shadow, );
+  }
+
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+
+  .ease-in-out {
+    --tw-ease: var(--ease-in-out);
+    transition-timing-function: var(--ease-in-out);
   }
 }
 
@@ -350,7 +382,7 @@ html {
 body {
   color: #fafafa;
   font-family: var(--font-sans);
-  background: #1e1e2c;
+  background: #1c1e38;
   margin: 0;
   padding: 0;
 }
@@ -365,16 +397,116 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #14141c;
+  background: #15172e;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #32323e;
+  background: #2e3058;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #42424e;
+  background: #3a3d68;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .3;
+  }
+}
+
+@keyframes glow-breathe {
+  0%, 100% {
+    opacity: .55;
+    transform: translateX(-50%)scale(1);
+  }
+
+  50% {
+    opacity: .85;
+    transform: translateX(-50%)scale(1.1);
+  }
+}
+
+@keyframes glow-breathe-2 {
+  0%, 100% {
+    opacity: .3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .55;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes marquee-fwd {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0)rotateX(6deg);
+  }
+
+  50% {
+    transform: translateY(-10px)rotateX(6deg);
+  }
+}
+
+.animate-slide-up {
+  animation: .6s cubic-bezier(.16, 1, .3, 1) both slide-up;
+}
+
+.animate-slide-up-1 {
+  animation: .6s cubic-bezier(.16, 1, .3, 1) .1s both slide-up;
+}
+
+.animate-slide-up-2 {
+  animation: .6s cubic-bezier(.16, 1, .3, 1) .22s both slide-up;
+}
+
+.animate-slide-up-3 {
+  animation: .6s cubic-bezier(.16, 1, .3, 1) .36s both slide-up;
+}
+
+.animate-slide-up-4 {
+  animation: .6s cubic-bezier(.16, 1, .3, 1) .52s both slide-up;
+}
+
+.animate-float {
+  animation: 5s ease-in-out infinite float;
 }
 
 @property --tw-rotate-x {
@@ -412,6 +544,77 @@ body {
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+
+@property --tw-blur {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-invert {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false
+}
+
+@property --tw-ease {
+  syntax: "*";
+  inherits: false
 }
 
 /*# sourceMappingURL=app_globals_0jn8.0u.css.map*/

@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server'
-import { resolve } from 'path'
-import { readFileSync, existsSync } from 'fs'
-
-const REPO_ROOT = resolve(process.cwd(), '..')
-const TOKEN_USAGE_FILE = resolve(REPO_ROOT, 'memory', 'token-usage.csv')
+import { getFileContent } from '@/lib/github'
 
 // Per-million-token pricing (direct Anthropic)
 const PRICING: Record<string, { input: number; output: number; cacheRead: number; cacheWrite: number }> = {
@@ -40,39 +36,43 @@ interface CostRow {
   cost: number
 }
 
-function parseCSV(): CostRow[] {
-  if (!existsSync(TOKEN_USAGE_FILE)) return []
-  const lines = readFileSync(TOKEN_USAGE_FILE, 'utf-8').split('\n').filter(Boolean)
-  if (lines.length < 2) return []
+async function parseCSV(): Promise<CostRow[]> {
+  try {
+    const { content } = await getFileContent('memory/token-usage.csv')
+    const lines = content.split('\n').filter(Boolean)
+    if (lines.length < 2) return []
 
-  const rows: CostRow[] = []
-  for (const line of lines.slice(1)) {
-    const parts = line.split(',')
-    if (parts.length < 5) continue
-    const [date, skill, model, inp, out, cr = '0', cw = '0'] = parts
-    const inputTokens  = parseInt(inp  ?? '0', 10)  || 0
-    const outputTokens = parseInt(out  ?? '0', 10)  || 0
-    const cacheRead    = parseInt(cr   ?? '0', 10)  || 0
-    const cacheWrite   = parseInt(cw   ?? '0', 10)  || 0
-    rows.push({
-      date: date?.trim() ?? '',
-      skill: skill?.trim() ?? '',
-      model: model?.trim() ?? '',
-      inputTokens,
-      outputTokens,
-      cacheRead,
-      cacheWrite,
-      cost: calcCost(model?.trim() ?? '', inputTokens, outputTokens, cacheRead, cacheWrite),
-    })
+    const rows: CostRow[] = []
+    for (const line of lines.slice(1)) {
+      const parts = line.split(',')
+      if (parts.length < 5) continue
+      const [date, skill, model, inp, out, cr = '0', cw = '0'] = parts
+      const inputTokens  = parseInt(inp  ?? '0', 10)  || 0
+      const outputTokens = parseInt(out  ?? '0', 10)  || 0
+      const cacheRead    = parseInt(cr   ?? '0', 10)  || 0
+      const cacheWrite   = parseInt(cw   ?? '0', 10)  || 0
+      rows.push({
+        date: date?.trim() ?? '',
+        skill: skill?.trim() ?? '',
+        model: model?.trim() ?? '',
+        inputTokens,
+        outputTokens,
+        cacheRead,
+        cacheWrite,
+        cost: calcCost(model?.trim() ?? '', inputTokens, outputTokens, cacheRead, cacheWrite),
+      })
+    }
+    return rows
+  } catch {
+    return []
   }
-  return rows
 }
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const days = parseInt(searchParams.get('days') ?? '7', 10) || 7
 
-  const allRows = parseCSV()
+  const allRows = await parseCSV()
 
   if (!allRows.length) {
     return NextResponse.json({ available: false, message: 'No token-usage.csv found yet — runs cost data after the first skill execution.' })
@@ -88,7 +88,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ available: true, rows: 0, total: 0, bySkill: [], byModel: [], days })
   }
 
-  // Aggregate by skill
   const skillMap = new Map<string, { runs: number; cost: number; tokens: number }>()
   const modelMap = new Map<string, { runs: number; cost: number; tokens: number }>()
 

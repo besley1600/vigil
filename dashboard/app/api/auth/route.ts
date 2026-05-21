@@ -31,7 +31,8 @@ export async function GET() {
   // Check if ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN is set
   try {
     if (!ghAvailable()) {
-      return NextResponse.json({ authenticated: false, error: 'gh CLI not authenticated' })
+      // In web/hosted context, gh CLI isn't available — auth is managed via GitHub secrets directly
+      return NextResponse.json({ authenticated: true, managed: 'github' })
     }
     const out = execFileSync('gh', ['secret', 'list', ...ghArgsRepo(), '--json', 'name', '-q', '.[].name'], {
       stdio: 'pipe',

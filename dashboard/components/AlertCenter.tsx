@@ -120,7 +120,7 @@ export function AlertCenter({ runs }: AlertCenterProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-72 bg-[#0D0D10] border border-[rgba(255,255,255,0.12)] shadow-2xl shadow-black/70 z-50 animate-fade-in">
+        <div className="absolute right-0 top-full mt-2 w-72 bg-eva-black border border-[rgba(255,255,255,0.12)] shadow-2xl shadow-black/70 z-50 animate-fade-in">
           <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.07)]">
             <span className="text-label">Alerts</span>
             <div className="flex items-center gap-2 text-[10px] font-mono">

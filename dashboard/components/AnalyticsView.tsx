@@ -18,9 +18,71 @@ interface AnalyticsViewProps {
   onFetchAnalytics: () => void
 }
 
-function Spinner() { return <div className="flex justify-center py-12"><div className="w-2 h-2 rounded-full bg-eva-orange animate-pulse" /></div> }
-
 function SectionHeader({ title }: { title: string }) { return <div className="text-label mb-[var(--space-sm)]">{title}</div> }
+
+function SkeletonBar({ className = '' }: { className?: string }) {
+  return <div className={`skeleton-shimmer rounded-sm ${className}`} />
+}
+
+function SkeletonCard() {
+  return (
+    <div className="card-hst p-4">
+      <SkeletonBar className="w-16 h-2 mb-3" />
+      <SkeletonBar className="w-20 h-6" />
+    </div>
+  )
+}
+
+function SkeletonTableRow({ cols = 5 }: { cols?: number }) {
+  const shapes = ['w-3 h-3 shrink-0', 'w-32 h-2 shrink-0', 'h-2 grow', 'w-10 h-2 shrink-0', 'w-8 h-2 shrink-0']
+  return (
+    <div className="flex items-center gap-3 px-4 py-3">
+      {shapes.slice(0, cols).map((cls, i) => <SkeletonBar key={i} className={cls} />)}
+    </div>
+  )
+}
+
+function PerformanceSkeleton() {
+  return (
+    <div className="space-y-[var(--space-md)]">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-[var(--space-sm)]">
+        {[0,1,2,3].map(i => <SkeletonCard key={i} />)}
+      </div>
+      <div className="card-hst divide-y divide-[rgba(255,255,255,0.06)]">
+        {[0,1,2,3,4,5,6,7].map(i => <SkeletonTableRow key={i} />)}
+      </div>
+    </div>
+  )
+}
+
+function HealthSkeleton() {
+  return (
+    <div className="space-y-[var(--space-md)]">
+      <div className="grid grid-cols-3 gap-[var(--space-sm)]">
+        {[0,1,2].map(i => <SkeletonCard key={i} />)}
+      </div>
+      <div className="card-hst divide-y divide-[rgba(255,255,255,0.06)]">
+        {[0,1,2,3,4].map(i => <SkeletonTableRow key={i} cols={3} />)}
+      </div>
+    </div>
+  )
+}
+
+function CostsSkeleton() {
+  return (
+    <div className="space-y-[var(--space-md)]">
+      <div className="flex gap-1">
+        {[0,1,2].map(i => <SkeletonBar key={i} className="w-10 h-7" />)}
+      </div>
+      <div className="grid grid-cols-2 gap-[var(--space-sm)]">
+        {[0,1].map(i => <SkeletonCard key={i} />)}
+      </div>
+      <div className="card-hst divide-y divide-[rgba(255,255,255,0.06)]">
+        {[0,1,2,3].map(i => <SkeletonTableRow key={i} cols={3} />)}
+      </div>
+    </div>
+  )
+}
 
 function StatCard({ label, value, colorCls = '', accent = '' }: { label: string; value: string | number; colorCls?: string; accent?: string }) {
   return (
@@ -65,7 +127,7 @@ export function AnalyticsView({ analyticsData, onFetchAnalytics }: AnalyticsView
       {/* Performance */}
       <section>
         <SectionHeader title="Performance" />
-        {!analyticsData ? <Spinner /> : (
+        {!analyticsData ? <PerformanceSkeleton /> : (
           <div className="space-y-[var(--space-md)]">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-[var(--space-sm)]">
               <StatCard label="Total Runs" value={analyticsData.summary.totalRuns} accent="stat-accent-indigo" />
@@ -108,7 +170,7 @@ export function AnalyticsView({ analyticsData, onFetchAnalytics }: AnalyticsView
       {/* Health */}
       {features.QUALITY && <section>
         <SectionHeader title="Health" />
-        {qualityLoading || !qualityData ? <Spinner /> : (
+        {qualityLoading || !qualityData ? <HealthSkeleton /> : (
           <div className="space-y-[var(--space-md)]">
             <div className="grid grid-cols-3 gap-[var(--space-sm)]">
               <StatCard label="Healthy" value={qualityData.summary.healthy} colorCls="text-eva-green" />
@@ -149,7 +211,7 @@ export function AnalyticsView({ analyticsData, onFetchAnalytics }: AnalyticsView
       {/* Costs */}
       {features.COSTS && <section>
         <SectionHeader title="Costs" />
-        {costsLoading || !costsData ? <Spinner /> : !costsData.available ? (
+        {costsLoading || !costsData ? <CostsSkeleton /> : !costsData.available ? (
           <div className="card-hst px-4 py-10 text-center text-[11px] text-primary-35 font-mono">
             {costsData.message || 'Cost tracking unavailable.'}<br />
             <span className="block mt-1">Enable the cost-report skill to start tracking.</span>

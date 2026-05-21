@@ -71,7 +71,7 @@ export function KeyboardShortcuts({ skills, selectedSkill, skillEnabled, onSelec
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={() => setShow(false)}>
-      <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.14)] p-[var(--space-lg)] w-80 shadow-2xl shadow-black/70"
+      <div className="bg-eva-black border border-[rgba(255,255,255,0.14)] p-[var(--space-lg)] w-80 shadow-2xl shadow-black/70"
         onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-[var(--space-md)]">
           <span className="text-label">Keyboard Shortcuts</span>
@@ -80,7 +80,7 @@ export function KeyboardShortcuts({ skills, selectedSkill, skillEnabled, onSelec
         <div className="space-y-2.5">
           {SHORTCUTS.map(({ key, desc }) => (
             <div key={key} className="flex items-center gap-3">
-              <span className="font-mono text-[11px] px-2.5 py-1 bg-[#1A1A1E] border border-[rgba(255,255,255,0.1)] text-eva-orange text-center shrink-0" style={{ minWidth: '4.5rem' }}>{key}</span>
+              <span className="font-mono text-[11px] px-2.5 py-1 bg-eva-white border border-[rgba(255,255,255,0.1)] text-eva-orange text-center shrink-0" style={{ minWidth: '4.5rem' }}>{key}</span>
               <span className="text-xs text-primary-50 font-mono">{desc}</span>
             </div>
           ))}

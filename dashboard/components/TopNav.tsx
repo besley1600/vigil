@@ -130,7 +130,7 @@ export function TopNav({
         <select
           value={model}
           onChange={(e) => onUpdateModel(e.target.value)}
-          className="bg-[#1A1A1E] text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono"
+          className="bg-eva-white text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono"
         >
           {modelOptions.map(m => (
             <option key={m.id} value={m.id}>{m.label}</option>

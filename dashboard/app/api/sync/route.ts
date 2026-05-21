@@ -4,11 +4,20 @@ import { resolve } from 'path'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 
+function isRemote() {
+  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+}
+
 function run(cmd: string) {
   return execSync(cmd, { stdio: 'pipe', cwd: REPO_ROOT }).toString().trim()
 }
 
 export async function GET() {
+  if (isRemote()) {
+    // Changes go directly via GitHub API — nothing to sync locally
+    return NextResponse.json({ hasChanges: false, changedFiles: 0, behind: 0 })
+  }
+
   try {
     const status = run('git status --porcelain')
     const hasChanges = status.length > 0
@@ -27,6 +36,10 @@ export async function GET() {
 }
 
 export async function POST() {
+  if (isRemote()) {
+    return NextResponse.json({ ok: true, message: 'Changes committed via GitHub API' })
+  }
+
   try {
     const status = run('git status --porcelain')
     if (!status) {
@@ -45,7 +58,6 @@ export async function POST() {
       run('git push')
     } catch (e: unknown) {
       const pushErr = e instanceof Error ? e.message : 'Push failed'
-      // Commit succeeded but push failed — still useful feedback
       return NextResponse.json({
         error: `Committed locally but push failed: ${pushErr.slice(0, 200)}`,
       }, { status: 500 })

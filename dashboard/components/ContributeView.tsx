@@ -57,7 +57,7 @@ export function ContributeView() {
     <div className="max-w-4xl mx-auto p-6 space-y-6 animate-fade-in">
 
       {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-8 relative overflow-hidden">
+      <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-eva-orange/5 via-transparent to-transparent pointer-events-none" />
         <div className="relative space-y-3">
           <div className="text-[10px] font-mono text-eva-orange uppercase tracking-[2.5px]">Open Source</div>
@@ -93,7 +93,7 @@ export function ContributeView() {
         <div className="space-y-3">
           <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">How to contribute a skill</div>
           {STEPS.map((s) => (
-            <div key={s.n} className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-4 flex gap-4">
+            <div key={s.n} className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-4 flex gap-4">
               <div className="text-[10px] font-mono text-eva-orange shrink-0 pt-0.5">{s.n}</div>
               <div className="space-y-1">
                 <div className="text-xs font-mono text-primary-100">{s.title}</div>
@@ -124,7 +124,7 @@ export function ContributeView() {
         {/* Frontmatter */}
         <div className="space-y-3">
           <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">Skill format</div>
-          <div className="bg-[#0D0D10] border border-[rgba(255,255,255,0.07)] overflow-hidden">
+          <div className="bg-eva-black border border-[rgba(255,255,255,0.07)] overflow-hidden">
             <div className="flex items-center justify-between px-4 py-2 border-b border-[rgba(255,255,255,0.06)]">
               <span className="text-[10px] font-mono text-primary-40">skills/my-skill/SKILL.md</span>
               <span className="text-[10px] font-mono text-eva-green uppercase tracking-wide">Plain markdown</span>
@@ -141,7 +141,7 @@ export function ContributeView() {
               })}
             </pre>
           </div>
-          <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-3 space-y-1.5">
+          <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-3 space-y-1.5">
             <div className="text-[10px] font-mono text-primary-40 uppercase tracking-wide">How it works</div>
             {[
               { field: 'SKILL.md', desc: 'Natural language instructions — Claude Code executes them' },
@@ -158,14 +158,14 @@ export function ContributeView() {
       </div>
 
       {/* ── Ways to contribute ─────────────────────────────────────────── */}
-      <div className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-5 space-y-4">
+      <div className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-5 space-y-4">
         <div className="text-[10px] font-mono text-primary-40 uppercase tracking-[2.5px]">Ways to contribute</div>
         <p className="text-[11px] font-mono text-primary-50 leading-relaxed">
           Skills are the most direct way to extend Vigil, but the platform has many layers. All of it is open source — the runtime, the dashboard, the CLI tooling, and the GitHub Actions workflows.
         </p>
         <div className="grid grid-cols-3 gap-3">
           {AREAS.map(({ label, sub }) => (
-            <div key={label} className="bg-[#0D0D10] border border-[rgba(255,255,255,0.06)] p-4 space-y-1.5">
+            <div key={label} className="bg-eva-black border border-[rgba(255,255,255,0.06)] p-4 space-y-1.5">
               <div className="text-xs font-mono text-primary-100">{label}</div>
               <div className="text-[10px] font-mono text-primary-40 leading-relaxed">{sub}</div>
             </div>
@@ -185,7 +185,7 @@ export function ContributeView() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#0E0E12] border border-[rgba(255,255,255,0.07)] p-4 hover:border-[rgba(255,255,255,0.15)] transition-colors group block"
+            className="bg-eva-white border border-[rgba(255,255,255,0.07)] p-4 hover:border-[rgba(255,255,255,0.15)] transition-colors group block"
           >
             <div className="text-xs font-mono text-primary-100 group-hover:text-eva-orange transition-colors">{label} →</div>
             <div className="text-[10px] font-mono text-primary-40 mt-1">{sub}</div>

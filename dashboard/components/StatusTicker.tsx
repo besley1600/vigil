@@ -20,7 +20,7 @@ export function StatusTicker({ runs }: StatusTickerProps) {
   const recent = runs.slice(0, 8)
 
   return (
-    <div className="h-9 border-t border-[rgba(255,255,255,0.07)] bg-[#0D0D10] flex items-center px-4 gap-0 overflow-hidden shrink-0">
+    <div className="h-9 border-t border-[rgba(255,255,255,0.07)] bg-eva-black flex items-center px-4 gap-0 overflow-hidden shrink-0">
       <span className="text-label mr-4 shrink-0">FEED</span>
 
       {recent.length === 0 ? (

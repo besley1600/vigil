@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor } from 'lucide-react'
+import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, ArrowRight, CheckCircle2, Clock, Wrench, ShieldCheck } from 'lucide-react'
 
-// ── Platform brand icons (inline SVG — Lucide has no brand logos) ─────────────
+// ── Platform brand icons ──────────────────────────────────────────────────────
 
 function AppleIcon({ size = 20 }: { size?: number }) {
   return (
@@ -37,133 +37,131 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://app.vigilhq.ai'
 const RELEASES_BASE = `https://github.com/${GITHUB_REPO}/releases/latest/download`
 
 const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: number }>; url: string; ext: string }[] = [
-  {
-    platform: 'macOS',
-    arch: 'Apple Silicon',
-    Icon: AppleIcon,
-    url: `${RELEASES_BASE}/Vigil-arm64.dmg`,
-    ext: '.dmg',
-  },
-  {
-    platform: 'macOS',
-    arch: 'Intel',
-    Icon: AppleIcon,
-    url: `${RELEASES_BASE}/Vigil-x64.dmg`,
-    ext: '.dmg',
-  },
-  {
-    platform: 'Windows',
-    arch: '64-bit',
-    Icon: WindowsIcon,
-    url: `${RELEASES_BASE}/Vigil-Setup-x64.exe`,
-    ext: '.exe',
-  },
-  {
-    platform: 'Linux',
-    arch: 'x64',
-    Icon: LinuxIcon,
-    url: `${RELEASES_BASE}/Vigil-x64.AppImage`,
-    ext: '.AppImage',
-  },
+  { platform: 'macOS', arch: 'Apple Silicon', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-arm64.dmg`, ext: '.dmg' },
+  { platform: 'macOS', arch: 'Intel', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-x64.dmg`, ext: '.dmg' },
+  { platform: 'Windows', arch: '64-bit', Icon: WindowsIcon, url: `${RELEASES_BASE}/Vigil-Setup-x64.exe`, ext: '.exe' },
+  { platform: 'Linux', arch: 'x64', Icon: LinuxIcon, url: `${RELEASES_BASE}/Vigil-x64.AppImage`, ext: '.AppImage' },
 ]
 
-const FEATURES: { Icon: LucideIcon; title: string; desc: string }[] = [
+const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; bg: string }[] = [
   {
     Icon: Zap,
     title: 'GitHub Actions runtime',
     desc: "Runs on GitHub's infrastructure — no VPS, no Docker, no Lambda. Free for public repos.",
+    color: '#818cf8',
+    bg: 'rgba(99,102,241,0.12)',
   },
   {
     Icon: RefreshCw,
     title: 'Self-healing agents',
     desc: 'Skills monitor their own output quality and repair themselves when they break.',
+    color: '#34d399',
+    bg: 'rgba(52,211,153,0.1)',
   },
   {
     Icon: Puzzle,
     title: '119 pre-built skills',
     desc: 'PR reviews, market monitoring, content writing, vulnerability scans — drop-in and go.',
+    color: '#a78bfa',
+    bg: 'rgba(167,139,250,0.1)',
   },
   {
     Icon: GitMerge,
     title: 'Skill chaining',
     desc: 'Compose agents into pipelines with parallel steps, conditional logic, and output passing.',
+    color: '#22d3ee',
+    bg: 'rgba(34,211,238,0.1)',
   },
   {
     Icon: Bot,
     title: 'Multi-model routing',
     desc: 'Run Claude, GPT, Gemini, or Kimi per-skill. Switch models without rewriting logic.',
+    color: '#fbbf24',
+    bg: 'rgba(251,191,36,0.1)',
   },
   {
     Icon: Monitor,
     title: 'Native desktop app',
     desc: 'Mac, Windows, and Linux app with a visual editor, tray integration, and auto-updates.',
+    color: '#fb7185',
+    bg: 'rgba(251,113,133,0.1)',
   },
 ]
 
 const PACKS = [
-  {
-    name: 'AI Builder',
-    skills: 5,
-    desc: 'PR reviews, monitoring, research, heartbeat, and self-repair for AI projects.',
-    tag: 'Dev',
-  },
-  {
-    name: 'Morning Ops',
-    skills: 4,
-    desc: 'Daily brief, digest aggregation, alert routing, and routine summaries.',
-    tag: 'Productivity',
-  },
-  {
-    name: 'Crypto Monitor',
-    skills: 5,
-    desc: 'Token tracking, DeFi yields, on-chain events, and Polymarket movements.',
-    tag: 'Finance',
-  },
-  {
-    name: 'Dev Ops',
-    skills: 6,
-    desc: 'PR triage, auto-merge, vulnerability scanning, and activity monitoring.',
-    tag: 'Engineering',
-  },
-  {
-    name: 'Content Machine',
-    skills: 4,
-    desc: 'Research, write, format, and publish long-form content automatically.',
-    tag: 'Content',
-  },
-  {
-    name: 'Self-Healing',
-    skills: 4,
-    desc: 'Health checks, quality scoring, automated repair, and system reporting.',
-    tag: 'Ops',
-  },
-  {
-    name: 'Fleet',
-    skills: 4,
-    desc: 'Manage forks, cohort analysis, and leaderboard tracking across deployments.',
-    tag: 'Scale',
-  },
+  { name: 'AI Builder', skills: 5, desc: 'PR reviews, monitoring, research, heartbeat, and self-repair for AI projects.', tag: 'Dev' },
+  { name: 'Morning Ops', skills: 4, desc: 'Daily brief, digest aggregation, alert routing, and routine summaries.', tag: 'Productivity' },
+  { name: 'Crypto Monitor', skills: 5, desc: 'Token tracking, DeFi yields, on-chain events, and Polymarket movements.', tag: 'Finance' },
+  { name: 'Dev Ops', skills: 6, desc: 'PR triage, auto-merge, vulnerability scanning, and activity monitoring.', tag: 'Engineering' },
+  { name: 'Content Machine', skills: 4, desc: 'Research, write, format, and publish long-form content automatically.', tag: 'Content' },
+  { name: 'Self-Healing', skills: 4, desc: 'Health checks, quality scoring, automated repair, and system reporting.', tag: 'Ops' },
+  { name: 'Fleet', skills: 4, desc: 'Manage forks, cohort analysis, and leaderboard tracking across deployments.', tag: 'Scale' },
 ]
 
 const STEPS = [
+  { n: '01', title: 'Fork and configure', desc: 'Fork the repo, set your Anthropic API key and GitHub token as repo secrets. Takes two minutes.' },
+  { n: '02', title: 'Enable skills', desc: 'Open the dashboard, toggle the skills you want, set their schedules. Changes sync to your repo instantly.' },
+  { n: '03', title: 'It runs forever', desc: 'GitHub Actions handles execution. Agents run on cron, react to events, and fix themselves when they fail.' },
+]
+
+const SKILL_NAMES_A = [
+  'pr-reviewer', 'hacker-news-digest', 'morning-brief', 'crypto-monitor', 'self-repair',
+  'heartbeat', 'vulnerability-scan', 'pr-triage', 'market-monitor', 'github-activity',
+  'article-writer', 'code-review', 'agent-health', 'deploy-notify', 'changelog-writer',
+  'research-digest', 'tweet-writer', 'competitor-watch', 'auto-merge', 'daily-brief',
+]
+
+const SKILL_NAMES_B = [
+  'sentiment-monitor', 'skill-repair', 'arxiv-digest', 'pr-commenter', 'pod-notes',
+  'flashcard-gen', 'repo-stats', 'dependency-audit', 'issue-triage', 'release-notes',
+  'content-machine', 'slack-digest', 'link-monitor', 'blog-publisher', 'pr-summary',
+  'token-tracker', 'contract-watcher', 'uptime-check', 'cost-report', 'autoresearch',
+]
+
+const AGENT_OUTPUTS = [
   {
-    n: '01',
-    title: 'Fork and configure',
-    desc: 'Fork the repo, set your Anthropic API key and GitHub token as repo secrets. Takes two minutes.',
+    skill: 'pr-reviewer',
+    Icon: CheckCircle2,
+    iconColor: '#34d399',
+    ago: '2h ago',
+    title: 'Caught a security issue in PR #847',
+    body: 'Found missing auth check on /api/admin/users and a potential SQL injection on line 234. Left 3 inline review comments and requested changes.',
+    tag: '3 comments posted',
+    tagColor: '#34d399',
   },
   {
-    n: '02',
-    title: 'Enable skills',
-    desc: 'Open the dashboard, toggle the skills you want, set their schedules. Changes sync to your repo instantly.',
+    skill: 'morning-brief',
+    Icon: Clock,
+    iconColor: '#818cf8',
+    ago: '6h ago',
+    title: 'Delivered your 8am digest',
+    body: '9 Hacker News stories, 2 AI research papers, ETH +3.1%, BTC flat. Sent to Telegram at 08:02. Clipped 4 links to your reading list.',
+    tag: 'Sent to Telegram',
+    tagColor: '#818cf8',
   },
   {
-    n: '03',
-    title: 'It runs forever',
-    desc: 'GitHub Actions handles execution. Agents run on cron, react to events, and fix themselves when they fail.',
+    skill: 'self-repair',
+    Icon: Wrench,
+    iconColor: '#fbbf24',
+    ago: '14h ago',
+    title: 'Fixed itself without your help',
+    body: 'crypto-monitor failed 3× due to a CoinGecko rate-limit change. Diagnosed root cause, patched the fetcher, verified output format, opened PR #193.',
+    tag: 'Auto-fixed',
+    tagColor: '#fbbf24',
+  },
+  {
+    skill: 'vulnerability-scan',
+    Icon: ShieldCheck,
+    iconColor: '#22d3ee',
+    ago: '1d ago',
+    title: 'Patched 2 CVEs before you woke up',
+    body: 'Scanned 847 dependencies. Found CVE-2024-38374 in lodash (medium) and CVE-2024-41110 in axios (high). Auto-opened patch PR with test verification.',
+    tag: 'Patch PR opened',
+    tagColor: '#22d3ee',
   },
 ]
 
-// ── Components ────────────────────────────────────────────────────────────────
+// ── Logo ──────────────────────────────────────────────────────────────────────
 
 function VigilLogo({ size = 32 }: { size?: number }) {
   return (
@@ -180,6 +178,8 @@ function VigilLogo({ size = 32 }: { size?: number }) {
     </svg>
   )
 }
+
+// ── Nav ───────────────────────────────────────────────────────────────────────
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -203,17 +203,15 @@ function Nav() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: scrolled ? 'rgba(9,9,11,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid #27272a' : '1px solid transparent',
-        transition: 'all 0.2s ease',
+        backgroundColor: scrolled ? 'rgba(18,18,36,0.92)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(99,102,241,0.15)' : '1px solid transparent',
+        transition: 'all 0.25s ease',
       }}
     >
       <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
         <VigilLogo size={28} />
-        <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>
-          VIGIL
-        </span>
+        <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>VIGIL</span>
       </a>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
@@ -222,12 +220,7 @@ function Nav() {
             <a
               key={label}
               href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
-              style={{
-                color: '#a1a1aa',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'color 0.15s',
-              }}
+              style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}
               onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#fafafa')}
               onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
             >
@@ -244,23 +237,15 @@ function Nav() {
             style={{
               padding: '0.375rem 0.875rem',
               borderRadius: '6px',
-              border: '1px solid #27272a',
+              border: '1px solid rgba(99,102,241,0.25)',
               backgroundColor: 'transparent',
-              color: '#a1a1aa',
+              color: '#d4d4d8',
               fontSize: '0.875rem',
               textDecoration: 'none',
               transition: 'all 0.15s',
             }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget
-              el.style.borderColor = '#3f3f46'
-              el.style.color = '#fafafa'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget
-              el.style.borderColor = '#27272a'
-              el.style.color = '#a1a1aa'
-            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.5)'; el.style.color = '#fafafa' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.25)'; el.style.color = '#d4d4d8' }}
           >
             GitHub
           </a>
@@ -276,10 +261,11 @@ function Nav() {
               fontSize: '0.875rem',
               fontWeight: 600,
               textDecoration: 'none',
-              transition: 'opacity 0.15s',
+              boxShadow: '0 0 16px rgba(79,70,229,0.4)',
+              transition: 'all 0.15s',
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.opacity = '0.85'; el.style.boxShadow = '0 0 24px rgba(79,70,229,0.6)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.opacity = '1'; el.style.boxShadow = '0 0 16px rgba(79,70,229,0.4)' }}
           >
             Open App →
           </a>
@@ -288,6 +274,8 @@ function Nav() {
     </nav>
   )
 }
+
+// ── Hero ──────────────────────────────────────────────────────────────────────
 
 function Hero() {
   return (
@@ -299,96 +287,143 @@ function Hero() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '8rem 1.5rem 4rem',
+        padding: '8rem 1.5rem 0',
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
       }}
     >
-      {/* Background glow */}
+      {/* Dot grid */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: '20%',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
+          maskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Primary glow */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: '15%',
           left: '50%',
-          transform: 'translateX(-50%)',
-          width: '800px',
-          height: '500px',
-          background: 'radial-gradient(ellipse, rgba(79,70,229,0.12) 0%, transparent 70%)',
+          width: '900px',
+          height: '600px',
+          background: 'radial-gradient(ellipse, rgba(79,70,229,0.22) 0%, rgba(99,102,241,0.08) 45%, transparent 70%)',
+          animation: 'glow-breathe 6s ease-in-out infinite',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Cyan accent */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: '40%',
+          left: '62%',
+          width: '500px',
+          height: '400px',
+          background: 'radial-gradient(ellipse, rgba(6,182,212,0.12) 0%, transparent 65%)',
+          animation: 'glow-breathe-2 8s 2s ease-in-out infinite',
           pointerEvents: 'none',
         }}
       />
 
       {/* Badge */}
       <div
+        className="animate-slide-up"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          padding: '0.3rem 0.875rem',
+          padding: '0.3rem 1rem',
           borderRadius: '100px',
-          border: '1px solid #27272a',
-          backgroundColor: '#111113',
+          border: '1px solid rgba(99,102,241,0.3)',
+          backgroundColor: 'rgba(79,70,229,0.1)',
           fontSize: '0.8rem',
-          color: '#a1a1aa',
+          color: '#a5b4fc',
           marginBottom: '2rem',
+          backdropFilter: 'blur(8px)',
         }}
       >
-        <span style={{ color: '#06b6d4', fontSize: '0.7rem' }}>●</span>
-        Open source &nbsp;·&nbsp; GitHub Actions powered
+        <span style={{ color: '#34d399', fontSize: '0.65rem', animation: 'pulse-dot 2s ease-in-out infinite' }}>&#9679;</span>
+        Open source &nbsp;&middot;&nbsp; GitHub Actions powered &nbsp;&middot;&nbsp; 119 skills
       </div>
 
       {/* Headline */}
       <h1
+        className="animate-slide-up-1"
         style={{
-          fontSize: 'clamp(2.5rem, 7vw, 5rem)',
-          fontWeight: 800,
-          lineHeight: 1.1,
-          letterSpacing: '-0.03em',
+          fontSize: 'clamp(2.75rem, 8vw, 5.5rem)',
+          fontWeight: 900,
+          lineHeight: 1.05,
+          letterSpacing: '-0.04em',
           color: '#fafafa',
           margin: '0 0 1.5rem',
-          maxWidth: '14ch',
+          maxWidth: '16ch',
         }}
       >
-        The AI workforce that works while you sleep.
+        Your AI team.{' '}
+        <span
+          style={{
+            background: 'linear-gradient(135deg, #818cf8 0%, #06b6d4 60%, #34d399 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          Zero servers.
+        </span>{' '}
+        Runs forever.
       </h1>
 
       <p
+        className="animate-slide-up-2"
         style={{
-          fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
-          color: '#71717a',
-          maxWidth: '52ch',
-          lineHeight: 1.6,
-          margin: '0 0 2.5rem',
+          fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+          color: '#a1a1aa',
+          maxWidth: '56ch',
+          lineHeight: 1.65,
+          margin: '0 0 2.75rem',
         }}
       >
-        119 pre-built skills. No servers. Self-healing agents that run on GitHub Actions and fix
-        themselves when they break.
+        Deploy an AI workforce that reviews your PRs, monitors your stack, publishes your content, and
+        fixes itself when it breaks &mdash; all from a single GitHub repo. No infrastructure. No surprise bills.
       </p>
 
       {/* CTAs */}
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '4rem' }}>
+      <div
+        className="animate-slide-up-3"
+        style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '5rem' }}
+      >
         <a
           href="#download"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            padding: '0.75rem 1.75rem',
+            padding: '0.8rem 1.875rem',
             borderRadius: '8px',
             background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
             color: '#fff',
             fontWeight: 700,
             fontSize: '1rem',
             textDecoration: 'none',
-            boxShadow: '0 0 30px rgba(79,70,229,0.3)',
-            transition: 'all 0.15s',
+            boxShadow: '0 0 40px rgba(79,70,229,0.4)',
+            transition: 'all 0.2s',
           }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = 'translateY(0)')}
+          onMouseEnter={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 0 60px rgba(79,70,229,0.6)' }}
+          onMouseLeave={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 0 40px rgba(79,70,229,0.4)' }}
         >
-          Desktop App — Coming Soon
+          Desktop App &mdash; Coming Soon
         </a>
         <a
           href={APP_URL}
@@ -398,105 +433,101 @@ function Hero() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            padding: '0.75rem 1.75rem',
+            padding: '0.8rem 1.875rem',
             borderRadius: '8px',
-            border: '1px solid #27272a',
-            backgroundColor: '#111113',
+            border: '1px solid rgba(99,102,241,0.3)',
+            backgroundColor: 'rgba(79,70,229,0.08)',
             color: '#fafafa',
             fontWeight: 600,
             fontSize: '1rem',
             textDecoration: 'none',
-            transition: 'all 0.15s',
+            backdropFilter: 'blur(8px)',
+            transition: 'all 0.2s',
           }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLElement
-            el.style.borderColor = '#4f46e5'
-            el.style.backgroundColor = '#18181b'
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLElement
-            el.style.borderColor = '#27272a'
-            el.style.backgroundColor = '#111113'
-          }}
+          onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.6)'; el.style.backgroundColor = 'rgba(79,70,229,0.15)'; el.style.transform = 'translateY(-2px)' }}
+          onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.3)'; el.style.backgroundColor = 'rgba(79,70,229,0.08)'; el.style.transform = 'translateY(0)' }}
         >
-          Open Web App →
+          Open Web App <ArrowRight size={16} />
         </a>
       </div>
 
-      {/* Code preview */}
+      {/* App screenshot */}
       <div
-        style={{
-          width: '100%',
-          maxWidth: '620px',
-          borderRadius: '12px',
-          border: '1px solid #27272a',
-          backgroundColor: '#111113',
-          overflow: 'hidden',
-          textAlign: 'left',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-        }}
+        className="animate-slide-up-4"
+        style={{ width: '100%', maxWidth: '1160px', position: 'relative', marginBottom: '-4px' }}
       >
+        {/* Glow behind screenshot */}
         <div
+          aria-hidden
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.75rem 1rem',
-            borderBottom: '1px solid #27272a',
-            backgroundColor: '#0d0d0f',
+            position: 'absolute',
+            inset: '-8% -5%',
+            background: 'radial-gradient(ellipse 70% 60% at 50% 60%, rgba(79,70,229,0.35) 0%, rgba(6,182,212,0.12) 50%, transparent 75%)',
+            filter: 'blur(50px)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Window frame */}
+        <div
+          className="animate-float"
+          style={{
+            position: 'relative',
+            borderRadius: '12px 12px 0 0',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderBottom: 'none',
+            overflow: 'hidden',
+            boxShadow: '0 -2px 0 rgba(99,102,241,0.4), 0 40px 120px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06)',
+            transformOrigin: 'center bottom',
           }}
         >
-          <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#f59e0b', display: 'inline-block' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block' }} />
-          <span style={{ marginLeft: '0.5rem', fontSize: '0.75rem', color: '#52525b', fontFamily: 'var(--font-mono)' }}>
-            vigil.yml
-          </span>
+          {/* Title bar */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0.625rem 1rem',
+              background: 'linear-gradient(180deg, #0f0f1e 0%, #13132a 100%)',
+              borderBottom: '1px solid rgba(99,102,241,0.15)',
+              gap: '0.5rem',
+            }}
+          >
+            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#f59e0b', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ flex: 1 }} />
+            <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#71717a', letterSpacing: '0.08em' }}>app.vigilhq.ai</span>
+            <span style={{ flex: 1 }} />
+          </div>
+
+          <img
+            src="/app-preview.png"
+            alt="Vigil dashboard — skills management"
+            style={{ display: 'block', width: '100%', height: 'auto' }}
+          />
         </div>
-        <pre
-          style={{
-            margin: 0,
-            padding: '1.25rem',
-            fontSize: '0.8rem',
-            lineHeight: 1.7,
-            color: '#a1a1aa',
-            fontFamily: 'var(--font-mono)',
-            overflowX: 'auto',
-          }}
-        >
-          <code>{`skills:
-  hacker-news-digest:
-    enabled: `}<span style={{ color: '#22c55e' }}>true</span>{`
-    schedule: `}<span style={{ color: '#f59e0b' }}>"0 8 * * *"</span>{`   # 8am daily
-
-  pr-reviewer:
-    enabled: `}<span style={{ color: '#22c55e' }}>true</span>{`
-    model: `}<span style={{ color: '#6366f1' }}>claude-opus-4-7</span>{`
-
-  self-repair:
-    enabled: `}<span style={{ color: '#22c55e' }}>true</span>{`
-    schedule: `}<span style={{ color: '#f59e0b' }}>"0 6 * * 1"</span>{`   # Mondays`}</code>
-        </pre>
       </div>
     </section>
   )
 }
 
+// ── Stats ─────────────────────────────────────────────────────────────────────
+
 function Stats() {
   const items = [
-    { value: '119+', label: 'Pre-built skills' },
-    { value: '7', label: 'Curated packs' },
-    { value: '0', label: 'Servers to manage' },
-    { value: '24/7', label: 'Always running' },
+    { value: '119+', label: 'Pre-built skills', color: '#818cf8' },
+    { value: '7', label: 'Curated packs', color: '#34d399' },
+    { value: '$0', label: 'Infra to manage', color: '#22d3ee' },
+    { value: '24/7', label: 'Always running', color: '#fbbf24' },
   ]
 
   return (
     <section
       style={{
-        borderTop: '1px solid #27272a',
-        borderBottom: '1px solid #27272a',
-        backgroundColor: '#111113',
-        padding: '2rem 1.5rem',
+        borderTop: '1px solid rgba(99,102,241,0.2)',
+        borderBottom: '1px solid rgba(99,102,241,0.2)',
+        background: 'linear-gradient(180deg, rgba(79,70,229,0.06) 0%, transparent 100%)',
+        padding: '2.5rem 1.5rem',
       }}
     >
       <div
@@ -509,20 +540,21 @@ function Stats() {
           textAlign: 'center',
         }}
       >
-        {items.map(({ value, label }) => (
+        {items.map(({ value, label, color }) => (
           <div key={label}>
             <div
               style={{
-                fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-                fontWeight: 800,
-                background: 'linear-gradient(135deg, #fafafa, #71717a)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+                fontWeight: 900,
+                color,
+                letterSpacing: '-0.03em',
+                lineHeight: 1,
+                marginBottom: '0.375rem',
               }}
             >
               {value}
             </div>
-            <div style={{ fontSize: '0.875rem', color: '#52525b', marginTop: '0.25rem' }}>{label}</div>
+            <div style={{ fontSize: '0.78rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</div>
           </div>
         ))}
       </div>
@@ -530,51 +562,281 @@ function Stats() {
   )
 }
 
-function Features() {
+// ── Skill Ticker ──────────────────────────────────────────────────────────────
+
+function SkillTicker() {
+  const rowA = [...SKILL_NAMES_A, ...SKILL_NAMES_A]
+  const rowB = [...SKILL_NAMES_B, ...SKILL_NAMES_B]
+
   return (
-    <section id="features" style={{ padding: '6rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+    <section
+      style={{
+        padding: '3.5rem 0',
+        overflow: 'hidden',
+        borderBottom: '1px solid rgba(99,102,241,0.12)',
+        position: 'relative',
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse 60% 100% at 50% 50%, rgba(79,70,229,0.06) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <p
+        style={{
+          textAlign: 'center',
+          fontSize: '0.7rem',
+          fontFamily: 'var(--font-mono)',
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: '#4f46e5',
+          marginBottom: '1.75rem',
+        }}
+      >
+        119 skills available
+      </p>
+
+      <div style={{ overflow: 'hidden', marginBottom: '0.625rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', animation: 'marquee-fwd 35s linear infinite', width: 'max-content' }}>
+          {rowA.map((name, i) => (
+            <span
+              key={i}
+              style={{
+                padding: '0.3rem 0.75rem',
+                borderRadius: '6px',
+                border: '1px solid rgba(99,102,241,0.2)',
+                backgroundColor: 'rgba(79,70,229,0.07)',
+                fontSize: '0.775rem',
+                fontFamily: 'var(--font-mono)',
+                color: '#a5b4fc',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ overflow: 'hidden' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', animation: 'marquee-rev 42s linear infinite', width: 'max-content' }}>
+          {rowB.map((name, i) => (
+            <span
+              key={i}
+              style={{
+                padding: '0.3rem 0.75rem',
+                borderRadius: '6px',
+                border: '1px solid rgba(34,211,238,0.15)',
+                backgroundColor: 'rgba(6,182,212,0.06)',
+                fontSize: '0.775rem',
+                fontFamily: 'var(--font-mono)',
+                color: '#67e8f9',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Agent Outputs ─────────────────────────────────────────────────────────────
+
+function AgentOutputs() {
+  return (
+    <section style={{ padding: '6rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
-          Built for autonomous operation
+        <p
+          style={{
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: '#6366f1',
+            marginBottom: '0.75rem',
+          }}
+        >
+          Proof of work
+        </p>
+        <h2
+          style={{
+            fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+            fontWeight: 800,
+            color: '#fafafa',
+            margin: '0 0 1rem',
+            letterSpacing: '-0.02em',
+          }}
+        >
+          What your agents did while you slept
         </h2>
-        <p style={{ color: '#71717a', fontSize: '1.1rem', maxWidth: '48ch', margin: '0 auto' }}>
-          Every piece is designed to run unattended — no babysitting, no approval loops, no surprise bills.
+        <p style={{ color: '#a1a1aa', fontSize: '1.05rem', maxWidth: '48ch', margin: '0 auto', lineHeight: 1.6 }}>
+          Real outputs from real skills. Not cron jobs &mdash; agents that think, act, and fix themselves.
         </p>
       </div>
 
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '1px',
-          backgroundColor: '#27272a',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          border: '1px solid #27272a',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
+          gap: '1rem',
         }}
       >
-        {FEATURES.map(({ Icon, title, desc }) => (
+        {AGENT_OUTPUTS.map(({ skill, Icon, iconColor, ago, title, body, tag, tagColor }) => (
           <div
-            key={title}
+            key={skill}
             style={{
-              backgroundColor: '#09090b',
-              padding: '1.75rem',
-              transition: 'background-color 0.15s',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: '12px',
+              padding: '1.5rem',
+              background: 'linear-gradient(135deg, rgba(15,15,30,0.9) 0%, rgba(20,20,40,0.95) 100%)',
+              transition: 'border-color 0.2s, transform 0.2s',
+              cursor: 'default',
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#111113')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#09090b')}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = iconColor + '44'; el.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)' }}
           >
-            <div style={{ color: '#4f46e5', marginBottom: '0.875rem' }}>
-              <Icon size={22} strokeWidth={1.75} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.875rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '8px',
+                    backgroundColor: iconColor + '18',
+                    border: '1px solid ' + iconColor + '33',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: iconColor,
+                    flexShrink: 0,
+                  }}
+                >
+                  <Icon size={15} strokeWidth={2} />
+                </div>
+                <code style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#71717a' }}>{skill}</code>
+              </div>
+              <span style={{ fontSize: '0.72rem', color: '#52525b', fontFamily: 'var(--font-mono)' }}>{ago}</span>
             </div>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
-            <p style={{ fontSize: '0.875rem', color: '#71717a', lineHeight: 1.6, margin: 0 }}>{desc}</p>
+
+            <h3 style={{ fontSize: '0.975rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+              {title}
+            </h3>
+            <p style={{ fontSize: '0.85rem', color: '#a1a1aa', lineHeight: 1.6, margin: '0 0 1rem' }}>{body}</p>
+
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.375rem',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                color: tagColor,
+                backgroundColor: tagColor + '15',
+                border: '1px solid ' + tagColor + '30',
+                padding: '0.2rem 0.625rem',
+                borderRadius: '100px',
+              }}
+            >
+              <span style={{ fontSize: '0.55rem' }}>&#9679;</span>
+              {tag}
+            </div>
           </div>
         ))}
       </div>
     </section>
   )
 }
+
+// ── Features ──────────────────────────────────────────────────────────────────
+
+function Features() {
+  return (
+    <section
+      id="features"
+      style={{
+        padding: '6rem 1.5rem',
+        maxWidth: '1100px',
+        margin: '0 auto',
+        borderTop: '1px solid rgba(99,102,241,0.1)',
+      }}
+    >
+      <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+        <p
+          style={{
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: '#6366f1',
+            marginBottom: '0.75rem',
+          }}
+        >
+          Built different
+        </p>
+        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
+          Built for autonomous operation
+        </h2>
+        <p style={{ color: '#a1a1aa', fontSize: '1.05rem', maxWidth: '48ch', margin: '0 auto', lineHeight: 1.6 }}>
+          Every piece is designed to run unattended &mdash; no babysitting, no approval loops, no surprise bills.
+        </p>
+      </div>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
+          gap: '1rem',
+        }}
+      >
+        {FEATURES.map(({ Icon, title, desc, color, bg }) => (
+          <div
+            key={title}
+            style={{
+              backgroundColor: 'rgba(15,15,28,0.85)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: '12px',
+              padding: '1.75rem',
+              transition: 'border-color 0.2s, transform 0.2s, background-color 0.2s',
+              cursor: 'default',
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = color + '44'; el.style.transform = 'translateY(-3px)'; el.style.backgroundColor = 'rgba(20,20,38,0.95)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)'; el.style.backgroundColor = 'rgba(15,15,28,0.85)' }}
+          >
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '10px',
+                backgroundColor: bg,
+                border: '1px solid ' + color + '33',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color,
+                marginBottom: '1rem',
+                flexShrink: 0,
+              }}
+            >
+              <Icon size={19} strokeWidth={1.75} />
+            </div>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
+            <p style={{ fontSize: '0.875rem', color: '#a1a1aa', lineHeight: 1.65, margin: 0 }}>{desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+// ── How It Works ──────────────────────────────────────────────────────────────
 
 function HowItWorks() {
   return (
@@ -582,44 +844,59 @@ function HowItWorks() {
       id="how-it-works"
       style={{
         padding: '6rem 1.5rem',
-        backgroundColor: '#0d0d0f',
-        borderTop: '1px solid #27272a',
-        borderBottom: '1px solid #27272a',
+        background: 'linear-gradient(180deg, rgba(10,10,22,0.9) 0%, rgba(15,15,30,0.95) 100%)',
+        borderTop: '1px solid rgba(99,102,241,0.12)',
+        borderBottom: '1px solid rgba(99,102,241,0.12)',
       }}
     >
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '960px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
+          <p
+            style={{
+              fontSize: '0.75rem',
+              fontFamily: 'var(--font-mono)',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#6366f1',
+              marginBottom: '0.75rem',
+            }}
+          >
+            Setup
+          </p>
+          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
             Up and running in minutes
           </h2>
-          <p style={{ color: '#71717a', fontSize: '1.1rem', margin: 0 }}>
-            No infrastructure to provision. No Docker to learn.
+          <p style={{ color: '#a1a1aa', fontSize: '1.05rem', margin: 0, lineHeight: 1.6 }}>
+            No infrastructure to provision. No Docker to learn. No bills at the end of the month.
           </p>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '2rem',
-          }}
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem' }}>
           {STEPS.map(({ n, title, desc }) => (
-            <div key={n} style={{ position: 'relative' }}>
+            <div
+              key={n}
+              style={{
+                padding: '1.75rem',
+                borderRadius: '12px',
+                border: '1px solid rgba(99,102,241,0.15)',
+                background: 'rgba(79,70,229,0.04)',
+              }}
+            >
               <div
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '0.75rem',
-                  color: '#4f46e5',
-                  fontWeight: 700,
-                  marginBottom: '0.75rem',
-                  letterSpacing: '0.1em',
+                  fontSize: '2rem',
+                  fontWeight: 900,
+                  color: 'rgba(79,70,229,0.25)',
+                  lineHeight: 1,
+                  marginBottom: '1rem',
+                  letterSpacing: '-0.04em',
                 }}
               >
                 {n}
               </div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
-              <p style={{ fontSize: '0.9rem', color: '#71717a', lineHeight: 1.6, margin: 0 }}>{desc}</p>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
+              <p style={{ fontSize: '0.875rem', color: '#a1a1aa', lineHeight: 1.65, margin: 0 }}>{desc}</p>
             </div>
           ))}
         </div>
@@ -628,55 +905,56 @@ function HowItWorks() {
   )
 }
 
+// ── Packs ─────────────────────────────────────────────────────────────────────
+
 function Packs() {
   const tagColors: Record<string, string> = {
-    Dev: '#4f46e5',
-    Productivity: '#0891b2',
-    Finance: '#059669',
-    Engineering: '#7c3aed',
-    Content: '#b45309',
-    Ops: '#be123c',
-    Scale: '#0369a1',
+    Dev: '#818cf8',
+    Productivity: '#22d3ee',
+    Finance: '#34d399',
+    Engineering: '#a78bfa',
+    Content: '#fbbf24',
+    Ops: '#fb7185',
+    Scale: '#67e8f9',
   }
 
   return (
     <section style={{ padding: '6rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
+        <p
+          style={{
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: '#6366f1',
+            marginBottom: '0.75rem',
+          }}
+        >
+          Quickstart
+        </p>
+        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
           Curated skill packs
         </h2>
-        <p style={{ color: '#71717a', fontSize: '1.1rem', margin: 0 }}>
-          Install a pack and your agent is operational in seconds.
+        <p style={{ color: '#a1a1aa', fontSize: '1.05rem', margin: 0, lineHeight: 1.6 }}>
+          Install a pack and your agent is operational in seconds. Mix and match.
         </p>
       </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: '1rem',
-        }}
-      >
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '1rem' }}>
         {PACKS.map(({ name, skills, desc, tag }) => (
           <div
             key={name}
             style={{
-              border: '1px solid #27272a',
-              borderRadius: '10px',
-              padding: '1.25rem',
-              backgroundColor: '#111113',
-              transition: 'border-color 0.15s, background-color 0.15s',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: '12px',
+              padding: '1.375rem',
+              backgroundColor: 'rgba(15,15,28,0.85)',
+              transition: 'border-color 0.2s, transform 0.2s',
+              cursor: 'default',
             }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.borderColor = '#3f3f46'
-              el.style.backgroundColor = '#18181b'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.borderColor = '#27272a'
-              el.style.backgroundColor = '#111113'
-            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = (tagColors[tag] ?? '#818cf8') + '55'; el.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.625rem' }}>
               <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.95rem' }}>{name}</span>
@@ -684,19 +962,19 @@ function Packs() {
                 style={{
                   fontSize: '0.7rem',
                   fontWeight: 600,
-                  padding: '0.2rem 0.5rem',
+                  padding: '0.2rem 0.6rem',
                   borderRadius: '100px',
-                  backgroundColor: `${tagColors[tag] ?? '#4f46e5'}22`,
-                  color: tagColors[tag] ?? '#4f46e5',
-                  border: `1px solid ${tagColors[tag] ?? '#4f46e5'}44`,
+                  backgroundColor: (tagColors[tag] ?? '#818cf8') + '15',
+                  color: tagColors[tag] ?? '#818cf8',
+                  border: '1px solid ' + (tagColors[tag] ?? '#818cf8') + '30',
                   whiteSpace: 'nowrap',
                 }}
               >
                 {tag}
               </span>
             </div>
-            <p style={{ fontSize: '0.825rem', color: '#71717a', lineHeight: 1.55, margin: '0 0 0.75rem' }}>{desc}</p>
-            <div style={{ fontSize: '0.75rem', color: '#52525b', fontFamily: 'var(--font-mono)' }}>
+            <p style={{ fontSize: '0.83rem', color: '#a1a1aa', lineHeight: 1.6, margin: '0 0 0.875rem' }}>{desc}</p>
+            <div style={{ fontSize: '0.72rem', color: '#4f46e5', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
               {skills} skills
             </div>
           </div>
@@ -706,14 +984,16 @@ function Packs() {
   )
 }
 
+// ── Download ──────────────────────────────────────────────────────────────────
+
 function Download() {
   return (
     <section
       id="download"
       style={{
         padding: '6rem 1.5rem',
-        backgroundColor: '#0d0d0f',
-        borderTop: '1px solid #27272a',
+        background: 'linear-gradient(180deg, rgba(10,10,22,0.9) 0%, rgba(15,15,30,0.95) 100%)',
+        borderTop: '1px solid rgba(99,102,241,0.12)',
       }}
     >
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -725,21 +1005,21 @@ function Download() {
               gap: '0.5rem',
               padding: '0.3rem 0.875rem',
               borderRadius: '100px',
-              border: '1px solid #4f46e544',
-              backgroundColor: '#4f46e511',
+              border: '1px solid rgba(99,102,241,0.3)',
+              backgroundColor: 'rgba(79,70,229,0.1)',
               fontSize: '0.8rem',
-              color: '#818cf8',
+              color: '#a5b4fc',
               marginBottom: '1.25rem',
             }}
           >
-            <span style={{ fontSize: '0.65rem' }}>●</span>
+            <span style={{ fontSize: '0.65rem', animation: 'pulse-dot 2s ease-in-out infinite', color: '#fbbf24' }}>&#9679;</span>
             Coming soon
           </div>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
             Vigil Desktop
           </h2>
-          <p style={{ color: '#71717a', fontSize: '1.1rem', margin: 0, maxWidth: '44ch', marginLeft: 'auto', marginRight: 'auto' }}>
-            Native app for Mac, Windows, and Linux — visual editor, tray integration, and auto-updates. Launching soon.
+          <p style={{ color: '#a1a1aa', fontSize: '1.05rem', margin: '0 auto', maxWidth: '44ch', lineHeight: 1.6 }}>
+            Native app for Mac, Windows, and Linux &mdash; visual skill editor, system tray, and auto-updates. Launching soon.
           </p>
         </div>
 
@@ -764,24 +1044,22 @@ function Download() {
                 gap: '0.5rem',
                 padding: '1.5rem 1rem',
                 borderRadius: '10px',
-                border: '1px solid #27272a',
-                backgroundColor: '#111113',
+                border: '1px solid rgba(99,102,241,0.2)',
+                backgroundColor: 'rgba(79,70,229,0.05)',
               }}
             >
-              <span style={{ color: '#a1a1aa' }}>
-                <Icon size={28} />
-              </span>
+              <span style={{ color: '#d4d4d8' }}><Icon size={28} /></span>
               <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.9rem' }}>{platform}</span>
-              <span style={{ color: '#71717a', fontSize: '0.75rem' }}>{arch}</span>
+              <span style={{ color: '#a1a1aa', fontSize: '0.75rem' }}>{arch}</span>
               <span
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.7rem',
-                  color: '#52525b',
-                  backgroundColor: '#18181b',
+                  color: '#71717a',
+                  backgroundColor: 'rgba(99,102,241,0.08)',
                   padding: '0.2rem 0.5rem',
                   borderRadius: '4px',
-                  border: '1px solid #27272a',
+                  border: '1px solid rgba(99,102,241,0.15)',
                 }}
               >
                 {ext}
@@ -796,7 +1074,7 @@ function Download() {
             href={`https://github.com/${GITHUB_REPO}/releases`}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#71717a', textDecoration: 'underline' }}
+            style={{ color: '#a1a1aa', textDecoration: 'underline' }}
           >
             GitHub Releases
           </a>
@@ -806,6 +1084,8 @@ function Download() {
     </section>
   )
 }
+
+// ── Deploy Your Own ───────────────────────────────────────────────────────────
 
 function DeployYourOwn() {
   const vercelUrl =
@@ -818,8 +1098,8 @@ function DeployYourOwn() {
     <section
       style={{
         padding: '6rem 1.5rem',
-        borderTop: '1px solid #27272a',
-        borderBottom: '1px solid #27272a',
+        borderTop: '1px solid rgba(99,102,241,0.12)',
+        borderBottom: '1px solid rgba(99,102,241,0.12)',
       }}
     >
       <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
@@ -830,20 +1110,20 @@ function DeployYourOwn() {
             gap: '0.5rem',
             padding: '0.3rem 0.875rem',
             borderRadius: '100px',
-            border: '1px solid #27272a',
-            backgroundColor: '#111113',
+            border: '1px solid rgba(99,102,241,0.2)',
+            backgroundColor: 'rgba(79,70,229,0.07)',
             fontSize: '0.8rem',
-            color: '#a1a1aa',
+            color: '#a5b4fc',
             marginBottom: '1.5rem',
           }}
         >
           Web version
         </div>
 
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
           Deploy your own dashboard
         </h2>
-        <p style={{ color: '#71717a', fontSize: '1rem', lineHeight: 1.6, margin: '0 0 2rem', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: 1.65, margin: '0 0 2rem', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
           Host the Vigil dashboard on Vercel in one click. Connect it to your GitHub fork and manage
           your agents from anywhere, on any device.
         </p>
@@ -864,12 +1144,12 @@ function DeployYourOwn() {
             fontSize: '0.95rem',
             textDecoration: 'none',
             marginBottom: '2.5rem',
-            transition: 'opacity 0.15s',
+            boxShadow: '0 0 30px rgba(250,250,250,0.1)',
+            transition: 'all 0.2s',
           }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+          onMouseEnter={(e) => { const el = e.currentTarget; el.style.opacity = '0.88'; el.style.transform = 'translateY(-1px)' }}
+          onMouseLeave={(e) => { const el = e.currentTarget; el.style.opacity = '1'; el.style.transform = 'translateY(0)' }}
         >
-          {/* Vercel triangle logo */}
           <svg width="16" height="16" viewBox="0 0 116 100" fill="#09090b">
             <path d="M57.5 0L115 100H0L57.5 0z" />
           </svg>
@@ -878,21 +1158,22 @@ function DeployYourOwn() {
 
         <div
           style={{
-            backgroundColor: '#111113',
-            border: '1px solid #27272a',
+            backgroundColor: 'rgba(15,15,28,0.9)',
+            border: '1px solid rgba(99,102,241,0.18)',
             borderRadius: '10px',
-            padding: '1.25rem',
+            padding: '1.375rem',
             textAlign: 'left',
           }}
         >
           <p
             style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              color: '#52525b',
-              margin: '0 0 0.75rem',
+              fontSize: '0.72rem',
+              color: '#4f46e5',
+              margin: '0 0 0.875rem',
               textTransform: 'uppercase',
-              letterSpacing: '0.08em',
+              letterSpacing: '0.1em',
+              fontWeight: 600,
             }}
           >
             Required env vars
@@ -902,17 +1183,10 @@ function DeployYourOwn() {
             { name: 'GITHUB_REPO', desc: 'Your fork in owner/repo format' },
           ].map(({ name, desc }) => (
             <div key={name} style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem', alignItems: 'baseline' }}>
-              <code
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.8rem',
-                  color: '#6366f1',
-                  minWidth: '160px',
-                }}
-              >
+              <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#818cf8', minWidth: '160px' }}>
                 {name}
               </code>
-              <span style={{ fontSize: '0.8rem', color: '#71717a' }}>{desc}</span>
+              <span style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>{desc}</span>
             </div>
           ))}
         </div>
@@ -921,12 +1195,147 @@ function DeployYourOwn() {
   )
 }
 
+// ── Final CTA ─────────────────────────────────────────────────────────────────
+
+function FinalCTA() {
+  return (
+    <section
+      style={{
+        padding: '7rem 1.5rem',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '800px',
+          height: '500px',
+          background: 'radial-gradient(ellipse, rgba(79,70,229,0.25) 0%, rgba(6,182,212,0.1) 45%, transparent 70%)',
+          pointerEvents: 'none',
+          animation: 'glow-breathe 7s ease-in-out infinite',
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 100%)',
+          maskImage: 'radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div style={{ position: 'relative' }}>
+        <p
+          style={{
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: '#6366f1',
+            marginBottom: '1rem',
+          }}
+        >
+          Get started
+        </p>
+        <h2
+          style={{
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontWeight: 900,
+            color: '#fafafa',
+            margin: '0 0 1.25rem',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.1,
+          }}
+        >
+          Stop doing work that<br />
+          <span
+            style={{
+              background: 'linear-gradient(135deg, #818cf8, #22d3ee)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            doesn&apos;t require a human.
+          </span>
+        </h2>
+        <p style={{ color: '#a1a1aa', fontSize: '1.1rem', maxWidth: '46ch', margin: '0 auto 2.5rem', lineHeight: 1.65 }}>
+          Fork the repo. Set two secrets. Your AI team is operational. Free forever on GitHub&apos;s infrastructure.
+        </p>
+
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a
+            href={`https://github.com/${GITHUB_REPO}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.875rem 2rem',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: '1rem',
+              textDecoration: 'none',
+              boxShadow: '0 0 50px rgba(79,70,229,0.45)',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 0 70px rgba(79,70,229,0.65)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 0 50px rgba(79,70,229,0.45)' }}
+          >
+            Fork on GitHub <ArrowRight size={16} />
+          </a>
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.875rem 2rem',
+              borderRadius: '8px',
+              border: '1px solid rgba(99,102,241,0.3)',
+              backgroundColor: 'rgba(79,70,229,0.08)',
+              color: '#fafafa',
+              fontWeight: 600,
+              fontSize: '1rem',
+              textDecoration: 'none',
+              backdropFilter: 'blur(8px)',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.55)'; el.style.backgroundColor = 'rgba(79,70,229,0.15)'; el.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.3)'; el.style.backgroundColor = 'rgba(79,70,229,0.08)'; el.style.transform = 'translateY(0)' }}
+          >
+            Open Web App
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+
 function Footer() {
   return (
     <footer
       style={{
         padding: '2.5rem 1.5rem',
-        backgroundColor: '#09090b',
+        background: 'linear-gradient(180deg, rgba(10,10,22,0.95) 0%, #0a0a16 100%)',
+        borderTop: '1px solid rgba(99,102,241,0.12)',
       }}
     >
       <div
@@ -942,9 +1351,7 @@ function Footer() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <VigilLogo size={22} />
-          <span style={{ fontSize: '0.875rem', color: '#52525b' }}>
-            Vigil · Open source, MIT license
-          </span>
+          <span style={{ fontSize: '0.875rem', color: '#52525b' }}>Vigil &middot; Open source, MIT license</span>
         </div>
 
         <div style={{ display: 'flex', gap: '1.5rem' }}>
@@ -959,13 +1366,8 @@ function Footer() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                fontSize: '0.825rem',
-                color: '#52525b',
-                textDecoration: 'none',
-                transition: 'color 0.15s',
-              }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
+              style={{ fontSize: '0.825rem', color: '#52525b', textDecoration: 'none', transition: 'color 0.15s' }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#d4d4d8')}
               onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#52525b')}
             >
               {label}
@@ -986,11 +1388,14 @@ export default function LandingPage() {
       <main>
         <Hero />
         <Stats />
+        <SkillTicker />
+        <AgentOutputs />
         <Features />
         <HowItWorks />
         <Packs />
         <Download />
         <DeployYourOwn />
+        <FinalCTA />
       </main>
       <Footer />
     </>

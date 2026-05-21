@@ -1,10 +1,5 @@
 import { NextResponse } from 'next/server'
-import { resolve } from 'path'
-import { readdirSync, readFileSync, existsSync } from 'fs'
-
-const REPO_ROOT = resolve(process.cwd(), '..')
-const SKILL_HEALTH_DIR = resolve(REPO_ROOT, 'memory', 'skill-health')
-const CRON_STATE_FILE = resolve(REPO_ROOT, 'memory', 'cron-state.json')
+import { getDirectory, getFileContent } from '@/lib/github'
 
 interface SkillHealthEntry {
   skill?: string
@@ -35,18 +30,18 @@ export interface SkillQuality {
   lastRun: string | null
 }
 
-function parseHealthFile(path: string): SkillHealthEntry {
+function parseHealthContent(content: string): SkillHealthEntry {
   try {
-    return JSON.parse(readFileSync(path, 'utf-8'))
+    return JSON.parse(content)
   } catch {
     return {}
   }
 }
 
-function parseCronState(): Record<string, CronStateEntry> {
+async function parseCronState(): Promise<Record<string, CronStateEntry>> {
   try {
-    if (!existsSync(CRON_STATE_FILE)) return {}
-    return JSON.parse(readFileSync(CRON_STATE_FILE, 'utf-8'))
+    const { content } = await getFileContent('memory/cron-state.json')
+    return JSON.parse(content)
   } catch {
     return {}
   }
@@ -66,23 +61,25 @@ function scoreStatus(
 
 export async function GET() {
   const qualities: SkillQuality[] = []
-  const cronState = parseCronState()
+  const cronState = await parseCronState()
 
-  // Read skill-health JSON files
   const healthBySkill: Record<string, SkillHealthEntry> = {}
-  if (existsSync(SKILL_HEALTH_DIR)) {
-    try {
-      const files = readdirSync(SKILL_HEALTH_DIR).filter(
-        f => f.endsWith('.json') && f !== 'last-report.json',
-      )
-      for (const file of files) {
-        const slug = file.replace('.json', '')
-        healthBySkill[slug] = parseHealthFile(resolve(SKILL_HEALTH_DIR, file))
-      }
-    } catch {}
-  }
+  try {
+    const files = await getDirectory('memory/skill-health')
+    const jsonFiles = files.filter(
+      f => f.type === 'file' && f.name.endsWith('.json') && f.name !== 'last-report.json',
+    )
+    await Promise.all(
+      jsonFiles.map(async file => {
+        try {
+          const slug = file.name.replace('.json', '')
+          const { content } = await getFileContent(`memory/skill-health/${file.name}`)
+          healthBySkill[slug] = parseHealthContent(content)
+        } catch {}
+      }),
+    )
+  } catch {}
 
-  // Merge cron-state and health data
   const allSlugs = new Set([
     ...Object.keys(cronState),
     ...Object.keys(healthBySkill),
@@ -92,7 +89,6 @@ export async function GET() {
     const cron = cronState[name] as CronStateEntry | undefined
     const health = healthBySkill[name] as SkillHealthEntry | undefined
 
-    // Extract scores from health file
     let scores: number[] = []
     if (health?.scores) {
       scores = health.scores.filter(s => typeof s === 'number')
@@ -100,8 +96,6 @@ export async function GET() {
       scores = health.runs
         .map(r => r.score)
         .filter((s): s is number => typeof s === 'number')
-    } else if (health?.avg_score !== undefined) {
-      scores = []
     }
     if (cron?.quality_score !== undefined) {
       scores = [cron.quality_score, ...scores].slice(0, 30)

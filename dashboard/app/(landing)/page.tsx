@@ -203,9 +203,9 @@ function Nav() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: scrolled ? 'rgba(9,9,11,0.92)' : 'transparent',
+        backgroundColor: scrolled ? 'rgba(15,17,36,0.92)' : 'transparent',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid #27272a' : '1px solid transparent',
+        borderBottom: scrolled ? '1px solid #2E3058' : '1px solid transparent',
         transition: 'all 0.2s ease',
       }}
     >
@@ -244,7 +244,7 @@ function Nav() {
             style={{
               padding: '0.375rem 0.875rem',
               borderRadius: '6px',
-              border: '1px solid #27272a',
+              border: '1px solid #2E3058',
               backgroundColor: 'transparent',
               color: '#a1a1aa',
               fontSize: '0.875rem',
@@ -253,12 +253,12 @@ function Nav() {
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget
-              el.style.borderColor = '#3f3f46'
+              el.style.borderColor = '#3A3D68'
               el.style.color = '#fafafa'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget
-              el.style.borderColor = '#27272a'
+              el.style.borderColor = '#2E3058'
               el.style.color = '#a1a1aa'
             }}
           >
@@ -328,8 +328,8 @@ function Hero() {
           gap: '0.5rem',
           padding: '0.3rem 0.875rem',
           borderRadius: '100px',
-          border: '1px solid #27272a',
-          backgroundColor: '#111113',
+          border: '1px solid #2E3058',
+          backgroundColor: '#181A32',
           fontSize: '0.8rem',
           color: '#a1a1aa',
           marginBottom: '2rem',
@@ -400,8 +400,8 @@ function Hero() {
             gap: '0.5rem',
             padding: '0.75rem 1.75rem',
             borderRadius: '8px',
-            border: '1px solid #27272a',
-            backgroundColor: '#111113',
+            border: '1px solid #2E3058',
+            backgroundColor: '#181A32',
             color: '#fafafa',
             fontWeight: 600,
             fontSize: '1rem',
@@ -411,12 +411,12 @@ function Hero() {
           onMouseEnter={(e) => {
             const el = e.currentTarget as HTMLElement
             el.style.borderColor = '#4f46e5'
-            el.style.backgroundColor = '#18181b'
+            el.style.backgroundColor = '#1C1E38'
           }}
           onMouseLeave={(e) => {
             const el = e.currentTarget as HTMLElement
-            el.style.borderColor = '#27272a'
-            el.style.backgroundColor = '#111113'
+            el.style.borderColor = '#2E3058'
+            el.style.backgroundColor = '#181A32'
           }}
         >
           Open Web App →
@@ -429,8 +429,8 @@ function Hero() {
           width: '100%',
           maxWidth: '620px',
           borderRadius: '12px',
-          border: '1px solid #27272a',
-          backgroundColor: '#111113',
+          border: '1px solid #2E3058',
+          backgroundColor: '#181A32',
           overflow: 'hidden',
           textAlign: 'left',
           boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
@@ -442,8 +442,8 @@ function Hero() {
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1rem',
-            borderBottom: '1px solid #27272a',
-            backgroundColor: '#0d0d0f',
+            borderBottom: '1px solid #2E3058',
+            backgroundColor: '#131528',
           }}
         >
           <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block' }} />
@@ -493,9 +493,9 @@ function Stats() {
   return (
     <section
       style={{
-        borderTop: '1px solid #27272a',
-        borderBottom: '1px solid #27272a',
-        backgroundColor: '#111113',
+        borderTop: '1px solid #2E3058',
+        borderBottom: '1px solid #2E3058',
+        backgroundColor: '#181A32',
         padding: '2rem 1.5rem',
       }}
     >
@@ -547,22 +547,22 @@ function Features() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '1px',
-          backgroundColor: '#27272a',
+          backgroundColor: '#2E3058',
           borderRadius: '12px',
           overflow: 'hidden',
-          border: '1px solid #27272a',
+          border: '1px solid #2E3058',
         }}
       >
         {FEATURES.map(({ Icon, title, desc }) => (
           <div
             key={title}
             style={{
-              backgroundColor: '#09090b',
+              backgroundColor: '#0F1124',
               padding: '1.75rem',
               transition: 'background-color 0.15s',
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#111113')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#09090b')}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#181A32')}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#0F1124')}
           >
             <div style={{ color: '#4f46e5', marginBottom: '0.875rem' }}>
               <Icon size={22} strokeWidth={1.75} />
@@ -582,9 +582,9 @@ function HowItWorks() {
       id="how-it-works"
       style={{
         padding: '6rem 1.5rem',
-        backgroundColor: '#0d0d0f',
-        borderTop: '1px solid #27272a',
-        borderBottom: '1px solid #27272a',
+        backgroundColor: '#131528',
+        borderTop: '1px solid #2E3058',
+        borderBottom: '1px solid #2E3058',
       }}
     >
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -661,21 +661,21 @@ function Packs() {
           <div
             key={name}
             style={{
-              border: '1px solid #27272a',
+              border: '1px solid #2E3058',
               borderRadius: '10px',
               padding: '1.25rem',
-              backgroundColor: '#111113',
+              backgroundColor: '#181A32',
               transition: 'border-color 0.15s, background-color 0.15s',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.borderColor = '#3f3f46'
-              el.style.backgroundColor = '#18181b'
+              el.style.borderColor = '#3A3D68'
+              el.style.backgroundColor = '#1C1E38'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.borderColor = '#27272a'
-              el.style.backgroundColor = '#111113'
+              el.style.borderColor = '#2E3058'
+              el.style.backgroundColor = '#181A32'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.625rem' }}>
@@ -706,97 +706,108 @@ function Packs() {
   )
 }
 
+const RELEASE_TARGET = new Date('2026-05-22T07:00:00.000Z')
+
 function Download() {
+  const [timeLeft, setTimeLeft] = useState(() => Math.max(0, RELEASE_TARGET.getTime() - Date.now()))
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimeLeft(Math.max(0, RELEASE_TARGET.getTime() - Date.now()))
+    }, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const hours   = Math.floor(timeLeft / 3_600_000)
+  const minutes = Math.floor((timeLeft % 3_600_000) / 60_000)
+  const seconds = Math.floor((timeLeft % 60_000) / 1_000)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const done = timeLeft === 0
+
   return (
     <section
       id="download"
       style={{
         padding: '6rem 1.5rem',
-        backgroundColor: '#0d0d0f',
-        borderTop: '1px solid #27272a',
+        backgroundColor: '#131528',
+        borderTop: '1px solid #2E3058',
       }}
     >
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
-            Download Vigil Desktop
-          </h2>
-          <p style={{ color: '#71717a', fontSize: '1.1rem', margin: 0 }}>
-            Native app with visual editor, tray integration, and auto-updates.
-          </p>
-        </div>
-
+      <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
-            gap: '0.875rem',
-            marginBottom: '2rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.3rem 0.875rem',
+            borderRadius: '100px',
+            border: '1px solid #2E3058',
+            backgroundColor: '#181A32',
+            fontSize: '0.8rem',
+            color: '#a1a1aa',
+            marginBottom: '1.5rem',
           }}
         >
-          {DOWNLOADS.map(({ platform, arch, Icon, url, ext }) => (
-            <a
-              key={`${platform}-${arch}`}
-              href={url}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '1.5rem 1rem',
-                borderRadius: '10px',
-                border: '1px solid #27272a',
-                backgroundColor: '#111113',
-                textDecoration: 'none',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.borderColor = '#4f46e5'
-                el.style.backgroundColor = '#18181b'
-                el.style.transform = 'translateY(-2px)'
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.borderColor = '#27272a'
-                el.style.backgroundColor = '#111113'
-                el.style.transform = 'translateY(0)'
-              }}
-            >
-              <span style={{ color: '#a1a1aa' }}>
-                <Icon size={28} />
-              </span>
-              <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.9rem' }}>{platform}</span>
-              <span style={{ color: '#71717a', fontSize: '0.75rem' }}>{arch}</span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.7rem',
-                  color: '#52525b',
-                  backgroundColor: '#18181b',
-                  padding: '0.2rem 0.5rem',
-                  borderRadius: '4px',
-                  border: '1px solid #27272a',
-                }}
-              >
-                {ext}
-              </span>
-            </a>
-          ))}
+          Desktop App
         </div>
 
-        <p style={{ textAlign: 'center', color: '#52525b', fontSize: '0.8rem' }}>
-          Or view all releases on{' '}
-          <a
-            href={`https://github.com/${GITHUB_REPO}/releases`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#71717a', textDecoration: 'underline' }}
-          >
-            GitHub
-          </a>
-          .
+        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
+          {done ? 'Vigil Desktop is live' : 'Launching soon'}
+        </h2>
+        <p style={{ color: '#71717a', fontSize: '1rem', lineHeight: 1.6, margin: '0 0 2.5rem' }}>
+          {done
+            ? 'Download the native app with visual editor, tray integration, and auto-updates.'
+            : 'Native app with visual editor, tray integration, and auto-updates.'}
         </p>
+
+        {!done && (
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2.5rem' }}>
+            {[
+              { label: 'HRS',  value: pad(hours) },
+              { label: 'MIN',  value: pad(minutes) },
+              { label: 'SEC',  value: pad(seconds) },
+            ].map(({ label, value }, i) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 'clamp(2.5rem, 8vw, 4rem)',
+                      fontWeight: 700,
+                      color: '#fafafa',
+                      lineHeight: 1,
+                      letterSpacing: '-0.02em',
+                      backgroundColor: '#181A32',
+                      border: '1px solid #2E3058',
+                      borderRadius: '8px',
+                      padding: '0.75rem 1.25rem',
+                      minWidth: '5rem',
+                    }}
+                  >
+                    {value}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#52525b', marginTop: '0.5rem', letterSpacing: '0.1em' }}>
+                    {label}
+                  </div>
+                </div>
+                {i < 2 && (
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', color: '#2E3058', marginBottom: '1.2rem' }}>:</div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <a
+          href={`https://github.com/${GITHUB_REPO}/releases`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ fontSize: '0.8rem', color: '#52525b', textDecoration: 'none' }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#a1a1aa')}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
+        >
+          {done ? 'View releases on GitHub →' : 'Follow releases on GitHub'}
+        </a>
       </div>
     </section>
   )
@@ -807,7 +818,7 @@ function Footer() {
     <footer
       style={{
         padding: '2.5rem 1.5rem',
-        backgroundColor: '#09090b',
+        backgroundColor: '#0F1124',
       }}
     >
       <div

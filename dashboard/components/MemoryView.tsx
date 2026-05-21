@@ -15,10 +15,47 @@ interface TopicFile { slug: string; filename: string; size: number; updatedAt: s
 
 type Tab = 'logs' | 'issues' | 'topics'
 
-function Spinner() {
+function SkeletonBar({ className = '' }: { className?: string }) {
+  return <div className={`skeleton-shimmer rounded-sm ${className}`} />
+}
+
+function MemorySkeleton() {
   return (
-    <div className="flex justify-center py-16">
-      <div className="w-2 h-2 rounded-full bg-eva-orange animate-pulse" />
+    <div className="max-w-5xl mx-auto py-[var(--space-lg)] px-[var(--space-lg)] space-y-[var(--space-xl)]">
+      <section>
+        <SkeletonBar className="w-36 h-2 mb-3" />
+        <div className="card-hst">
+          <div className="grid grid-cols-3 divide-x divide-[rgba(255,255,255,0.07)]">
+            {[0,1,2].map(i => (
+              <div key={i} className="p-4">
+                <SkeletonBar className="w-14 h-2 mb-3" />
+                <SkeletonBar className="w-10 h-7" />
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-[rgba(255,255,255,0.07)] p-4 space-y-2.5">
+            <SkeletonBar className="w-full h-2" />
+            <SkeletonBar className="w-5/6 h-2" />
+            <SkeletonBar className="w-4/6 h-2" />
+            <SkeletonBar className="w-2/5 h-2" />
+          </div>
+        </div>
+      </section>
+      <section>
+        <div className="flex gap-1 mb-[var(--space-sm)]">
+          {[0,1,2].map(i => <SkeletonBar key={i} className="w-20 h-7" />)}
+        </div>
+        <div className="card-hst divide-y divide-[rgba(255,255,255,0.06)]">
+          {[0,1,2,3,4,5].map(i => (
+            <div key={i} className="flex items-center gap-3 px-4 py-3">
+              <SkeletonBar className="w-24 h-2 shrink-0" />
+              <SkeletonBar className="h-2 grow" />
+              <SkeletonBar className="w-14 h-2 shrink-0" />
+              <SkeletonBar className="w-8 h-2 shrink-0" />
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }
@@ -68,11 +105,7 @@ export function MemoryView() {
     } catch {} finally { setLogFetching(false) }
   }
 
-  if (loading) return (
-    <div className="max-w-5xl mx-auto py-[var(--space-lg)] px-[var(--space-lg)]">
-      <Spinner />
-    </div>
-  )
+  if (loading) return <MemorySkeleton />
 
   const noMemory = !index?.memory.exists
 
@@ -165,8 +198,10 @@ export function MemoryView() {
                   {openLog === log.date && (
                     <div className="px-4 pb-3">
                       {logFetching && !logContent[log.date] ? (
-                        <div className="py-2 flex justify-center">
-                          <div className="w-1.5 h-1.5 rounded-full bg-eva-orange animate-pulse" />
+                        <div className="py-3 space-y-2">
+                          <SkeletonBar className="w-full h-2" />
+                          <SkeletonBar className="w-4/5 h-2" />
+                          <SkeletonBar className="w-3/5 h-2" />
                         </div>
                       ) : (
                         <pre className="text-[10px] font-mono text-primary-50 whitespace-pre-wrap leading-relaxed bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] p-3 max-h-72 overflow-y-auto">

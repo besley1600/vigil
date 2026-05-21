@@ -206,7 +206,7 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
     <div className="flex flex-1 min-h-0">
 
       {/* ── Left sidebar ─────────────────────────────────────────────────── */}
-      <aside className="w-48 shrink-0 border-r border-[rgba(255,255,255,0.07)] flex flex-col bg-[#0D0D10]">
+      <aside className="w-48 shrink-0 border-r border-[rgba(255,255,255,0.07)] flex flex-col bg-eva-black">
 
         {/* Fleet stats */}
         <div className="p-4 border-b border-[rgba(255,255,255,0.07)]">
@@ -270,10 +270,10 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Toolbar */}
-        <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[rgba(255,255,255,0.07)] shrink-0 bg-[#0D0D10]">
+        <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[rgba(255,255,255,0.07)] shrink-0 bg-eva-black">
           <input type="text" value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search skills…"
-            className="bg-[#1A1A1E] text-primary-70 text-[11px] px-3 py-1.5 border border-[rgba(255,255,255,0.08)] outline-none font-mono focus:border-eva-orange placeholder:text-primary-40 w-52 transition-colors" />
+            className="bg-eva-white text-primary-70 text-[11px] px-3 py-1.5 border border-[rgba(255,255,255,0.08)] outline-none font-mono focus:border-eva-orange placeholder:text-primary-40 w-52 transition-colors" />
           <span className="text-[10px] font-mono text-primary-50">
             {filtered.length} {filtered.length === 1 ? 'skill' : 'skills'}
           </span>
@@ -297,7 +297,7 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
         ) : viewMode === 'list' ? (
           <div className="flex-1 overflow-y-auto">
             {/* Column headers */}
-            <div className="flex items-center gap-3 px-4 py-1.5 border-b border-[rgba(255,255,255,0.07)] bg-[#0D0D10] sticky top-0 z-10">
+            <div className="flex items-center gap-3 px-4 py-1.5 border-b border-[rgba(255,255,255,0.07)] bg-eva-black sticky top-0 z-10">
               <span className="w-1.5 shrink-0" />
               <span className="w-1.5 shrink-0" />
               <span className="text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] w-44 shrink-0">Skill</span>

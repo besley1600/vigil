@@ -8,6 +8,9 @@ const http = require('http')
 const fs = require('fs')
 const os = require('os')
 
+app.disableHardwareAcceleration()
+app.commandLine.appendSwitch('in-process-gpu')
+
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const DASHBOARD_PORT = 5555

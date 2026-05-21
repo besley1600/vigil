@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server'
 import { execFileSync } from 'child_process'
 import { resolve } from 'path'
+import { triggerWorkflow } from '@/lib/github'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
+
+function isRemote() {
+  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+}
 
 export async function POST(
   request: Request,
@@ -11,12 +16,10 @@ export async function POST(
   try {
     const { name } = await params
 
-    // Validate skill name to prevent injection
     if (!/^[a-z][a-z0-9-]*$/.test(name)) {
       return NextResponse.json({ error: 'Invalid skill name' }, { status: 400 })
     }
 
-    // Read optional var and model from request body
     let skillVar = ''
     let model = ''
     try {
@@ -29,10 +32,18 @@ export async function POST(
       }
     } catch { /* no body is fine */ }
 
+    if (isRemote()) {
+      const extraInputs: Record<string, string> = {}
+      if (skillVar) extraInputs.var = skillVar
+      if (model) extraInputs.model = model
+      await triggerWorkflow(name, extraInputs)
+      return NextResponse.json({ ok: true })
+    }
+
+    // Local: use gh CLI
     const args = ['workflow', 'run', 'vigil.yml', '-f', `skill=${name}`]
     if (skillVar) args.push('-f', `var=${skillVar}`)
     if (model) args.push('-f', `model=${model}`)
-
     execFileSync('gh', args, { stdio: 'pipe', cwd: REPO_ROOT })
 
     return NextResponse.json({ ok: true })

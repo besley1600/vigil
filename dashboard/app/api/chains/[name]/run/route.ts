@@ -3,10 +3,35 @@ import { resolve } from 'path'
 import { readFileSync, existsSync } from 'fs'
 import { execFileSync } from 'child_process'
 import { parseDocument, isMap, isSeq, isScalar } from 'yaml'
+import { triggerWorkflow, getFileContent } from '@/lib/github'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 const VIGIL_YML = resolve(REPO_ROOT, 'vigil.yml')
 const SKILL_RE = /^[a-z][a-z0-9-]*$/
+
+function isRemote() {
+  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+}
+
+async function getVigilYml(): Promise<string> {
+  if (isRemote()) {
+    const { content } = await getFileContent('vigil.yml')
+    return content
+  }
+  if (!existsSync(VIGIL_YML)) throw new Error('vigil.yml not found')
+  return readFileSync(VIGIL_YML, 'utf-8')
+}
+
+async function dispatchSkill(skill: string): Promise<void> {
+  if (isRemote()) {
+    await triggerWorkflow(skill)
+    return
+  }
+  execFileSync('gh', ['workflow', 'run', 'vigil.yml', '-f', `skill=${skill}`], {
+    stdio: 'pipe',
+    cwd: REPO_ROOT,
+  })
+}
 
 export async function POST(
   _request: Request,
@@ -19,11 +44,8 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid chain name' }, { status: 400 })
     }
 
-    if (!existsSync(VIGIL_YML)) {
-      return NextResponse.json({ error: 'vigil.yml not found' }, { status: 404 })
-    }
-
-    const doc = parseDocument(readFileSync(VIGIL_YML, 'utf-8'))
+    const yamlContent = await getVigilYml()
+    const doc = parseDocument(yamlContent)
     const chainsNode = doc.get('chains')
     if (!isMap(chainsNode)) {
       return NextResponse.json({ error: 'No chains defined' }, { status: 404 })
@@ -46,7 +68,6 @@ export async function POST(
 
     const skillsToRun: string[] = []
 
-    // Parallel step
     const parallel = firstStep.get('parallel', true)
     if (isSeq(parallel)) {
       for (const item of parallel.items) {
@@ -56,7 +77,6 @@ export async function POST(
       }
     }
 
-    // Sequential step
     if (skillsToRun.length === 0) {
       const skillName = firstStep.get('skill')
       if (typeof skillName === 'string' && SKILL_RE.test(skillName)) {
@@ -73,10 +93,7 @@ export async function POST(
 
     for (const skill of skillsToRun) {
       try {
-        execFileSync('gh', ['workflow', 'run', 'vigil.yml', '-f', `skill=${skill}`], {
-          stdio: 'pipe',
-          cwd: REPO_ROOT,
-        })
+        await dispatchSkill(skill)
         dispatched.push(skill)
       } catch (e) {
         errors.push(skill)

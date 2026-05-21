@@ -66,7 +66,7 @@ export function SlideOver({
 
       {/* Panel */}
       <div
-        className="relative w-[480px] max-w-full h-full bg-[#0D0D10] border-l border-[rgba(255,255,255,0.10)] flex flex-col overflow-hidden"
+        className="relative w-[480px] max-w-full h-full bg-eva-black border-l border-[rgba(255,255,255,0.10)] flex flex-col overflow-hidden"
         style={{ animation: 'slideInRight 0.25s ease-out' }}
       >
         {/* Header */}
