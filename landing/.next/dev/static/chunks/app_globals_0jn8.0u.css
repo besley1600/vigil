@@ -350,7 +350,7 @@ html {
 body {
   color: #fafafa;
   font-family: var(--font-sans);
-  background: #09090b;
+  background: #1e1e2c;
   margin: 0;
   padding: 0;
 }
@@ -365,16 +365,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #14141c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #32323e;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #42424e;
 }
 
 @property --tw-rotate-x {

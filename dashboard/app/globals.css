@@ -17,12 +17,12 @@
   --color-red:    #F87171;      /* red-400    (error / failure) */
 
   /* Surface stack — each layer slightly lighter */
-  --color-black: #09090B;       /* deepest: page background */
-  --color-white: #111114;       /* cards, panels */
-  --color-gray:  #1A1A1E;       /* inputs, hover, elevated interactive */
+  --color-black: #1E1E2C;       /* deepest: page background */
+  --color-white: #282836;       /* cards, panels */
+  --color-gray:  #323244;       /* inputs, hover, elevated interactive */
 
   /* Page */
-  --background: #09090B;
+  --background: #1E1E2C;
   --foreground: rgba(255,255,255,0.92);
 
   /* Spacing — 1.4× modular scale */
@@ -34,8 +34,8 @@
   --space-2xl: 84px;
 
   /* Border tokens */
-  --border-light:  1px  solid rgba(255,255,255,0.07);
-  --border-medium: 1px  solid rgba(255,255,255,0.11);
+  --border-light:  1px  solid rgba(255,255,255,0.09);
+  --border-medium: 1px  solid rgba(255,255,255,0.14);
   --border-orange: 2px  solid var(--color-orange);
   --border-green:  2px  solid var(--color-green);
 }
@@ -70,14 +70,14 @@ body.vigil-app {
 .font-mono    { font-family: var(--font-mono), 'Space Mono', monospace; }
 
 /* Override Tailwind's bg-white to use the dark card surface */
-.bg-white { background-color: #111114 !important; }
+.bg-white { background-color: #282836 !important; }
 
 ::selection       { background: var(--color-orange); color: #fff; }
 ::-moz-selection  { background: var(--color-orange); color: #fff; }
 
 /* ── Scrollbar ─────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0D0D10; }
+::-webkit-scrollbar-track { background: #1A1A28; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 0; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
 
@@ -104,7 +104,7 @@ body.vigil-app {
 
 /* ── Background — dot grid + top glow ──────────────────────────────────── */
 .bg-grid {
-  background-color: #09090B;
+  background-color: #1E1E2C;
   background-image:
     radial-gradient(ellipse 70% 45% at 50% 0%, rgba(99,102,241,0.07) 0%, transparent 75%),
     radial-gradient(circle, rgba(99,102,241,0.16) 1px, transparent 1px);
@@ -126,17 +126,17 @@ body.vigil-app {
   text-transform: uppercase;
 }
 
-/* ── Text-opacity scale — WCAG AA on #111114 ───────────────────────────── */
+/* ── Text-opacity scale — WCAG AA on #1D1D27 ───────────────────────────── */
 .text-primary-100 { color: rgba(255,255,255,0.97); }
-.text-primary-70  { color: rgba(255,255,255,0.80); }
-.text-primary-60  { color: rgba(255,255,255,0.70); }
-.text-primary-50  { color: rgba(255,255,255,0.62); }
-.text-primary-40  { color: rgba(255,255,255,0.55); }
-.text-primary-35  { color: rgba(255,255,255,0.45); }
+.text-primary-70  { color: rgba(255,255,255,0.82); }
+.text-primary-60  { color: rgba(255,255,255,0.72); }
+.text-primary-50  { color: rgba(255,255,255,0.65); }
+.text-primary-40  { color: rgba(255,255,255,0.58); }
+.text-primary-35  { color: rgba(255,255,255,0.55); }
 
 /* ── Card ──────────────────────────────────────────────────────────────── */
 .card-hst {
-  background-color: #111114;
+  background-color: #282836;
   border: 1px solid rgba(255,255,255,0.10);
   transition: border-color 0.15s ease;
 }
