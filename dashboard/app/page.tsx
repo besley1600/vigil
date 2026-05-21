@@ -974,9 +974,11 @@ function Footer() {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+const LANDING_FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+
 export default function LandingPage() {
   return (
-    <>
+    <div style={{ fontFamily: LANDING_FONT }}>
       <Nav />
       <main>
         <Hero />
@@ -988,6 +990,6 @@ export default function LandingPage() {
         <DeployYourOwn />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
