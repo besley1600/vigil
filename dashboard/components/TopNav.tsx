@@ -65,7 +65,7 @@ export function TopNav({
   const tabs = buildTabs(features.CHAINS, features.MEMORY, features.TOKEN)
 
   return (
-    <header className="h-14 border-b border-[rgba(255,255,255,0.07)] bg-eva-black flex items-center shrink-0">
+    <header className="h-14 border-b border-[rgba(255,255,255,0.07)] bg-[#0E1022] flex items-center shrink-0">
       {/* Left: logo + optional breadcrumb */}
       <div className="flex items-center gap-3 px-5 shrink-0 w-56">
         <svg width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none" aria-hidden="true">
