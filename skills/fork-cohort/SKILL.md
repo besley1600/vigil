@@ -194,7 +194,7 @@ Path: `articles/fork-cohort-${today}.md`
 
 ## Source status
 
-`forks_list=ok|fail · runs_lookup=N/M · aeon_yml_lookup=N/M · unreadable=N · truncated=true|false`
+`forks_list=ok|fail · runs_lookup=N/M · vigil_yml_lookup=N/M · unreadable=N · truncated=true|false`
 ```
 
 Cap article at ~400 lines. If POWER roster exceeds 30 entries, keep top 30 by `enabled_count` desc and add "... and N more" footer.
@@ -233,7 +233,7 @@ Write `memory/topics/fork-cohort-state.json`:
 - Total: N_TOTAL · POWER N · ACTIVE N · STALE N · COLD N · UNREADABLE N
 - Δ: leveled_up N · revived N · went_stale N · new_active N · went_cold N
 - Article: articles/fork-cohort-${today}.md
-- Source status: forks_list=ok · runs_lookup=N/M · aeon_yml_lookup=N/M · unreadable=N
+- Source status: forks_list=ok · runs_lookup=N/M · vigil_yml_lookup=N/M · unreadable=N
 ```
 
 ### 11. Notify — gated

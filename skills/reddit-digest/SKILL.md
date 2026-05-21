@@ -40,7 +40,7 @@ Read the last 2 days of `memory/logs/` to avoid repeating narratives already sur
 For each subreddit, fetch the top of the last 24h (note: `t=day` only applies to `top`, **not** `hot` — original skill had this bug):
 
 ```bash
-curl -sL -H "User-Agent: aeon-bot/1.0 (by /u/vigil)" \
+curl -sL -H "User-Agent: vigil-bot/1.0 (by /u/vigil)" \
   "https://www.reddit.com/r/${SUBREDDIT}/top.json?t=day&limit=25"
 ```
 
@@ -161,4 +161,4 @@ The skill's job is the thing a human can't do cheaply.
 
 ## Environment Variables
 
-None required — Reddit's public JSON API is unauthenticated. A custom User-Agent (`aeon-bot/1.0 (by /u/vigil)`) is required to avoid shared-bucket throttling.
+None required — Reddit's public JSON API is unauthenticated. A custom User-Agent (`vigil-bot/1.0 (by /u/vigil)`) is required to avoid shared-bucket throttling.

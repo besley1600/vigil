@@ -24,7 +24,7 @@ Read `memory/MEMORY.md` and the last 7 days of `memory/logs/` for context. Read 
 
 ### 1. Resolve target repo
 
-Parse `memory/watched-repos.md`. Normalize each entry: strip `@`, strip `https://github.com/`, strip trailing `/`, skip blanks and `#`-comments. Skill skills on any entry ending in `-aeon` or containing `aeon-agent` (those are agent repos, covered by other skills).
+Parse `memory/watched-repos.md`. Normalize each entry: strip `@`, strip `https://github.com/`, strip trailing `/`, skip blanks and `#`-comments. Skill skills on any entry ending in `-vigil` or containing `vigil-agent` (those are agent repos, covered by other skills).
 
 - If zero repos remain → exit `REPO_ACTIONS_NO_CONFIG`, notify once: `repo-actions: no watched repos configured — add owner/repo lines to memory/watched-repos.md`, exit.
 - If one repo → that's the target.
@@ -235,10 +235,10 @@ Top pick: [title] ([type], [effort], Priority [HIGH/MED/LOW])
 4. [title] ([Priority], [type], [effort])
 5. [title] ([Priority], [type], [effort])
 
-Full details: https://github.com/${AEON_REPO}/blob/main/articles/repo-actions-${TODAY}.md
+Full details: https://github.com/${VIGIL_REPO}/blob/main/articles/repo-actions-${TODAY}.md
 ```
 
-Where `AEON_REPO` = `git remote get-url origin` stripped to `owner/repo` (this is the Vigil repo, **not** `${TARGET}`).
+Where `VIGIL_REPO` = `git remote get-url origin` stripped to `owner/repo` (this is the Vigil repo, **not** `${TARGET}`).
 
 ### 10. Log
 

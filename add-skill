@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# add-skill — Install skills from GitHub repos into this Aeon project
+# add-skill — Install skills from GitHub repos into this Vigil project
 #
 # Usage:
 #   ./add-skill <github-repo> [skill-name]          Install a specific skill from a repo
@@ -15,7 +15,7 @@ set -euo pipefail
 #   ./add-skill BankrBot/skills bankr hydrex veil    Install multiple skills
 
 SKILLS_DIR="$(cd "$(dirname "$0")" && pwd)/skills"
-AEON_YML="$(cd "$(dirname "$0")" && pwd)/aeon.yml"
+VIGIL_YML="$(cd "$(dirname "$0")" && pwd)/vigil.yml"
 TMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -263,18 +263,18 @@ for skill in "${SKILL_NAMES[@]}"; do
 
   echo "    -> provenance recorded in skills.lock (sha: ${COMMIT_SHA:0:7})"
 
-  # Add to aeon.yml if not already present
-  if ! grep -q "^  $skill:" "$AEON_YML" 2>/dev/null; then
+  # Add to vigil.yml if not already present
+  if ! grep -q "^  $skill:" "$VIGIL_YML" 2>/dev/null; then
     # Insert before the heartbeat entry (fallback section)
-    if grep -q "heartbeat:" "$AEON_YML"; then
+    if grep -q "heartbeat:" "$VIGIL_YML"; then
       # Cross-platform insert (awk works on both macOS and Linux, unlike sed -i)
       awk -v entry="  $skill: { enabled: false, schedule: \"0 12 * * *\" }" \
         '/^  # --- Fallback/ { print entry }  { print }' \
-        "$AEON_YML" > "${AEON_YML}.tmp" && mv "${AEON_YML}.tmp" "$AEON_YML"
-      echo "    -> added to aeon.yml (disabled, schedule: 0 12 * * *)"
+        "$VIGIL_YML" > "${VIGIL_YML}.tmp" && mv "${VIGIL_YML}.tmp" "$VIGIL_YML"
+      echo "    -> added to vigil.yml (disabled, schedule: 0 12 * * *)"
     fi
   else
-    echo "    -> already in aeon.yml"
+    echo "    -> already in vigil.yml"
   fi
 done
 
@@ -282,6 +282,6 @@ echo ""
 echo "Done: $INSTALLED installed, $FAILED not found"
 if [[ $INSTALLED -gt 0 ]]; then
   echo ""
-  echo "Enable skills in aeon.yml to schedule them, or run manually:"
+  echo "Enable skills in vigil.yml to schedule them, or run manually:"
   echo "  Read skills/<name>/SKILL.md and execute its steps."
 fi

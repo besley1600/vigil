@@ -15,7 +15,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 EVALS_FILE="${SCRIPT_DIR}/skills/skill-evals/evals.json"
-AEON_YML="${SCRIPT_DIR}/vigil.yml"
+VIGIL_YML="${SCRIPT_DIR}/vigil.yml"
 SKILLS_DIR="${SCRIPT_DIR}/skills"
 
 SHOW_ALL=false
@@ -55,7 +55,7 @@ while IFS= read -r line; do
       SKILL_ENABLED["$skill"]="false"
     fi
   fi
-done < <(grep -E '^\s{2}[a-zA-Z0-9_-]+:\s*\{' "$AEON_YML" 2>/dev/null || true)
+done < <(grep -E '^\s{2}[a-zA-Z0-9_-]+:\s*\{' "$VIGIL_YML" 2>/dev/null || true)
 
 # --- Scan skills directory ---
 ALL_SKILLS=()

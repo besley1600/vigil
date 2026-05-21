@@ -200,7 +200,7 @@ rm -f "$TEMP"
 # Commit state file updates so next Claude run sees fresh IDs.
 if [ -n "$(git status --porcelain "$STATE_FILE" 2>/dev/null)" ]; then
   git add "$STATE_FILE" 2>/dev/null || true
-  git -c user.name="aeonframework" -c user.email="aeonframework@proton.me" \
+  git -c user.name="vigilframework" -c user.email="vigilframework@proton.me" \
     commit -m "chore(admanage): update campaign state" "$STATE_FILE" 2>/dev/null || true
 fi
 

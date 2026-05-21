@@ -7,5 +7,5 @@
 #   owner/repo      — trusts only this specific repo
 
 besley1600
-besley1600/aeon
-besley1600/aeon-agent
+besley1600/vigil
+besley1600/vigil-agent

@@ -119,7 +119,7 @@ Today is ${today}. Catalog all GitHub repos under `${var}` into a structured ref
      - `MED` — `active` AND `1` opportunity, OR `maintained` AND `≥2` opportunities
      - `LOW` — everything else
 
-   - **Agent-repo tag** — if `name` ends with `-aeon` or contains `aeon-agent`, add topic `agent-repo`. These stay in the catalog but are excluded from the fleet Top 5 (they evolve via `autoresearch`, not `external-feature`).
+   - **Agent-repo tag** — if `name` ends with `-vigil` or contains `vigil-agent`, add topic `agent-repo`. These stay in the catalog but are excluded from the fleet Top 5 (they evolve via `autoresearch`, not `external-feature`).
 
    - **Change-detection reuse** — if `PRIOR[name].pushedAt == current pushedAt`, reuse the prior `#### name` Details block (copy verbatim from the old `memory/topics/repos.md` under heading match). Keeps diffs meaningful and cuts rewrite churn.
 

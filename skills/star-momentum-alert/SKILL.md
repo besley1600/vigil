@@ -19,7 +19,7 @@ The skill answers a question `star-milestone` and `repo-pulse` cannot. `star-mil
 No new secrets. No new env vars. No new state file beyond `memory/topics/star-momentum-state.json` for prior-run dedup. No outbound HTTP — pure local file I/O over `memory/logs/` and `memory/topics/`.
 
 Reads:
-- `memory/watched-repos.md` — repos to track. Skip lines containing `aeon-agent` or ending in `-aeon` (agent repos, not project repos).
+- `memory/watched-repos.md` — repos to track. Skip lines containing `vigil-agent` or ending in `-vigil` (agent repos, not project repos).
 - `memory/logs/YYYY-MM-DD.md` for the last 14 days — extract the `**owner/repo**: stargazers_count=N, forks_count=M` lines that `repo-pulse` writes under its `## Repo Pulse` blocks.
 - Optional fallback: `articles/repo-pulse-*.md` if any fork writes them — same regex applies. Logs are the source of truth on the canonical instance.
 - `memory/topics/star-momentum-state.json` — prior-run dedup state.
@@ -54,7 +54,7 @@ mkdir -p memory/topics articles
 
 REPOS=$(grep -oE '^- [a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+' memory/watched-repos.md \
   | sed 's/^- //' \
-  | grep -vE '(aeon-agent|-aeon$)' || true)
+  | grep -vE '(vigil-agent|-vigil$)' || true)
 ```
 
 If `REPOS` is empty, log `STAR_MOMENTUM_NO_REPOS` and exit cleanly without notifying.
@@ -274,7 +274,7 @@ Pure local file I/O — no curl, no `gh api`, no env-var-in-headers, no prefetch
 - **Only fires inside the launch window.** Both gates (7-14 day projection AND Tue/Wed/Thu landing) must pass. A 5-day projection is too late to dispatch `show-hn-draft` thoughtfully; a 21-day projection is too far out and trades on noisy projection data.
 - **Per-milestone dedup.** Once an alert fires for `(repo, target_milestone)` it stays silent for 7 days. Even if pace shifts, the operator already has the signal — re-pinging adds noise without adding information.
 - **Linear extrapolation only.** No regression, no exponential model, no S-curve fitting. The goal is to convert today's pace into a date, not to forecast trajectory shape changes. If pace shifts, the alert simply fires (or doesn't) on a different day.
-- **Ignores agent repos.** `aeon-agent` and `*-aeon` repos are filtered upfront; they are infrastructure mirrors, not project repos with growth narratives worth anchoring a launch around.
+- **Ignores agent repos.** `vigil-agent` and `*-vigil` repos are filtered upfront; they are infrastructure mirrors, not project repos with growth narratives worth anchoring a launch around.
 - **Read-only across `memory/logs/`.** This skill never edits past log files; it parses them. Today's log is the only target it appends to.
 - **Article writes regardless.** Even on `NO_ALERTS` the article still writes — operators or other skills may read it for projection context without needing a notification to fire.
 - **Idempotent.** Same-day reruns overwrite the article and the state's `last_run_at`; per-`(repo, milestone)` `alerted_at` timestamps persist so re-runs don't double-fire.

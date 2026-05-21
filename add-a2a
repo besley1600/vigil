@@ -154,7 +154,7 @@ EOF
 from langchain.tools import Tool
 import requests, time, uuid
 
-def call_aeon(skill_id: str, var: str = "") -> str:
+def call_vigil(skill_id: str, var: str = "") -> str:
     task_id = str(uuid.uuid4())
     resp = requests.post("${URL}/", json={
         "jsonrpc": "2.0", "id": 1, "method": "tasks/send",
@@ -176,9 +176,9 @@ def call_aeon(skill_id: str, var: str = "") -> str:
             raise RuntimeError(f"Skill failed: {status}")
     raise TimeoutError("Skill timed out after 10 minutes")
 
-aeon_research = Tool(
-    name="aeon_deep_research",
-    func=lambda q: call_aeon("vigil-deep-research", q),
+vigil_research = Tool(
+    name="vigil_deep_research",
+    func=lambda q: call_vigil("vigil-deep-research", q),
     description="Exhaustive multi-source research on any topic (30-50 sources)"
 )
 EOF

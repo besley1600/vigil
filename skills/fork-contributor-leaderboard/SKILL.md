@@ -14,7 +14,7 @@ This complements `skill-leaderboard` (what is popular) and `fork-fleet` (which f
 
 ## Why this exists
 
-The `tweet-allocator` skill rewards social mentions with $AEON. Code contributors get nothing — no recognition, no signal that upstream values their work. This leaderboard is the contributor-side mirror: public recognition for the people actively moving the project forward. Run it weekly, name names, and the flywheel closes.
+The `tweet-allocator` skill rewards social mentions with $VIGIL. Code contributors get nothing — no recognition, no signal that upstream values their work. This leaderboard is the contributor-side mirror: public recognition for the people actively moving the project forward. Run it weekly, name names, and the flywheel closes.
 
 ## Steps
 
@@ -172,6 +172,6 @@ All GitHub API calls use `gh api` which handles auth internally — no env var e
 
 ## What's next
 
-Future iterations could distribute $AEON rewards to the top 3 contributors each week (mirroring `tweet-allocator`). That requires wallet resolution via `bankr-cache/` and goes through `.pending-distribute/` — deferred until the public recognition leaderboard itself proves it drives contribution volume.
+Future iterations could distribute $VIGIL rewards to the top 3 contributors each week (mirroring `tweet-allocator`). That requires wallet resolution via `bankr-cache/` and goes through `.pending-distribute/` — deferred until the public recognition leaderboard itself proves it drives contribution volume.
 
 Write the full article. No TODOs or placeholders.

@@ -23,19 +23,19 @@ The Hugging Face Hub REST API is fully keyless for the list endpoints used here.
 # Models — sort=trendingScore returns the same ranking that backs the HF front page
 curl -sf "https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=20" \
   -H "accept: application/json" \
-  -H "user-agent: aeon/1.0 (+https://github.com/besley1600/vigil)" \
+  -H "user-agent: vigil/1.0 (+https://github.com/besley1600/vigil)" \
   > .hf-models.json
 
 # Datasets
 curl -sf "https://huggingface.co/api/datasets?sort=trendingScore&direction=-1&limit=15" \
   -H "accept: application/json" \
-  -H "user-agent: aeon/1.0 (+https://github.com/besley1600/vigil)" \
+  -H "user-agent: vigil/1.0 (+https://github.com/besley1600/vigil)" \
   > .hf-datasets.json
 
 # Spaces
 curl -sf "https://huggingface.co/api/spaces?sort=trendingScore&direction=-1&limit=15" \
   -H "accept: application/json" \
-  -H "user-agent: aeon/1.0 (+https://github.com/besley1600/vigil)" \
+  -H "user-agent: vigil/1.0 (+https://github.com/besley1600/vigil)" \
   > .hf-spaces.json
 ```
 
@@ -176,4 +176,4 @@ If both `curl` and WebFetch fail for *all three* resource types in the same run,
 
 ## Why this exists
 
-aeon already has `paper-pick` (one daily HF Papers pick) and `paper-digest` (multiple paper summaries). Both surface *research*. Neither surfaces *artifacts* — the models, datasets, and spaces that ship alongside (and frequently before) the paper. `github-trending` covers the repo layer; this skill covers the model / dataset / space layer that lives one floor above on the AI stack. Together the three give a complete picture of where the AI ecosystem's attention is moving today: papers (theory) → repos (code) → HF Hub (artifacts).
+Vigil already has `paper-pick` (one daily HF Papers pick) and `paper-digest` (multiple paper summaries). Both surface *research*. Neither surfaces *artifacts* — the models, datasets, and spaces that ship alongside (and frequently before) the paper. `github-trending` covers the repo layer; this skill covers the model / dataset / space layer that lives one floor above on the AI stack. Together the three give a complete picture of where the AI ecosystem's attention is moving today: papers (theory) → repos (code) → HF Hub (artifacts).

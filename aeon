@@ -33,7 +33,7 @@ done
 
 echo ""
 echo "  ╔══════════════════════════════════════╗"
-echo "  ║         ⚡ Aeon Dashboard ⚡          ║"
+echo "  ║         ⚡ Vigil Dashboard ⚡         ║"
 echo "  ║                                      ║"
 printf "  ║   ➜  http://localhost:%-15s ║\n" "$PORT"
 echo "  ║                                      ║"

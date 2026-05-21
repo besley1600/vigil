@@ -11,7 +11,7 @@ Today is ${today}. Generate a fleet-level performance view of every Vigil skill 
 
 ## Why this exists
 
-`heartbeat` runs three times daily and emits a per-skill ✓/✗. `skill-health` files issues for skills that breach degradation thresholds. Neither produces a ranked, fleet-wide view. The 80 autoresearch-evolution rewrites (aeon PRs #46–#136) introduced new exit taxonomies — `SKIP_UNCHANGED`, `NEW_INFO`, `SKIP_QUIET` — that classify quiet-but-correct runs separately from failures. Existing health checks treat any non-`*_OK` exit as worth attention; the analytics widget makes the actual distribution visible so a skill running mostly `SKIP_UNCHANGED` reads as healthy-quiet, not silently broken.
+`heartbeat` runs three times daily and emits a per-skill ✓/✗. `skill-health` files issues for skills that breach degradation thresholds. Neither produces a ranked, fleet-wide view. The 80 autoresearch-evolution rewrites (vigil PRs #46–#136) introduced new exit taxonomies — `SKIP_UNCHANGED`, `NEW_INFO`, `SKIP_QUIET` — that classify quiet-but-correct runs separately from failures. Existing health checks treat any non-`*_OK` exit as worth attention; the analytics widget makes the actual distribution visible so a skill running mostly `SKIP_UNCHANGED` reads as healthy-quiet, not silently broken.
 
 ## Steps
 

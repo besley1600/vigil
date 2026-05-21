@@ -25,7 +25,7 @@ usage() {
   cat <<'EOF'
 Usage: ./export-skill <skill-name> [options]
 
-Package a single Aeon skill for standalone distribution.
+Package a single Vigil skill for standalone distribution.
 
 Arguments:
   <skill-name>        Name of the skill to export (directory name under skills/)
@@ -113,11 +113,11 @@ ${SKILL_DESC}
 
 ## Install
 
-If you have an Aeon-compatible agent, install this skill with:
+If you have a Vigil-compatible agent, install this skill with:
 
 \`\`\`bash
 # From a GitHub repo
-./add-skill besley1600/aeon ${SKILL_NAME}
+./add-skill besley1600/vigil ${SKILL_NAME}
 
 # Or copy the SKILL.md into your skills directory
 cp SKILL.md /path/to/your/agent/skills/${SKILL_NAME}/SKILL.md
@@ -133,7 +133,7 @@ Read skills/${SKILL_NAME}/SKILL.md and execute its steps.
 
 ## Source
 
-Exported from [besley1600/aeon](https://github.com/besley1600/aeon) — an autonomous agent on GitHub Actions powered by Claude Code.
+Exported from [besley1600/vigil](https://github.com/besley1600/vigil) — an autonomous agent on GitHub Actions powered by Claude Code.
 READMEEOF
 
 echo "Exported '$SKILL_NAME' to $OUTPUT_DIR/"

@@ -11,7 +11,7 @@ Today is ${today}. Synthesize the last 7 days of agent activity into a single pl
 
 ## Why this exists
 
-Every signal needed to answer that question already lives in the repo — `skill-analytics` ranks pass rates, `heartbeat` issues per-run verdicts, `tweet-allocator` totals weekly $AEON spend, `token-report` tracks 7d price delta, `repo-pulse` records star/fork deltas. But each lives in its own article, on its own cadence, in its own format. A new operator (or a returning one) opens five files to assemble the weekly picture. This skill assembles it once on Monday morning and pushes it to the notification channel so the picture is delivered, not fetched.
+Every signal needed to answer that question already lives in the repo — `skill-analytics` ranks pass rates, `heartbeat` issues per-run verdicts, `tweet-allocator` totals weekly $VIGIL spend, `token-report` tracks 7d price delta, `repo-pulse` records star/fork deltas. But each lives in its own article, on its own cadence, in its own format. A new operator (or a returning one) opens five files to assemble the weekly picture. This skill assembles it once on Monday morning and pushes it to the notification channel so the picture is delivered, not fetched.
 
 It is deliberately a synthesis skill, not a measurement skill — every number it prints is sourced from a file another skill already wrote. It introduces zero new APIs, zero new secrets, zero new cron-state. If an upstream skill didn't run, the matching paragraph degrades gracefully ("no data this week") rather than fabricating numbers.
 
@@ -70,13 +70,13 @@ d. **Compute growth verdict (paragraph 2):**
 
 ### 4. Collect economic-activity signals
 
-a. **$AEON distributed.** Sum every `articles/tweet-allocator-*.md` in the window: extract the `Total distributed: $X.XX in $AEON` line. Track the count of `Paid tweets:` recipients across the window (deduped by handle).
+a. **$VIGIL distributed.** Sum every `articles/tweet-allocator-*.md` in the window: extract the `Total distributed: $X.XX in $VIGIL` line. Track the count of `Paid tweets:` recipients across the window (deduped by handle).
 
-If `articles/distribute-tokens-*.md` exists in the window, also tally any explicit on-chain payouts there. Report both as `$AEON distributed: $X.XX (Y recipients via tweet-allocator + Z via distribute-tokens)`.
+If `articles/distribute-tokens-*.md` exists in the window, also tally any explicit on-chain payouts there. Report both as `$VIGIL distributed: $X.XX (Y recipients via tweet-allocator + Z via distribute-tokens)`.
 
 b. **Token 7d performance.** Parse the most recent `articles/token-report-*.md`. Extract `Price`, `7d` delta, `30d` delta, `Verdict` (e.g. CONSOLIDATING, BREAKING_OUT, FADING). The skill quotes the `7d` number directly — no math.
 
-If no token-report in window: `economic_source=partial`, omit token line and report only $AEON distributed.
+If no token-report in window: `economic_source=partial`, omit token line and report only $VIGIL distributed.
 
 c. **Compute economic verdict (paragraph 3):**
 - `OK` if `total_distributed > 0` AND `token_7d_pct >= -10`
@@ -114,7 +114,7 @@ ${watched_repo_1} added ${stars_1} stars and ${forks_1} forks. ${watched_repo_2}
 
 ## Economic activity
 
-$AEON distributed: $${total_distributed} across ${recipient_count} recipient(s) via tweet-allocator${distribute_tokens_addendum_or_omit}. Token closed at ${token_price} (${token_7d_pct}% 7d, ${token_30d_pct}% 30d). Verdict on the chart this week: ${token_verdict}.
+$VIGIL distributed: $${total_distributed} across ${recipient_count} recipient(s) via tweet-allocator${distribute_tokens_addendum_or_omit}. Token closed at ${token_price} (${token_7d_pct}% 7d, ${token_30d_pct}% 30d). Verdict on the chart this week: ${token_verdict}.
 
 **Verdict:** ${economic_verdict}
 
@@ -165,7 +165,7 @@ Path: `dashboard/outputs/operator-scorecard.json`. Use the catalog components.
           {"type": "Text", "props": {"children": "${total_forks_added} forks · ${new_contributors} new contributors"}}
         ]}},
         {"type": "Card", "props": {"children": [
-          {"type": "Text", "props": {"variant": "muted", "children": "$AEON distributed"}},
+          {"type": "Text", "props": {"variant": "muted", "children": "$VIGIL distributed"}},
           {"type": "Heading", "props": {"level": 3, "children": "$${total_distributed}"}},
           {"type": "Text", "props": {"children": "${recipient_count} recipients · token ${token_7d_pct}% 7d"}}
         ]}}
@@ -206,7 +206,7 @@ Agent health: ${success_pct}% across ${total_runs} runs (${anomaly_count} anomal
 
 Community growth: +${total_stars_added}⭐ +${total_forks_added} forks across ${repo_count} repos${new_contributor_addendum}
 
-Economic activity: $${total_distributed} in $AEON to ${recipient_count} recipients · token ${token_7d_pct}% 7d (${token_verdict})
+Economic activity: $${total_distributed} in $VIGIL to ${recipient_count} recipients · token ${token_7d_pct}% 7d (${token_verdict})
 
 ${notable_addendum_or_omit}
 
@@ -227,7 +227,7 @@ Cap message at ~3500 chars (Telegram safe limit). The verdict + three lane lines
 - **Verdict**: ${verdict_emoji} ${verdict_label}
 - **Agent health**: ${success_pct}% success across ${total_runs} runs · ${anomaly_count} anomalies · ${heartbeat_p0+p1} flagged heartbeats · ${open_issues} open issues
 - **Community growth**: +${total_stars_added}⭐ +${total_forks_added} forks · ${new_contributors} new contributors
-- **Economic activity**: $${total_distributed} in $AEON to ${recipient_count} recipients · token ${token_7d_pct}% 7d (${token_verdict})
+- **Economic activity**: $${total_distributed} in $VIGIL to ${recipient_count} recipients · token ${token_7d_pct}% 7d (${token_verdict})
 - **Article**: articles/operator-scorecard-${today}.md
 - **Dashboard**: dashboard/outputs/operator-scorecard.json
 - **Notification sent**: ${yes|no — dry-run|no — INSUFFICIENT_DATA}

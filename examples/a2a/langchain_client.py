@@ -5,7 +5,7 @@ Wraps an Vigil skill as a LangChain Tool so any LangChain agent can call it.
 This example calls `vigil-fetch-tweets` to grab the latest mentions of a topic.
 
 Setup:
-    export A2A_GATEWAY_URL=http://localhost:41241   # ./add-a2a in your aeon repo
+    export A2A_GATEWAY_URL=http://localhost:41241   # ./add-a2a in your vigil repo
     pip install langchain requests
     python examples/a2a/langchain_client.py "AI agents"
 """
@@ -24,7 +24,7 @@ POLL_SECONDS = 5
 MAX_POLLS = 120  # 10 min — matches Vigil's GitHub Actions timeout
 
 
-def call_aeon(skill_id: str, var: str = "") -> str:
+def call_vigil(skill_id: str, var: str = "") -> str:
     """Submit an Vigil skill task via JSON-RPC and poll until it completes."""
     task_id = str(uuid.uuid4())
     submit = requests.post(
@@ -68,12 +68,12 @@ def call_aeon(skill_id: str, var: str = "") -> str:
     raise TimeoutError(f"Skill {skill_id} timed out after {POLL_SECONDS * MAX_POLLS}s")
 
 
-aeon_fetch_tweets = Tool(
-    name="aeon_fetch_tweets",
-    func=lambda topic: call_aeon("vigil-fetch-tweets", topic),
+vigil_fetch_tweets = Tool(
+    name="vigil_fetch_tweets",
+    func=lambda topic: call_vigil("vigil-fetch-tweets", topic),
     description=(
         "Fetch the latest tweets matching a topic, handle, or keyword via Vigil. "
-        "Input: a search query (e.g. 'AI agents', '$AEON', '@aeonframework'). "
+        "Input: a search query (e.g. 'AI agents', '$VIGIL', '@vigilframework'). "
         "Returns: a markdown digest of recent tweets ranked by engagement."
     ),
 )
@@ -82,4 +82,4 @@ aeon_fetch_tweets = Tool(
 if __name__ == "__main__":
     topic = " ".join(sys.argv[1:]) or "AI agents"
     print(f"[langchain_client] Calling vigil-fetch-tweets via {GATEWAY} for: {topic}")
-    print(aeon_fetch_tweets.run(topic))
+    print(vigil_fetch_tweets.run(topic))

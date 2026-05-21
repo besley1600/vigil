@@ -29,7 +29,7 @@ env:
 
 # Poll/schedule runs serialize (prevent duplicate ticks). Message runs get unique groups (parallel execution).
 concurrency:
-  group: ${{ (github.event_name == 'repository_dispatch' || (github.event_name == 'workflow_dispatch' && inputs.message != '')) && format('aeon-msg-{0}', github.run_id) || 'aeon-tick' }}
+  group: ${{ (github.event_name == 'repository_dispatch' || (github.event_name == 'workflow_dispatch' && inputs.message != '')) && format('vigil-msg-{0}', github.run_id) || 'vigil-tick' }}
   cancel-in-progress: false
 
 jobs:
@@ -46,8 +46,8 @@ jobs:
 
       - name: Configure git identity
         run: |
-          git config user.name "aeonframework"
-          git config user.email "aeonframework@proton.me"
+          git config user.name "vigilframework"
+          git config user.email "vigilframework@proton.me"
 
       - name: Determine and dispatch scheduled skills
         env:
@@ -603,8 +603,8 @@ jobs:
       - name: Configure git identity
         if: steps.msg.outputs.source != ''
         run: |
-          git config user.name "aeonframework"
-          git config user.email "aeonframework@proton.me"
+          git config user.name "vigilframework"
+          git config user.email "vigilframework@proton.me"
 
       - name: Setup Node.js
         if: steps.msg.outputs.source != ''
@@ -739,8 +739,8 @@ jobs:
         env:
           _COMMIT_SOURCE: ${{ steps.msg.outputs.source }}
         run: |
-          git config user.name "aeonframework"
-          git config user.email "aeonframework@proton.me"
+          git config user.name "vigilframework"
+          git config user.email "vigilframework@proton.me"
           rm -f ./notify
 
           CURRENT_BRANCH=$(git branch --show-current)

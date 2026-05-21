@@ -14,7 +14,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: aeon-chain-${{ inputs.chain }}
+  group: vigil-chain-${{ inputs.chain }}
   cancel-in-progress: false
 
 jobs:
@@ -30,8 +30,8 @@ jobs:
 
       - name: Configure git identity
         run: |
-          git config user.name "aeonframework"
-          git config user.email "aeonframework@proton.me"
+          git config user.name "vigilframework"
+          git config user.email "vigilframework@proton.me"
 
       - name: Run chain
         env:

@@ -41,7 +41,7 @@ Every run ends with one of these status codes, written to the log and (where rel
 - If `${var}` is empty, log `SPAWN_INVALID_VAR: empty var` to `memory/logs/${today}.md`, notify: `spawn-instance: empty var — re-run with "name: purpose"`, and **stop**.
 - Split on the first `:` — left is `NAME_RAW`, right is `PURPOSE` (trim whitespace). If either is empty, exit `SPAWN_INVALID_VAR`.
 - Derive `NAME`: lowercase `NAME_RAW`, replace non-alphanumeric runs with `-`, strip leading/trailing `-`, truncate to 40 chars. If empty after sanitization, exit `SPAWN_INVALID_VAR`.
-- Set `REPO_NAME="aeon-${NAME}"`.
+- Set `REPO_NAME="vigil-${NAME}"`.
 
 ### 2. Pre-flight checks
 

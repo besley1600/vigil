@@ -31,7 +31,7 @@ Today is ${today}. Monitor social mentions of **[REPLACE: KEYWORDS]** and produc
    ```bash
    # Reddit's keyless JSON endpoint. WebFetch fallback if curl fails (sandbox).
    curl -sf "https://www.reddit.com/search.json?q=$KEYWORD&t=day&restrict_sr=0" \
-     -H "User-Agent: aeon/1.0" > .reddit-cache.json || \
+     -H "User-Agent: vigil/1.0" > .reddit-cache.json || \
      echo "use WebFetch on https://www.reddit.com/search.json?q=$KEYWORD&t=day"
    ```
 

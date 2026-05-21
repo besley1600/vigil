@@ -9,7 +9,7 @@ Setup:
     export A2A_GATEWAY_URL=http://localhost:41241
     export OPENAI_API_KEY=sk-...
     pip install openai-agents requests
-    python examples/a2a/openai_agents_client.py "what's the price of $AEON?"
+    python examples/a2a/openai_agents_client.py "what's the price of $VIGIL?"
 """
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ from agents import Agent, Runner, function_tool
 GATEWAY = os.environ.get("A2A_GATEWAY_URL", "http://localhost:41241")
 
 
-def _call_aeon(skill_id: str, var: str) -> str:
+def _call_vigil(skill_id: str, var: str) -> str:
     task_id = str(uuid.uuid4())
     requests.post(
         GATEWAY,
@@ -55,33 +55,33 @@ def _call_aeon(skill_id: str, var: str) -> str:
 
 
 @function_tool
-def aeon_token_report(token: str) -> str:
+def vigil_token_report(token: str) -> str:
     """Get a full Vigil token report for a crypto token.
 
     Args:
-        token: A token symbol (e.g. 'AEON', 'BTC') or a contract address.
+        token: A token symbol (e.g. 'VIGIL', 'BTC') or a contract address.
                Pass the bare symbol without the leading '$'.
 
     Returns:
         Markdown report with price, 24h change, liquidity, volume, FDV,
         and recent buy/sell stats.
     """
-    return _call_aeon("vigil-token-report", token)
+    return _call_vigil("vigil-token-report", token)
 
 
 crypto_analyst = Agent(
     name="crypto-analyst",
     instructions=(
         "You are a crypto analyst. When the user asks about a token's price, "
-        "stats, or fundamentals, call `aeon_token_report` with the token "
+        "stats, or fundamentals, call `vigil_token_report` with the token "
         "symbol or address, then summarise the key numbers in two sentences "
         "and append the full report below."
     ),
-    tools=[aeon_token_report],
+    tools=[vigil_token_report],
 )
 
 
 if __name__ == "__main__":
-    prompt = " ".join(sys.argv[1:]) or "what's the price of $AEON?"
+    prompt = " ".join(sys.argv[1:]) or "what's the price of $VIGIL?"
     result = Runner.run_sync(crypto_analyst, prompt)
     print(result.final_output)

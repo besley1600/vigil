@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# onboard — Validate that this Aeon fork is set up correctly.
+# onboard — Validate that this Vigil fork is set up correctly.
 #
 # Runs a series of checks against the local repo and (when authenticated to gh)
 # the remote secrets/workflows. Prints a colored checklist with a one-line fix
@@ -106,7 +106,7 @@ has_secret() {
 # --- header ----------------------------------------------------------------
 
 if [[ "$JSON" != "true" && "$QUIET" != "true" ]]; then
-  printf "\n${C_BOLD}Aeon onboarding check${C_RESET}"
+  printf "\n${C_BOLD}Vigil onboarding check${C_RESET}"
   if [[ -n "$REPO_SLUG" ]]; then
     printf " ${C_DIM}— %s${C_RESET}" "$REPO_SLUG"
   fi
@@ -115,30 +115,30 @@ fi
 
 # --- 1. workflow files exist ----------------------------------------------
 
-for wf in aeon.yml messages.yml chain-runner.yml; do
+for wf in vigil.yml messages.yml chain-runner.yml; do
   if [[ -f ".github/workflows/$wf" ]]; then
     emit pass "workflow .github/workflows/$wf" "present" ""
   else
     emit fail "workflow .github/workflows/$wf" "missing" \
-      "Re-sync from upstream: git remote add upstream https://github.com/besley1600/aeon.git && git fetch upstream && git checkout upstream/main -- .github/workflows/$wf"
+      "Re-sync from upstream: git remote add upstream https://github.com/besley1600/vigil.git && git fetch upstream && git checkout upstream/main -- .github/workflows/$wf"
   fi
 done
 
-# --- 2. aeon.yml structure -------------------------------------------------
+# --- 2. vigil.yml structure -------------------------------------------------
 
-if [[ -f aeon.yml ]]; then
-  enabled_count=$(grep -cE '^\s*[a-z][a-z0-9_-]+: \{ *enabled: true' aeon.yml || true)
+if [[ -f vigil.yml ]]; then
+  enabled_count=$(grep -cE '^\s*[a-z][a-z0-9_-]+: \{ *enabled: true' vigil.yml || true)
   enabled_count=${enabled_count//[!0-9]/}
   : "${enabled_count:=0}"
   if [[ "$enabled_count" -ge 1 ]]; then
-    emit pass "aeon.yml" "$enabled_count skill(s) enabled" ""
+    emit pass "vigil.yml" "$enabled_count skill(s) enabled" ""
   else
-    emit warn "aeon.yml" "no skills enabled" \
-      "Open aeon.yml and flip 'enabled: false' → 'enabled: true' on at least one skill (heartbeat is enabled by default in the template)."
+    emit warn "vigil.yml" "no skills enabled" \
+      "Open vigil.yml and flip 'enabled: false' → 'enabled: true' on at least one skill (heartbeat is enabled by default in the template)."
   fi
 else
-  emit fail "aeon.yml" "missing" \
-    "Restore from upstream: git checkout upstream/main -- aeon.yml"
+  emit fail "vigil.yml" "missing" \
+    "Restore from upstream: git checkout upstream/main -- vigil.yml"
 fi
 
 # --- 3. memory writable ----------------------------------------------------
@@ -247,7 +247,7 @@ if compgen -G "memory/logs/*.md" > /dev/null 2>&1; then
   emit pass "skill activity log" "$log_count daily log file(s) under memory/logs/" ""
 else
   emit warn "skill activity log" "no entries under memory/logs/ yet" \
-    "Logs appear after the first scheduled skill run. Trigger one manually: gh workflow run aeon.yml -f skill=heartbeat -R $REPO_SLUG"
+    "Logs appear after the first scheduled skill run. Trigger one manually: gh workflow run vigil.yml -f skill=heartbeat -R $REPO_SLUG"
 fi
 
 # --- 8. optional cross-repo PAT -------------------------------------------
@@ -280,9 +280,9 @@ else
   printf "\n${C_BOLD}Summary${C_RESET}: ${C_GREEN}%d pass${C_RESET}, ${C_YELLOW}%d warn${C_RESET}, ${C_RED}%d fail${C_RESET}\n" \
     "$PASS_COUNT" "$WARN_COUNT" "$FAIL_COUNT"
   if [[ "$FAIL_COUNT" -eq 0 && "$WARN_COUNT" -eq 0 ]]; then
-    printf "\nAll set. Aeon should run on its next cron tick.\n\n"
+    printf "\nAll set. Vigil should run on its next cron tick.\n\n"
   elif [[ "$FAIL_COUNT" -eq 0 ]]; then
-    printf "\nAeon will run, but some optional pieces are missing (warnings above).\n\n"
+    printf "\nVigil will run, but some optional pieces are missing (warnings above).\n\n"
   else
     printf "\nFix the ${C_RED}✗${C_RESET} items above, then rerun ${C_BOLD}./onboard${C_RESET}.\n\n"
   fi
@@ -300,10 +300,10 @@ if [[ "$REMOTE" == "true" ]]; then
     exit 1
   fi
   echo "Dispatching onboard skill on $REPO_SLUG ..."
-  if gh workflow run aeon.yml -R "$REPO_SLUG" -f skill=onboard >/dev/null 2>&1; then
+  if gh workflow run vigil.yml -R "$REPO_SLUG" -f skill=onboard >/dev/null 2>&1; then
     echo "Dispatched. Check your notification channel within ~2 minutes."
   else
-    echo "Failed to dispatch. Verify Actions are enabled and that aeon.yml workflow exists." >&2
+    echo "Failed to dispatch. Verify Actions are enabled and that vigil.yml workflow exists." >&2
     exit 1
   fi
 fi

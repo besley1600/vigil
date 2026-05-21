@@ -13,11 +13,11 @@ but a hand-rolled client is the smallest possible reproduction. If this
 script works, your Claude Desktop / Claude Code wiring will too.
 
 Setup:
-    cd /path/to/aeon
+    cd /path/to/vigil
     ./add-mcp --build-only          # produce mcp-server/dist/index.js
     pip install mcp                 # official anthropic MCP client
     python examples/mcp/test_connection.py            # lists + calls default tool
-    python examples/mcp/test_connection.py vigil-token-report AEON
+    python examples/mcp/test_connection.py vigil-token-report VIGIL
 """
 from __future__ import annotations
 

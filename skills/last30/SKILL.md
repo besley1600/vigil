@@ -63,12 +63,12 @@ Write the resolved entities to a scratch variable — you'll pin them into every
 
 **Sandbox note**: Reddit public `.json` works unauthenticated but caps at ~10 req/min per IP and **requires a descriptive User-Agent** or it returns empty `{}` 200s. If curl fails or returns empty, use **WebFetch** on the same URL.
 
-User-Agent format: `aeon-bot:last30:v1 (by /u/vigil-agent)`
+User-Agent format: `vigil-bot:last30:v1 (by /u/vigil-agent)`
 
 For each identified subreddit (up to 4), fetch top posts from the window using `old.reddit.com`:
 
 ```bash
-UA="aeon-bot:last30:v1 (by /u/vigil-agent)"
+UA="vigil-bot:last30:v1 (by /u/vigil-agent)"
 # Subreddit-restricted top-of-month
 curl -sL -A "$UA" \
   "https://old.reddit.com/r/${SUBREDDIT}/search.json?q=${TOPIC_ENC}&restrict_sr=on&sort=top&t=month&limit=15"

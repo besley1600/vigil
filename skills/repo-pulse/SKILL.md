@@ -9,7 +9,7 @@ tags: [dev]
 
 ## Config
 
-Reads repos from `memory/watched-repos.md`. Skip any repo whose name ends with `-aeon` or contains `aeon-agent` — those are agent repos, not project repos.
+Reads repos from `memory/watched-repos.md`. Skip any repo whose name ends with `-vigil` or contains `vigil-agent` — those are agent repos, not project repos.
 
 If `${var}` is set and matches `owner/repo`, check only that repo.
 

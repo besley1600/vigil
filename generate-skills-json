@@ -13,7 +13,7 @@ set -eo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$ROOT/skills"
-AEON_YML="$ROOT/aeon.yml"
+VIGIL_YML="$ROOT/vigil.yml"
 OUTPUT="$ROOT/skills.json"
 
 PRETTY=false
@@ -58,10 +58,10 @@ get_category() {
   esac
 }
 
-# Extract schedule for a skill from aeon.yml
+# Extract schedule for a skill from vigil.yml
 get_schedule() {
   local slug="$1"
-  grep -E "^  ${slug}:" "$AEON_YML" 2>/dev/null \
+  grep -E "^  ${slug}:" "$VIGIL_YML" 2>/dev/null \
     | sed -n 's/.*schedule: *"\([^"]*\)".*/\1/p' \
     || echo ""
 }
@@ -87,7 +87,7 @@ get_skill_updated() {
 # Start JSON output
 echo -n '{"version":"1.0","generated":"' > "$OUTPUT"
 echo -n "$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$OUTPUT"
-echo -n '","repo":"besley1600/aeon","total":0,"categories":{"research":"Research & Content","dev":"Dev & Code","crypto":"Crypto & Markets","social":"Social","productivity":"Productivity & Meta"},"skills":[' >> "$OUTPUT"
+echo -n '","repo":"besley1600/vigil","total":0,"categories":{"research":"Research & Content","dev":"Dev & Code","crypto":"Crypto & Markets","social":"Social","productivity":"Productivity & Meta"},"skills":[' >> "$OUTPUT"
 
 TOTAL=0
 FIRST=true
@@ -122,12 +122,12 @@ for skill_dir in "$SKILLS_DIR"/*/; do
     echo -n ',' >> "$OUTPUT"
   fi
 
-  echo -n "{\"slug\":\"$slug\",\"name\":\"$name\",\"description\":\"$description\",\"category\":\"$category\",\"schedule\":\"$schedule\",\"var\":\"$var\",\"files\":$extra_files,\"sha\":\"$sha\",\"updated\":\"$updated\",\"install\":\"./add-skill besley1600/aeon $slug\"}" >> "$OUTPUT"
+  echo -n "{\"slug\":\"$slug\",\"name\":\"$name\",\"description\":\"$description\",\"category\":\"$category\",\"schedule\":\"$schedule\",\"var\":\"$var\",\"files\":$extra_files,\"sha\":\"$sha\",\"updated\":\"$updated\",\"install\":\"./add-skill besley1600/vigil $slug\"}" >> "$OUTPUT"
 
   TOTAL=$((TOTAL + 1))
 done
 
-echo -n '],"install_all":"./add-skill besley1600/aeon --all","install_one":"./add-skill besley1600/aeon <skill-name>"}' >> "$OUTPUT"
+echo -n '],"install_all":"./add-skill besley1600/vigil --all","install_one":"./add-skill besley1600/vigil <skill-name>"}' >> "$OUTPUT"
 
 # Patch total count (macOS-compatible sed)
 if [[ "$(uname)" == "Darwin" ]]; then

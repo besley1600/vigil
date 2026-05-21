@@ -9,12 +9,12 @@ set -euo pipefail
 #   ./new-from-template <template> <skill-name> [--var KEY=VALUE]...
 #                                                       Copy template into skills/<skill-name>/,
 #                                                       replace [REPLACE: KEY] tokens, register
-#                                                       a disabled entry in aeon.yml.
+#                                                       a disabled entry in vigil.yml.
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 TEMPLATES_DIR="$ROOT/templates"
 SKILLS_DIR="$ROOT/skills"
-AEON_YML="$ROOT/aeon.yml"
+VIGIL_YML="$ROOT/vigil.yml"
 
 usage() {
   cat <<'EOF'
@@ -218,13 +218,13 @@ sed "${sed_args[@]}" "$TEMPLATE_FILE" > "$DEST_FILE"
 # Detect any tokens that remain unreplaced
 remaining=$(grep -oE '\[REPLACE: [A-Z0-9_]+\]' "$DEST_FILE" | sort -u || true)
 
-# Register in aeon.yml if not already present and the fallback marker exists.
+# Register in vigil.yml if not already present and the fallback marker exists.
 registered=false
-if ! grep -qE "^[[:space:]]+${SKILL_NAME}:" "$AEON_YML" 2>/dev/null; then
-  if grep -q "# --- Fallback" "$AEON_YML"; then
+if ! grep -qE "^[[:space:]]+${SKILL_NAME}:" "$VIGIL_YML" 2>/dev/null; then
+  if grep -q "# --- Fallback" "$VIGIL_YML"; then
     awk -v entry="  ${SKILL_NAME}: { enabled: false, schedule: \"0 12 * * *\", var: \"\" } # bootstrapped from template '${TEMPLATE}'" \
       '/^  # --- Fallback/ { print entry } { print }' \
-      "$AEON_YML" > "${AEON_YML}.tmp" && mv "${AEON_YML}.tmp" "$AEON_YML"
+      "$VIGIL_YML" > "${VIGIL_YML}.tmp" && mv "${VIGIL_YML}.tmp" "$VIGIL_YML"
     registered=true
   fi
 fi
@@ -233,9 +233,9 @@ fi
 echo ""
 echo "✓ Created skills/$SKILL_NAME/SKILL.md from template '$TEMPLATE'."
 if [[ "$registered" == "true" ]]; then
-  echo "✓ Registered in aeon.yml (disabled, schedule: 0 12 * * *)."
+  echo "✓ Registered in vigil.yml (disabled, schedule: 0 12 * * *)."
 else
-  echo "  (Skipped aeon.yml registration — entry already exists or no fallback marker found.)"
+  echo "  (Skipped vigil.yml registration — entry already exists or no fallback marker found.)"
 fi
 
 if [[ -n "$remaining" ]]; then
@@ -250,5 +250,5 @@ fi
 echo ""
 echo "Next:"
 echo "  1. Open skills/$SKILL_NAME/SKILL.md and review the customised content."
-echo "  2. Toggle enabled: true in aeon.yml when ready, or run from the dashboard."
-echo "  3. (Optional) Set var: \"...\" on the aeon.yml entry to focus the skill."
+echo "  2. Toggle enabled: true in vigil.yml when ready, or run from the dashboard."
+echo "  3. (Optional) Set var: \"...\" on the vigil.yml entry to focus the skill."

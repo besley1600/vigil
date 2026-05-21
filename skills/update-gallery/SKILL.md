@@ -236,6 +236,6 @@ All operations are local file reads/writes + `git`/`gh`. No outbound HTTP. No se
 ## Constraints
 
 - Don't downgrade: if this version would produce fewer posts than the previous version would have, prefer the previous version's behaviour (never orphan a real article).
-- Preserve `docs/_posts/` files that are not mapped to any `source_file` in state (manual posts like `2026-03-25-aeon-is-the-anti-openclaw.md` and `2026-03-28-the-agent-that-fixes-itself.md`): they must be left untouched.
+- Preserve `docs/_posts/` files that are not mapped to any `source_file` in state (manual posts like `2026-03-25-vigil-is-the-anti-openclaw.md` and `2026-03-28-the-agent-that-fixes-itself.md`): they must be left untouched.
 - Do not introduce new env vars or secrets.
 - Do not change `scripts/sync-site-data.sh` — if that script's output shape needs to change, open a separate PR.

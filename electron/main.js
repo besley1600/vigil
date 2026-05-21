@@ -6,7 +6,6 @@ const { spawn, execSync } = require('child_process')
 const path = require('path')
 const http = require('http')
 const fs = require('fs')
-const os = require('os')
 
 app.disableHardwareAcceleration()
 app.commandLine.appendSwitch('in-process-gpu')
@@ -343,69 +342,28 @@ function initAutoUpdater () {
 
 // ── App lifecycle ─────────────────────────────────────────────────────────────
 
-// Load browser extensions (e.g., MetaMask) if they exist in the user's browser profile
-// This is optional and only loads extensions the user has already installed
-async function loadBrowserExtensions() {
-  try {
-    let extensionPath = null
-
-    if (process.platform === 'darwin') {
-      // macOS
-      extensionPath = path.join(
-        os.homedir(),
-        'Library/Application Support/Google/Chrome/Default/Extensions'
-      )
-    } else if (process.platform === 'win32') {
-      // Windows
-      extensionPath = path.join(
-        process.env.APPDATA || '',
-        'Google\\Chrome\\User Data\\Default\\Extensions'
-      )
-    } else if (process.platform === 'linux') {
-      // Linux
-      extensionPath = path.join(
-        os.homedir(),
-        '.config/google-chrome/Default/Extensions'
-      )
-    }
-
-    if (extensionPath && fs.existsSync(extensionPath)) {
-      // Load all extension directories
-      const extensions = fs.readdirSync(extensionPath)
-      for (const ext of extensions) {
-        const extPath = path.join(extensionPath, ext)
-        // Find the latest version directory
-        if (fs.statSync(extPath).isDirectory()) {
-          const versions = fs.readdirSync(extPath)
-          if (versions.length > 0) {
-            const latestVersion = versions.sort().pop()
-            const manifestPath = path.join(extPath, latestVersion, 'manifest.json')
-            if (fs.existsSync(manifestPath)) {
-              try {
-                await session.defaultSession.loadExtension(
-                  path.join(extPath, latestVersion)
-                )
-                console.log(`[extensions] Loaded: ${ext}`)
-              } catch (e) {
-                // Extension load failed, skip it
-                console.log(`[extensions] Failed to load ${ext}: ${e.message}`)
-              }
-            }
-          }
-        }
-      }
-    }
-  } catch (e) {
-    // Extension loading is optional, don't fail if it doesn't work
-    console.log(`[extensions] Extension loading skipped: ${e.message}`)
-  }
-}
-
 app.whenReady().then(async () => {
-  // Load browser extensions if available
-  if (!app.isPackaged) {
-    await loadBrowserExtensions()
-  }
+  // Inject CSP headers for the Next.js app — no unsafe-eval, inline only for Next hydration
+  const csp = [
+    `default-src 'self' http://localhost:${DASHBOARD_PORT}`,
+    `script-src 'self' http://localhost:${DASHBOARD_PORT} 'unsafe-inline'`,
+    `style-src 'self' 'unsafe-inline'`,
+    `img-src 'self' data: blob: http://localhost:${DASHBOARD_PORT}`,
+    `connect-src 'self' http://localhost:${DASHBOARD_PORT} ws://localhost:*`,
+    `font-src 'self' data:`,
+  ].join('; ')
+
+  session.defaultSession.webRequest.onHeadersReceived(
+    { urls: [`http://localhost:${DASHBOARD_PORT}/*`] },
+    (details, callback) => {
+      callback({
+        responseHeaders: {
+          ...details.responseHeaders,
+          'Content-Security-Policy': [csp],
+        },
+      })
+    }
+  )
 
   createWindow()
   createTray()

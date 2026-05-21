@@ -20,7 +20,7 @@ Today is ${today}. Review external PRs on **[REPLACE: WATCHED_REPO]** with a foc
      PRS="$var"
    else
      PRS=$(gh pr list -R [REPLACE: WATCHED_REPO] --state open --json number,author,createdAt,additions,deletions \
-       --jq '.[] | select(.author.login != "github-actions[bot]" and .author.login != "aeonframework") | .number')
+       --jq '.[] | select(.author.login != "github-actions[bot]" and .author.login != "vigilframework") | .number')
    fi
    ```
 

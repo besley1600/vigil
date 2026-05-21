@@ -6,7 +6,7 @@
 /* ==========================================================================
    Vigil HQ — Dark Design System v2.0
    Command-centre aesthetic — deep dark surfaces, indigo + cyan accent system
-   Space Mono functional body · Young Serif display headings
+   Geist Sans UI body · Geist Mono for code and stats
    ========================================================================== */
 
 :root {
@@ -51,8 +51,8 @@
   --color-eva-gray:    var(--color-gray);
   --color-eva-red:     var(--color-red);
   --color-eva-amber:   var(--color-amber);
-  --font-sans: var(--font-display);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */
@@ -63,11 +63,11 @@ body {
 
 /* Font only applied in the dashboard — landing page at / uses system-ui */
 body.vigil-app {
-  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-family: var(--font-geist-sans), 'Geist', sans-serif;
 }
 
-.font-display { font-family: var(--font-display), 'Young Serif', serif; }
-.font-mono    { font-family: var(--font-mono), 'Space Mono', monospace; }
+.font-display { font-family: var(--font-geist-sans), 'Geist', sans-serif; }
+.font-mono    { font-family: var(--font-geist-mono), 'Geist Mono', monospace; }
 
 /* Override Tailwind's bg-white to use the dark card surface */
 .bg-white { background-color: #21244A !important; }
@@ -113,30 +113,30 @@ body.vigil-app {
 
 /* ── Typography ────────────────────────────────────────────────────────── */
 .text-label {
-  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-family: var(--font-geist-mono), 'Geist Mono', monospace;
   font-size: 10px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.62);
+  color: rgba(255,255,255,0.75);
 }
 .text-micro {
-  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-family: var(--font-geist-mono), 'Geist Mono', monospace;
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-/* ── Text-opacity scale — WCAG AA on #21244A ───────────────────────────── */
+/* ── Text-opacity scale — WCAG AA on #0E1022 ───────────────────────────── */
 .text-primary-100 { color: rgba(255,255,255,0.97); }
-.text-primary-70  { color: rgba(255,255,255,0.88); }
-.text-primary-60  { color: rgba(255,255,255,0.80); }
-.text-primary-50  { color: rgba(255,255,255,0.72); }
-.text-primary-40  { color: rgba(255,255,255,0.65); }
-.text-primary-35  { color: rgba(255,255,255,0.60); }
+.text-primary-70  { color: rgba(255,255,255,0.93); }
+.text-primary-60  { color: rgba(255,255,255,0.87); }
+.text-primary-50  { color: rgba(255,255,255,0.80); }
+.text-primary-40  { color: rgba(255,255,255,0.74); }
+.text-primary-35  { color: rgba(255,255,255,0.68); }
 
 /* ── Card ──────────────────────────────────────────────────────────────── */
 .card-hst {
-  background-color: #21244A;
+  background-color: #0E1022;
   border: 1px solid rgba(255,255,255,0.10);
   transition: border-color 0.15s ease;
 }
@@ -161,7 +161,7 @@ body.vigil-app {
   border: 1px solid rgba(6, 182, 212, 0.55);
 }
 .logo-mark-letter {
-  font-family: var(--font-display), 'Young Serif', serif;
+  font-family: var(--font-geist-sans), 'Geist', sans-serif;
   font-size: 16px;
   color: var(--foreground);
   position: relative; z-index: 1;

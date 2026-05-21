@@ -16,7 +16,7 @@ Every A2A script is &lt;100 lines, depends only on `requests` plus the framework
 ## A2A — start the gateway, then run any client
 
 ```bash
-# Terminal 1 — start the gateway from your aeon repo
+# Terminal 1 — start the gateway from your vigil repo
 ./add-a2a                      # listens on http://localhost:41241
 
 # Terminal 2 — point a client at it
@@ -44,7 +44,7 @@ You should see the full list of `vigil-*` tools followed by a real `vigil-cost-r
 `skills.json` at the repo root is the source of truth — every entry is callable as `vigil-<slug>` from MCP and as `skillId: "vigil-<slug>"` from A2A. Some good first calls:
 
 - `vigil-cost-report` — fast, no external API needed, safe to run anywhere
-- `vigil-token-report` (`var=AEON`) — public DexScreener data, no secrets required
+- `vigil-token-report` (`var=VIGIL`) — public DexScreener data, no secrets required
 - `vigil-deep-research` (`var="your topic"`) — long-running; expect 5–10 min
 - `vigil-fetch-tweets` (`var="your topic"`) — needs `XAI_API_KEY` in the Vigil repo's environment
 

@@ -20,7 +20,7 @@ Today is ${today}. Detect milestone star-count crossings on watched repos and ce
 
 ### 1. Load the repo list
 
-If `${var}` is set, treat it as the single repo. Otherwise read `memory/watched-repos.md`. Skip any repo whose name ends with `-aeon` or contains `aeon-agent` (agent repos, not project repos). If the list is empty, log `STAR_MILESTONE_NO_REPOS` and exit cleanly without notifying.
+If `${var}` is set, treat it as the single repo. Otherwise read `memory/watched-repos.md`. Skip any repo whose name ends with `-vigil` or contains `vigil-agent` (agent repos, not project repos). If the list is empty, log `STAR_MILESTONE_NO_REPOS` and exit cleanly without notifying.
 
 ### 2. Load milestone state
 

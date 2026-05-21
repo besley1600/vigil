@@ -16,7 +16,7 @@ This skill reads the token to track from the "Tracked Token" section in `memory/
 ## Tracked Token
 | Token | Contract | Chain |
 |-------|----------|-------|
-| AEON  | 0xbf8e... | base |
+| VIGIL | 0xbf8e... | base |
 ```
 
 If no tracked token is configured and `${var}` is empty, abort silently — no article, no notification.

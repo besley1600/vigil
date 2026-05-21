@@ -25,7 +25,7 @@ from autogen import AssistantAgent, UserProxyAgent
 GATEWAY = os.environ.get("A2A_GATEWAY_URL", "http://localhost:41241")
 
 
-def call_aeon_skill(skill_id: str, var: str = "") -> str:
+def call_vigil_skill(skill_id: str, var: str = "") -> str:
     """Submit an Vigil task and poll until done. Returns the artifact text."""
     task_id = str(uuid.uuid4())
     requests.post(
@@ -61,9 +61,9 @@ def call_aeon_skill(skill_id: str, var: str = "") -> str:
     raise TimeoutError(f"Vigil skill {skill_id} timed out")
 
 
-def aeon_deep_research(topic: str) -> str:
+def vigil_deep_research(topic: str) -> str:
     """Exhaustive multi-source research via Vigil (30–50 sources)."""
-    return call_aeon_skill("vigil-deep-research", topic)
+    return call_vigil_skill("vigil-deep-research", topic)
 
 
 config_list = [{"model": "gpt-4o-mini", "api_key": os.environ["OPENAI_API_KEY"]}]
@@ -73,12 +73,12 @@ assistant = AssistantAgent(
     llm_config={"config_list": config_list, "temperature": 0},
     system_message=(
         "You are a research assistant. When asked to research a topic, call the "
-        "`aeon_deep_research` tool with the topic and return the result verbatim. "
+        "`vigil_deep_research` tool with the topic and return the result verbatim. "
         "End your message with TERMINATE when done."
     ),
 )
-assistant.register_for_llm(name="aeon_deep_research", description="Deep multi-source research via Vigil")(
-    aeon_deep_research
+assistant.register_for_llm(name="vigil_deep_research", description="Deep multi-source research via Vigil")(
+    vigil_deep_research
 )
 
 user = UserProxyAgent(
@@ -88,7 +88,7 @@ user = UserProxyAgent(
     code_execution_config=False,
     is_termination_msg=lambda m: "TERMINATE" in (m.get("content") or ""),
 )
-user.register_for_execution(name="aeon_deep_research")(aeon_deep_research)
+user.register_for_execution(name="vigil_deep_research")(vigil_deep_research)
 
 
 if __name__ == "__main__":

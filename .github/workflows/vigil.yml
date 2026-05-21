@@ -359,8 +359,8 @@ jobs:
           fi
           # Email via SendGrid
           if [ -n "${SENDGRID_API_KEY:-}" ] && [ -n "${NOTIFY_EMAIL_TO:-}" ]; then
-            FROM="${NOTIFY_EMAIL_FROM:-aeon@notifications.aeon.bot}"
-            PREFIX="${NOTIFY_EMAIL_SUBJECT_PREFIX:-[Aeon]}"
+            FROM="${NOTIFY_EMAIL_FROM:-vigil@notifications.vigil.bot}"
+            PREFIX="${NOTIFY_EMAIL_SUBJECT_PREFIX:-[Vigil]}"
             SUBJECT="$PREFIX ${SKILL_NAME:-notification}"
             HTML_BODY=$(printf '%s' "$MSG" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
             HTML_BODY="<html><body><pre style=\"font-family:monospace;white-space:pre-wrap;\">${HTML_BODY}</pre></body></html>"
@@ -707,8 +707,8 @@ jobs:
       - name: Commit results
         if: steps.work.outputs.mode != ''
         run: |
-          git config user.name "aeonframework"
-          git config user.email "aeonframework@proton.me"
+          git config user.name "vigilframework"
+          git config user.email "vigilframework@proton.me"
           rm -f ./notify .notify-sent-hashes  # Remove generated notify script + dedup log before committing
 
           CURRENT_BRANCH=$(git branch --show-current)
@@ -718,7 +718,7 @@ jobs:
           if [ "$CURRENT_BRANCH" != "main" ] && [ -n "$CURRENT_BRANCH" ]; then
             echo "On feature branch: $CURRENT_BRANCH"
             git add -A
-            git diff --staged --quiet || git commit -m "chore($LABEL): auto-commit $(date +%Y-%m-%d)"
+            git diff --staged --quiet || git commit -m "chore($LABEL): auto-commit $(date +%Y-%m-%d) [skip vercel]"
             git push --force-with-lease -u origin "$CURRENT_BRANCH" || true
 
             # Switch back to main and cherry-pick memory/log changes if any
@@ -737,7 +737,7 @@ jobs:
             fi
             echo "No new changes, but found unpushed commits — pushing"
           else
-            git commit -m "chore($LABEL): auto-commit $(date +%Y-%m-%d)"
+            git commit -m "chore($LABEL): auto-commit $(date +%Y-%m-%d) [skip vercel]"
           fi
           for i in 1 2 3 4 5; do
             # Pull and rebase onto latest remote
@@ -865,7 +865,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore(cron): $SKILL $CRON_STATUS"
+          git commit -m "chore(cron): $SKILL $CRON_STATUS [skip vercel]"
           for i in 1 2 3 4 5; do
             if git pull --rebase origin main 2>/dev/null && git push -u origin HEAD 2>/dev/null; then
               echo "Cron state updated: $SKILL=$CRON_STATUS"
@@ -886,7 +886,7 @@ jobs:
             echo "$STATE" | jq '.' > "$STATE_FILE"
             git add "$STATE_FILE"
             git diff --staged --quiet && { echo "State already up to date"; exit 0; }
-            git commit -m "chore(cron): $SKILL $CRON_STATUS"
+            git commit -m "chore(cron): $SKILL $CRON_STATUS [skip vercel]"
             sleep "$i"
           done
           echo "::warning::Failed to commit cron state (non-fatal)"

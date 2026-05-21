@@ -217,8 +217,8 @@ CONFIG_FILE="$DIR/vigil.yml"
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
   warn "vigil.yml not found — creating from template"
-  cp "$DIR/aeon.yml" "$CONFIG_FILE" 2>/dev/null || {
-    err "Could not find aeon.yml to copy. Run from the repo root."
+  cp "$DIR/vigil.yml" "$CONFIG_FILE" 2>/dev/null || {
+    err "Could not find vigil.yml to copy. Run from the repo root."
     exit 1
   }
 fi

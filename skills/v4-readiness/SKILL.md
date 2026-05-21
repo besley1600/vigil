@@ -70,7 +70,7 @@ These are the patterns the operator's social posts have signposted as in-scope f
 | Model selector strings | `vigil.yml` per-skill `model:` | Model id references — Opus/Sonnet/Haiku version pins |
 | `gateway:` provider block | `vigil.yml` | Bankr/direct selector, env var names |
 | `channels:` block (`jsonrender.enabled`) | `vigil.yml` | Toggle key names, channel set |
-| MCP server tool naming (`aeon-${skill_slug}`) | `mcp-server/src/index.ts` | Naming convention for forks consuming the MCP |
+| MCP server tool naming (`vigil-${skill_slug}`) | `mcp-server/src/index.ts` | Naming convention for forks consuming the MCP |
 | `add-skill`, `add-mcp`, `add-a2a` CLIs | repo root | Argument shape, supported sources |
 | `skills.json` schema (`version`, `categories`, `skills[].install`) | `skills.json` | Field set; rename/remove of optional fields |
 | `dashboard/lib/catalog.ts` json-render catalog shape | `dashboard/` | Spec shape for `dashboard/outputs/*.json` |

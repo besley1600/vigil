@@ -101,14 +101,14 @@ Score the PR against four checks. Every check is observable from the diff + meta
 
 | Check | Pass condition |
 |---|---|
-| **Scope** | Touches only `skills/`, `docs/`, `examples/`, `images/`, `assets/`, `README.md`, `SHOWCASE.md`, `CLAUDE.md`. Touching `.github/workflows/`, `aeon` (root binary), `scripts/`, `mcp-server/`, `a2a-server/`, `dashboard/lib/` requires a maintainer. |
+| **Scope** | Touches only `skills/`, `docs/`, `examples/`, `images/`, `assets/`, `README.md`, `SHOWCASE.md`, `CLAUDE.md`. Touching `.github/workflows/`, `vigil` (root binary), `scripts/`, `mcp-server/`, `a2a-server/`, `dashboard/lib/` requires a maintainer. |
 | **Format** | If a `skills/<name>/SKILL.md` is added or modified, the file has YAML frontmatter with `name`, `description`, `var`, `tags` keys. (Skip this check when no SKILL.md is touched.) |
 | **Originality** | If a new skill is added, its directory name does not already exist on `main`. Cross-check via `gh api repos/owner/repo/contents/skills` once per run. |
 | **Size** | `additions + deletions ≤ 500` lines, OR labelled `large-ok` by a maintainer. |
 
 Verdict assignment (first match wins, in this order):
 
-- **OUT-OF-SCOPE** — Scope check fails AND the touched paths are protected (`.github/workflows/`, `aeon`, `scripts/prefetch-*`, `scripts/postprocess-*`). External contributors cannot ship workflow / runtime changes; redirect them to file an issue.
+- **OUT-OF-SCOPE** — Scope check fails AND the touched paths are protected (`.github/workflows/`, `vigil`, `scripts/prefetch-*`, `scripts/postprocess-*`). External contributors cannot ship workflow / runtime changes; redirect them to file an issue.
 - **NEEDS-CHANGES** — Format check fails (SKILL.md missing required frontmatter), OR Originality check fails (skill name collides), OR PR body is empty AND additions > 50.
 - **DEFER** — Size check fails (>500 lines without `large-ok`), OR PR is marked as RFC / proposal-only in the body, OR the PR depends on an external service that requires a secret the maintainer has not provisioned (mentions of `*_API_KEY` in added code without a corresponding `scripts/prefetch-*.sh`).
 - **ACCEPTED** — Otherwise. The PR passes every rubric check; ready for `pr-review` to take a depth pass.
@@ -172,7 +172,7 @@ gh pr edit NUMBER -R owner/repo --add-label "triage:<verdict>" \
 
 ### 8. State update — close on OUT-OF-SCOPE only
 
-Closing rule: only close on **OUT-OF-SCOPE**, and only when the protected-path violation is unambiguous (the PR touches `.github/workflows/` or the root `aeon` binary).
+Closing rule: only close on **OUT-OF-SCOPE**, and only when the protected-path violation is unambiguous (the PR touches `.github/workflows/` or the root `vigil` binary).
 
 ```bash
 gh pr close NUMBER -R owner/repo --reason "not planned" --comment "Closed as out-of-scope — see triage comment above. The right venue is a GitHub issue."

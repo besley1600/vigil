@@ -76,7 +76,7 @@ Pick a title that names exactly **one** non-obvious capability. Avoid: "framewor
 1. **Cold open** — the lead beat from step 3 in 2–3 sentences. Concrete, dated, with a PR or commit if available. No "I'm excited to share."
 2. **What it actually does** — 4–6 sentences naming the capabilities a senior engineer would care about: schedule-driven runs on Actions, file-based memory in git, quality scoring per run, self-healing via skill-repair, MCP server + A2A gateway. Reference the README comparison table — Vigil vs Claude Code / Hermes / OpenClaw — without re-pasting it.
 3. **Honest scope** — 3–4 sentences. What it's good at (recurring background work). What it's NOT (interactive coding — keep using Claude Code for that). The "configure once, walk away" framing belongs here. Naming the boundary is what makes the rest credible.
-4. **Pointer + ask** — repo URL `https://github.com/besley1600/vigil`, the install one-liner (`git clone https://github.com/besley1600/vigil && cd aeon && ./vigil`), and a specific question for HN comments — e.g. *"What's the worst recurring-task class you've automated and abandoned because the agent kept needing you?"* Specific questions get specific replies; "feedback welcome" gets nothing.
+4. **Pointer + ask** — repo URL `https://github.com/besley1600/vigil`, the install one-liner (`git clone https://github.com/besley1600/vigil && cd vigil && ./vigil`), and a specific question for HN comments — e.g. *"What's the worst recurring-task class you've automated and abandoned because the agent kept needing you?"* Specific questions get specific replies; "feedback welcome" gets nothing.
 
 **Hard rules:**
 - No emoji in the title or body. None.
