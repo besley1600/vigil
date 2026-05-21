@@ -270,16 +270,6 @@ docker run -e ANTHROPIC_API_KEY=sk-... besley1600/vigil
 
 ---
 
-## What Users Say
-
-> "Vigil replaced 5 hours of manual research and monitoring per week. It just works."
-
-> "The self-healing loop is insane. Skills break, fix themselves, and I never notice."
-
-> "We use it to monitor 20 crypto tokens across 3 blockchains. Cost is basically free."
-
----
-
 ## Documentation
 
 - **[Full Docs](docs/)** — Deep dives on every feature
