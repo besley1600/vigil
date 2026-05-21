@@ -7,11 +7,12 @@ import { inputCls } from '../lib/utils'
 interface SecretsPanelProps {
   secrets: Secret[]
   busy: Record<string, boolean>
+  ghReady?: boolean
   onSave: (name: string, value: string) => void
   onDelete: (name: string) => void
 }
 
-export function SecretsPanel({ secrets, busy, onSave, onDelete }: SecretsPanelProps) {
+export function SecretsPanel({ secrets, busy, ghReady = true, onSave, onDelete }: SecretsPanelProps) {
   const [editingSecret, setEditingSecret] = useState<string | null>(null)
   const [secretValue, setSecretValue] = useState('')
   const [addingSecret, setAddingSecret] = useState(false)
@@ -29,6 +30,11 @@ export function SecretsPanel({ secrets, busy, onSave, onDelete }: SecretsPanelPr
   return (
     <div className="max-w-2xl mx-auto space-y-[var(--space-lg)]">
       <h2 className="font-display text-2xl">Access Credentials</h2>
+      {!ghReady && (
+        <div className="text-[11px] font-mono text-eva-orange/80 border border-eva-orange/20 bg-eva-orange/5 px-[var(--space-md)] py-[var(--space-sm)]">
+          GitHub CLI not authenticated — secrets shown as read-only. Run <span className="text-eva-orange">gh auth login</span> locally to manage secrets.
+        </div>
+      )}
       {['Core', 'Telegram', 'Discord', 'Slack', 'Email', 'Skill Keys'].map(group => {
         const gs = secrets.filter(s => s.group === group); if (!gs.length) return null
         return (
@@ -43,8 +49,8 @@ export function SecretsPanel({ secrets, busy, onSave, onDelete }: SecretsPanelPr
                       <div className="text-[11px] text-primary-40 font-mono">{secret.description}</div>
                     </div>
                     <div className="flex gap-1.5">
-                      {!secret.isSet && editingSecret !== secret.name && <button onClick={() => { setEditingSecret(secret.name); setSecretValue('') }} className="text-[11px] text-primary-40 font-mono hover:text-eva-orange transition-colors px-2 py-1">Set</button>}
-                      {secret.isSet && <button onClick={() => onDelete(secret.name)} disabled={!!busy[`sec-${secret.name}`]} className="text-[11px] text-eva-red/50 hover:text-eva-red font-mono px-2 py-1 transition-colors">Remove</button>}
+                      {!secret.isSet && editingSecret !== secret.name && <button onClick={() => { setEditingSecret(secret.name); setSecretValue('') }} disabled={!ghReady} className="text-[11px] text-primary-40 font-mono hover:text-eva-orange transition-colors px-2 py-1 disabled:opacity-30 disabled:cursor-not-allowed">Set</button>}
+                      {secret.isSet && <button onClick={() => onDelete(secret.name)} disabled={!!busy[`sec-${secret.name}`] || !ghReady} className="text-[11px] text-eva-red/50 hover:text-eva-red font-mono px-2 py-1 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">Remove</button>}
                     </div>
                   </div>
                   {editingSecret === secret.name && (
@@ -60,7 +66,7 @@ export function SecretsPanel({ secrets, busy, onSave, onDelete }: SecretsPanelPr
           </div>
         )
       })}
-      <div>{addingSecret ? (<div className="space-y-2"><input type="text" value={newSecretName} onChange={(e) => setNewSecretName(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g, ''))} placeholder="SECRET_NAME" autoFocus className={inputCls} />{newSecretName && <div className="flex gap-2"><input type="password" value={secretValue} onChange={(e) => setSecretValue(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSave(newSecretName)} placeholder="value..." className={inputCls} /><button onClick={() => handleSave(newSecretName)} disabled={!secretValue.trim()} className="bg-eva-green text-white text-[11px] px-4 py-2 font-mono hover:opacity-90 disabled:opacity-50">Save</button></div>}<button onClick={() => { setAddingSecret(false); setNewSecretName(''); setSecretValue('') }} className="text-[11px] text-primary-40 font-mono hover:text-primary-70">Cancel</button></div>) : <button onClick={() => setAddingSecret(true)} className="text-[11px] text-primary-40 font-mono hover:text-eva-orange transition-colors">+ Add Credential</button>}</div>
+      {ghReady && <div>{addingSecret ? (<div className="space-y-2"><input type="text" value={newSecretName} onChange={(e) => setNewSecretName(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g, ''))} placeholder="SECRET_NAME" autoFocus className={inputCls} />{newSecretName && <div className="flex gap-2"><input type="password" value={secretValue} onChange={(e) => setSecretValue(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSave(newSecretName)} placeholder="value..." className={inputCls} /><button onClick={() => handleSave(newSecretName)} disabled={!secretValue.trim()} className="bg-eva-green text-white text-[11px] px-4 py-2 font-mono hover:opacity-90 disabled:opacity-50">Save</button></div>}<button onClick={() => { setAddingSecret(false); setNewSecretName(''); setSecretValue('') }} className="text-[11px] text-primary-40 font-mono hover:text-primary-70">Cancel</button></div>) : <button onClick={() => setAddingSecret(true)} className="text-[11px] text-primary-40 font-mono hover:text-eva-orange transition-colors">+ Add Credential</button>}</div>}
     </div>
   )
 }

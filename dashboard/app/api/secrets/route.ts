@@ -69,29 +69,24 @@ function listSecrets(): string[] {
 }
 
 export async function GET() {
-  if (!ghAvailable()) {
-    return NextResponse.json({
-      error: 'GitHub CLI not authenticated. Run: gh auth login',
-      ghReady: false,
-    }, { status: 503 })
-  }
+  const ghReady = ghAvailable()
 
-  const setSecrets = new Set(listSecrets())
+  const setSecrets = new Set(ghReady ? listSecrets() : [])
 
-  // Start with builtin secrets
   const secrets = BUILTIN_SECRETS.map(s => ({
     ...s,
     isSet: setSecrets.has(s.name),
   }))
 
-  // Add any GitHub secrets not in builtins as custom "Skill Keys"
-  for (const name of setSecrets) {
-    if (!BUILTIN_NAMES.has(name)) {
-      secrets.push({ name, group: 'Skill Keys', description: 'Custom secret', isSet: true })
+  if (ghReady) {
+    for (const name of setSecrets) {
+      if (!BUILTIN_NAMES.has(name)) {
+        secrets.push({ name, group: 'Skill Keys', description: 'Custom secret', isSet: true })
+      }
     }
   }
 
-  return NextResponse.json({ secrets, ghReady: true })
+  return NextResponse.json({ secrets, ghReady })
 }
 
 export async function POST(request: Request) {

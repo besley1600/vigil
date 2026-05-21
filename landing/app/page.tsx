@@ -388,7 +388,7 @@ function Hero() {
           onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)')}
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = 'translateY(0)')}
         >
-          ↓ Download Desktop App
+          Desktop App — Coming Soon
         </a>
         <a
           href={APP_URL}
@@ -718,11 +718,28 @@ function Download() {
     >
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.3rem 0.875rem',
+              borderRadius: '100px',
+              border: '1px solid #4f46e544',
+              backgroundColor: '#4f46e511',
+              fontSize: '0.8rem',
+              color: '#818cf8',
+              marginBottom: '1.25rem',
+            }}
+          >
+            <span style={{ fontSize: '0.65rem' }}>●</span>
+            Coming soon
+          </div>
           <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
-            Download Vigil Desktop
+            Vigil Desktop
           </h2>
-          <p style={{ color: '#71717a', fontSize: '1.1rem', margin: 0 }}>
-            Native app with visual editor, tray integration, and auto-updates.
+          <p style={{ color: '#71717a', fontSize: '1.1rem', margin: 0, maxWidth: '44ch', marginLeft: 'auto', marginRight: 'auto' }}>
+            Native app for Mac, Windows, and Linux — visual editor, tray integration, and auto-updates. Launching soon.
           </p>
         </div>
 
@@ -732,12 +749,14 @@ function Download() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
             gap: '0.875rem',
             marginBottom: '2rem',
+            opacity: 0.4,
+            pointerEvents: 'none',
+            userSelect: 'none',
           }}
         >
-          {DOWNLOADS.map(({ platform, arch, Icon, url, ext }) => (
-            <a
+          {DOWNLOADS.map(({ platform, arch, Icon, ext }) => (
+            <div
               key={`${platform}-${arch}`}
-              href={url}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -747,20 +766,6 @@ function Download() {
                 borderRadius: '10px',
                 border: '1px solid #27272a',
                 backgroundColor: '#111113',
-                textDecoration: 'none',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.borderColor = '#4f46e5'
-                el.style.backgroundColor = '#18181b'
-                el.style.transform = 'translateY(-2px)'
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.borderColor = '#27272a'
-                el.style.backgroundColor = '#111113'
-                el.style.transform = 'translateY(0)'
               }}
             >
               <span style={{ color: '#a1a1aa' }}>
@@ -781,21 +786,21 @@ function Download() {
               >
                 {ext}
               </span>
-            </a>
+            </div>
           ))}
         </div>
 
         <p style={{ textAlign: 'center', color: '#52525b', fontSize: '0.8rem' }}>
-          Or view all releases on{' '}
+          Watch{' '}
           <a
             href={`https://github.com/${GITHUB_REPO}/releases`}
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: '#71717a', textDecoration: 'underline' }}
           >
-            GitHub
+            GitHub Releases
           </a>
-          .
+          {' '}to be notified when it drops.
         </p>
       </div>
     </section>

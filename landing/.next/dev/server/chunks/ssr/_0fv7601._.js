@@ -608,7 +608,7 @@ function Hero() {
                         },
                         onMouseEnter: (e)=>e.currentTarget.style.transform = 'translateY(-1px)',
                         onMouseLeave: (e)=>e.currentTarget.style.transform = 'translateY(0)',
-                        children: "↓ Download Desktop App"
+                        children: "Desktop App — Coming Soon"
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
                         lineNumber: 372,
@@ -1371,6 +1371,37 @@ function Download() {
                         marginBottom: '3rem'
                     },
                     children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '0.3rem 0.875rem',
+                                borderRadius: '100px',
+                                border: '1px solid #4f46e544',
+                                backgroundColor: '#4f46e511',
+                                fontSize: '0.8rem',
+                                color: '#818cf8',
+                                marginBottom: '1.25rem'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    style: {
+                                        fontSize: '0.65rem'
+                                    },
+                                    children: "●"
+                                }, void 0, false, {
+                                    fileName: "[project]/app/page.tsx",
+                                    lineNumber: 735,
+                                    columnNumber: 13
+                                }, this),
+                                "Coming soon"
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/page.tsx",
+                            lineNumber: 721,
+                            columnNumber: 11
+                        }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                             style: {
                                 fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
@@ -1378,22 +1409,25 @@ function Download() {
                                 color: '#fafafa',
                                 margin: '0 0 1rem'
                             },
-                            children: "Download Vigil Desktop"
+                            children: "Vigil Desktop"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 721,
+                            lineNumber: 738,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             style: {
                                 color: '#71717a',
                                 fontSize: '1.1rem',
-                                margin: 0
+                                margin: 0,
+                                maxWidth: '44ch',
+                                marginLeft: 'auto',
+                                marginRight: 'auto'
                             },
-                            children: "Native app with visual editor, tray integration, and auto-updates."
+                            children: "Native app for Mac, Windows, and Linux — visual editor, tray integration, and auto-updates. Launching soon."
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 724,
+                            lineNumber: 741,
                             columnNumber: 11
                         }, this)
                     ]
@@ -1407,10 +1441,12 @@ function Download() {
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
                         gap: '0.875rem',
-                        marginBottom: '2rem'
+                        marginBottom: '2rem',
+                        opacity: 0.4,
+                        pointerEvents: 'none',
+                        userSelect: 'none'
                     },
-                    children: DOWNLOADS.map(({ platform, arch, Icon, url, ext })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                            href: url,
+                    children: DOWNLOADS.map(({ platform, arch, Icon, ext })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -1419,21 +1455,7 @@ function Download() {
                                 padding: '1.5rem 1rem',
                                 borderRadius: '10px',
                                 border: '1px solid #27272a',
-                                backgroundColor: '#111113',
-                                textDecoration: 'none',
-                                transition: 'all 0.15s'
-                            },
-                            onMouseEnter: (e)=>{
-                                const el = e.currentTarget;
-                                el.style.borderColor = '#4f46e5';
-                                el.style.backgroundColor = '#18181b';
-                                el.style.transform = 'translateY(-2px)';
-                            },
-                            onMouseLeave: (e)=>{
-                                const el = e.currentTarget;
-                                el.style.borderColor = '#27272a';
-                                el.style.backgroundColor = '#111113';
-                                el.style.transform = 'translateY(0)';
+                                backgroundColor: '#111113'
                             },
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1444,12 +1466,12 @@ function Download() {
                                         size: 28
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 767,
+                                        lineNumber: 772,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 766,
+                                    lineNumber: 771,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1461,7 +1483,7 @@ function Download() {
                                     children: platform
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 769,
+                                    lineNumber: 774,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1472,7 +1494,7 @@ function Download() {
                                     children: arch
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 770,
+                                    lineNumber: 775,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1488,18 +1510,18 @@ function Download() {
                                     children: ext
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 771,
+                                    lineNumber: 776,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, `${platform}-${arch}`, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 738,
+                            lineNumber: 758,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 729,
+                    lineNumber: 746,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1509,7 +1531,7 @@ function Download() {
                         fontSize: '0.8rem'
                     },
                     children: [
-                        "Or view all releases on",
+                        "Watch",
                         ' ',
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                             href: `https://github.com/${GITHUB_REPO}/releases`,
@@ -1519,17 +1541,18 @@ function Download() {
                                 color: '#71717a',
                                 textDecoration: 'underline'
                             },
-                            children: "GitHub"
+                            children: "GitHub Releases"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 790,
+                            lineNumber: 795,
                             columnNumber: 11
                         }, this),
-                        "."
+                        ' ',
+                        "to be notified when it drops."
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 788,
+                    lineNumber: 793,
                     columnNumber: 9
                 }, this)
             ]
@@ -1575,7 +1598,7 @@ function DeployYourOwn() {
                     children: "Web version"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 821,
+                    lineNumber: 826,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1588,7 +1611,7 @@ function DeployYourOwn() {
                     children: "Deploy your own dashboard"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 838,
+                    lineNumber: 843,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1604,7 +1627,7 @@ function DeployYourOwn() {
                     children: "Host the Vigil dashboard on Vercel in one click. Connect it to your GitHub fork and manage your agents from anywhere, on any device."
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 841,
+                    lineNumber: 846,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1637,19 +1660,19 @@ function DeployYourOwn() {
                                 d: "M57.5 0L115 100H0L57.5 0z"
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 869,
+                                lineNumber: 874,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 868,
+                            lineNumber: 873,
                             columnNumber: 11
                         }, this),
                         "Deploy to Vercel"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 846,
+                    lineNumber: 851,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1673,7 +1696,7 @@ function DeployYourOwn() {
                             children: "Required env vars"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 883,
+                            lineNumber: 888,
                             columnNumber: 11
                         }, this),
                         [
@@ -1703,7 +1726,7 @@ function DeployYourOwn() {
                                         children: name
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 900,
+                                        lineNumber: 905,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1714,30 +1737,30 @@ function DeployYourOwn() {
                                         children: desc
                                     }, void 0, false, {
                                         fileName: "[project]/app/page.tsx",
-                                        lineNumber: 910,
+                                        lineNumber: 915,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, name, true, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 899,
+                                lineNumber: 904,
                                 columnNumber: 13
                             }, this))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 874,
+                    lineNumber: 879,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 820,
+            lineNumber: 825,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 813,
+        lineNumber: 818,
         columnNumber: 5
     }, this);
 }
@@ -1769,7 +1792,7 @@ function Footer() {
                             size: 22
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 939,
+                            lineNumber: 944,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1780,13 +1803,13 @@ function Footer() {
                             children: "Vigil · Open source, MIT license"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 940,
+                            lineNumber: 945,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 938,
+                    lineNumber: 943,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1826,23 +1849,23 @@ function Footer() {
                             children: label
                         }, label, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 952,
+                            lineNumber: 957,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 945,
+                    lineNumber: 950,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 927,
+            lineNumber: 932,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 921,
+        lineNumber: 926,
         columnNumber: 5
     }, this);
 }
@@ -1851,55 +1874,55 @@ function LandingPage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Nav, {}, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 980,
+                lineNumber: 985,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Hero, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 982,
+                        lineNumber: 987,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Stats, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 983,
+                        lineNumber: 988,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Features, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 984,
+                        lineNumber: 989,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(HowItWorks, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 985,
+                        lineNumber: 990,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Packs, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 986,
+                        lineNumber: 991,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Download, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 987,
+                        lineNumber: 992,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(DeployYourOwn, {}, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 988,
+                        lineNumber: 993,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 981,
+                lineNumber: 986,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Footer, {}, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 990,
+                lineNumber: 995,
                 columnNumber: 7
             }, this)
         ]

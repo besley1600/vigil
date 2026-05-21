@@ -802,120 +802,6 @@ function Download() {
   )
 }
 
-function DeployYourOwn() {
-  const vercelUrl =
-    `https://vercel.com/new/clone?repository-url=https://github.com/${GITHUB_REPO}` +
-    `&root=dashboard&project-name=vigil-dashboard` +
-    `&env=GITHUB_TOKEN,GITHUB_REPO` +
-    `&envDescription=GitHub%20PAT%20(repo%2Bworkflow)%20and%20your%20vigil%20repo%20(owner%2Frepo)`
-
-  return (
-    <section
-      style={{
-        padding: '6rem 1.5rem',
-        borderTop: '1px solid #27272a',
-        borderBottom: '1px solid #27272a',
-      }}
-    >
-      <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.3rem 0.875rem',
-            borderRadius: '100px',
-            border: '1px solid #27272a',
-            backgroundColor: '#111113',
-            fontSize: '0.8rem',
-            color: '#a1a1aa',
-            marginBottom: '1.5rem',
-          }}
-        >
-          Web version
-        </div>
-
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem' }}>
-          Deploy your own dashboard
-        </h2>
-        <p style={{ color: '#71717a', fontSize: '1rem', lineHeight: 1.6, margin: '0 0 2rem', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
-          Host the Vigil dashboard on Vercel in one click. Connect it to your GitHub fork and manage
-          your agents from anywhere, on any device.
-        </p>
-
-        <a
-          href={vercelUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.625rem',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '8px',
-            backgroundColor: '#fafafa',
-            color: '#09090b',
-            fontWeight: 700,
-            fontSize: '0.95rem',
-            textDecoration: 'none',
-            marginBottom: '2.5rem',
-            transition: 'opacity 0.15s',
-          }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
-        >
-          {/* Vercel triangle logo */}
-          <svg width="16" height="16" viewBox="0 0 116 100" fill="#09090b">
-            <path d="M57.5 0L115 100H0L57.5 0z" />
-          </svg>
-          Deploy to Vercel
-        </a>
-
-        <div
-          style={{
-            backgroundColor: '#111113',
-            border: '1px solid #27272a',
-            borderRadius: '10px',
-            padding: '1.25rem',
-            textAlign: 'left',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              color: '#52525b',
-              margin: '0 0 0.75rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-            }}
-          >
-            Required env vars
-          </p>
-          {[
-            { name: 'GITHUB_TOKEN', desc: 'PAT with repo + workflow scopes' },
-            { name: 'GITHUB_REPO', desc: 'Your fork in owner/repo format' },
-          ].map(({ name, desc }) => (
-            <div key={name} style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem', alignItems: 'baseline' }}>
-              <code
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.8rem',
-                  color: '#6366f1',
-                  minWidth: '160px',
-                }}
-              >
-                {name}
-              </code>
-              <span style={{ fontSize: '0.8rem', color: '#71717a' }}>{desc}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function Footer() {
   return (
     <footer
@@ -987,7 +873,6 @@ export default function LandingPage() {
         <HowItWorks />
         <Packs />
         <Download />
-        <DeployYourOwn />
       </main>
       <Footer />
     </div>

@@ -1,8 +1,4 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build:vercel",
-  "env": {
-    "GITHUB_TOKEN": "@github_token",
-    "GITHUB_REPO": "@github_repo"
-  }
+  "buildCommand": "npm run build:vercel"
 }

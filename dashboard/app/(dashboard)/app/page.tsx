@@ -51,6 +51,7 @@ export default function Dashboard() {
   const [chainBusy, setChainBusy] = useState<Record<string, boolean>>({})
 
   const [showImport, setShowImport] = useState(false)
+  const [ghReady, setGhReady] = useState(true)
   const [authStatus, setAuthStatus] = useState<{ authenticated: boolean } | null>(null)
   const [authLoading, setAuthLoading] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -62,7 +63,7 @@ export default function Dashboard() {
       const [sr, rr, secr] = await Promise.all([fetch('/api/skills'), fetch('/api/runs'), fetch('/api/secrets')])
       if (sr.ok) { const d = await sr.json(); setSkills(d.skills); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
       if (rr.ok) setRuns((await rr.json()).runs)
-      if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets) }
+      if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets); if (typeof d.ghReady === 'boolean') setGhReady(d.ghReady) }
     } catch (e: unknown) { setError(e instanceof Error ? e.message : 'Failed to connect') }
     finally { setLoading(false) }
     try { const r = await fetch('/api/sync'); if (r.ok) { const d = await r.json(); setHasChanges(d.hasChanges); if (typeof d.behind === 'number') setBehind(d.behind) } } catch {}
@@ -264,7 +265,7 @@ export default function Dashboard() {
         {view === 'settings' && (
           <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto p-[var(--space-lg)] space-y-[var(--space-xl)]">
-              <SecretsPanel secrets={secrets} busy={busy} onSave={saveSecret} onDelete={deleteSecret} />
+              <SecretsPanel secrets={secrets} busy={busy} ghReady={ghReady} onSave={saveSecret} onDelete={deleteSecret} />
             </div>
           </div>
         )}
