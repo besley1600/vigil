@@ -1,6 +1,6 @@
 ---
 name: Action Converter
-description: 5 concrete real-life actions for today, leverage-scored against open loops with specificity and anti-fluff gates
+description: Five leverage-scored actions for today, anchored to open loops with specificity gates and anti-filler enforcement
 var: ""
 tags: [meta]
 ---

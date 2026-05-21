@@ -1,6 +1,6 @@
 ---
 name: Create Skill
-description: Generate a complete new skill from a one-line prompt and ship it as a PR
+description: Generate a production-ready skill from a one-line description, validate it, and open a PR
 var: ""
 tags: [dev, meta]
 ---
@@ -14,7 +14,7 @@ If `${var}` is empty, exit `CREATE_SKILL_NO_VAR`:
 ```
 Then stop.
 
-Today is ${today}. Your task is to generate a complete, production-ready skill from `${var}`, score it against a quality bar, and ship it as a PR — **never commit directly to `main`**.
+Today is ${today}. Generate a complete, production-ready skill from `${var}`, score it against a quality bar, and open a PR — never commit directly to `main`.
 
 ## Steps
 

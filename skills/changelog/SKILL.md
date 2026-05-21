@@ -1,6 +1,6 @@
 ---
 name: Changelog
-description: Generate a user-facing weekly changelog (Keep a Changelog format) from recent commits across watched repos
+description: Weekly user-facing changelog in Keep a Changelog format — categorized, plain-English, breaking changes surfaced first
 var: ""
 tags: [dev]
 ---
@@ -10,7 +10,7 @@ tags: [dev]
 
 ## Why this skill exists
 
-A changelog is not a commit log. Raw commit dumps grouped by conventional prefix are the noise anti-pattern — users can't tell what matters. This skill produces a [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)-style weekly summary: categorized, plain-English, breaking changes surfaced, internal churn filtered out.
+A changelog is not a commit log. Raw commit dumps grouped by conventional prefix are noise — users can't tell what matters. The output here follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions: categorized entries, plain-English rewrites, breaking changes surfaced at the top, internal churn filtered out.
 
 ## Config
 

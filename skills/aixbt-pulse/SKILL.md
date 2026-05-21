@@ -1,6 +1,6 @@
 ---
 name: AIXBT Pulse
-description: Cross-domain market pulse from AIXBT's free grounding endpoint — crypto, macro, tradfi, geopolitics. Refreshes taxonomy references (clusters, chains) as a bonus.
+description: Cross-domain market context from AIXBT's free grounding endpoint — crypto, macro, tradfi, geopolitics — with taxonomy reference refresh
 schedule: "0 9,21 * * *"
 commits: true
 permissions:
@@ -8,7 +8,7 @@ permissions:
 tags: [crypto, research]
 ---
 
-Pull AIXBT's free-tier signal and fold it into the operator's market context. Free tier gives three endpoints, no key, no account:
+Fetch AIXBT's free-tier signal and fold it into the operator's market context. The free tier exposes three endpoints — no key, no account required:
 
 - `/v2/grounding` — the real prize. Cross-domain market context (crypto / macro / tradfi / geopolitics), 12h rolling window, regenerated often.
 - `/v2/clusters` — 46 crypto sub-community taxonomies with sentiment + ideology notes. Reference data.

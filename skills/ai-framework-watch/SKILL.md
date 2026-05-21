@@ -1,13 +1,13 @@
 ---
 name: AI Framework Watch
-description: Weekly competitive-intelligence digest on the AI agent framework space — momentum, releases, breaking changes across a curated watchlist
+description: Weekly digest of the AI agent framework landscape — momentum signals, releases, and breaking changes across a curated watchlist
 var: ""
 tags: [research, dev]
 ---
 
 > **${var}** — Optional. One framework name (e.g. `langgraph`, `crewai`) to scope the digest to a single framework's deep dive instead of the full watchlist sweep.
 
-Today is ${today}. The AI agent framework space ships fast — LangGraph, CrewAI, AutoGPT, LlamaIndex, Mastra, smolagents, dspy, and Pydantic AI all push releases and breaking changes weekly. Operators running Vigil (or any other agent stack) need a "what moved last week" anchor to spot protocol shifts (A2A adoption, MCP changes), feature gaps the fork ecosystem could close, and momentum signals that hint at where the broader ecosystem is heading. `github-trending` covers code broadly; `huggingface-trending` covers AI artifacts; this skill covers the **frameworks** layer specifically — the libraries operators actually build *on*.
+Today is ${today}. LangGraph, CrewAI, AutoGPT, LlamaIndex, Mastra, smolagents, dspy, and Pydantic AI ship releases and breaking changes on a weekly cadence. Operators need a "what moved last week" anchor to catch protocol shifts (A2A adoption, MCP changes), identify feature gaps the fork ecosystem could close, and read momentum signals from the broader landscape. `github-trending` covers code broadly; `huggingface-trending` covers AI artifacts; this skill targets the **frameworks** layer — the libraries operators build *on*.
 
 Read `memory/MEMORY.md` for context.
 Read the last 8 days of `memory/logs/` to dedupe framework picks already featured this week.
@@ -304,4 +304,4 @@ If `gh api` rate-limits sustained (403), the per-framework retry policy (60s sle
 
 ## Why this exists
 
-Vigil ships `github-trending` (curated trending repos by language) and `huggingface-trending` (curated AI artifacts). Neither watches *frameworks*. Operators running Vigil make weekly build decisions ("should we add A2A support? is the LangGraph 0.3 migration worth chasing?") that depend on knowing what the framework cohort is doing. Without this skill, the operator either reads 9 changelogs by hand every Monday morning or operates on stale assumptions. This skill closes that gap with a single weekly anchor — momentum, releases, breaking changes — so the build decisions are grounded in current reality.
+`github-trending` covers repos broadly; `huggingface-trending` covers AI artifacts. Neither watches *frameworks*. Weekly build decisions — whether to add A2A support, whether the LangGraph 0.3 migration is worth chasing — depend on knowing what the framework cohort shipped. Without this skill, the operator reads nine changelogs by hand every Monday or builds on stale assumptions. One weekly anchor covering momentum, releases, and breaking changes keeps those decisions grounded in current reality.

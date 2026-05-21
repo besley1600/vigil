@@ -1,6 +1,6 @@
 ---
 name: Autoresearch
-description: Evolve a skill by generating variations, evaluating them, and updating the best version
+description: Improve a skill by generating four scored variations and committing the best one as a PR
 var: ""
 tags: [meta, dev]
 ---
@@ -12,7 +12,7 @@ Read memory/MEMORY.md for context.
 
 ## Goal
 
-Improve an existing skill by researching better approaches, generating 4 distinct variations, scoring them against a rubric, and committing the winning version as a PR.
+Research better approaches to what the target skill does, produce 4 distinct variations, score them against a rubric, and commit the winner as a PR.
 
 ## Steps
 

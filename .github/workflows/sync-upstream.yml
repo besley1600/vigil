@@ -30,7 +30,7 @@ jobs:
 
       - name: Fetch upstream
         run: |
-          git remote add upstream https://github.com/aaronjmars/aeon.git
+          git remote add upstream https://github.com/besley1600/vigil.git
           git fetch upstream main
 
       - name: Check for upstream changes

@@ -1,6 +1,6 @@
 ---
 name: Auto Merge
-description: Automatically merge open PRs that have passing CI, no blocking reviews, and no conflicts
+description: Merge open PRs that pass CI, have no blocking reviews, and clear the safety policy
 var: ""
 tags: [dev, meta]
 ---
@@ -9,7 +9,7 @@ tags: [dev, meta]
 > **${var}** — Repo (owner/repo) to target. If empty, uses every repo in memory/watched-repos.md.
 > Env: `AUTO_MERGE_DRY_RUN=1` logs intent without merging. `MAX_AUTO_MERGE=N` caps merges per run (default 3).
 
-Merge open PRs that are fully green **and** pass an explicit safety policy. The policy exists because this skill runs autonomously with write access — a bug in the gate is a bug that ships to main.
+Merge open PRs that are fully green and pass an explicit safety policy. The policy is non-negotiable: this skill runs autonomously with write access, and a bug in the gate becomes a bug shipped to main.
 
 Read memory/MEMORY.md and memory/watched-repos.md for repos to target.
 Read the last 2 days of memory/logs/ to avoid re-logging PRs already merged.

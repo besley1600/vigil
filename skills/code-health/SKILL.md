@@ -1,6 +1,6 @@
 ---
 name: Code Health
-description: Weekly report on TODOs, dead code, and test coverage gaps
+description: Audit watched repos for TODOs, dead code, large files, and test coverage gaps
 var: ""
 tags: [dev]
 ---

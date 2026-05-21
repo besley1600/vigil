@@ -1,19 +1,19 @@
 ---
 name: contributor-reward
-description: Closes the contributor flywheel — turns the weekly fork-contributor-leaderboard ranking into a tier-priced rewards plan, writes it into memory/distributions.yml, and hands off to distribute-tokens for the actual on-chain send
+description: Converts the weekly fork-contributor-leaderboard ranking into a tier-priced rewards plan written to memory/distributions.yml for distribute-tokens to execute
 var: ""
 tags: [community, crypto]
 ---
 
 > **${var}** — Optional override. Pass `dry-run` to print the plan without writing to `memory/distributions.yml` or sending a notification. Pass an explicit ISO week (e.g. `2026-W17`) to force-process that week instead of the most recent leaderboard. Empty = process the most recent leaderboard.
 
-Today is ${today}. Closes the loop from `fork-contributor-leaderboard` to `distribute-tokens`: read this week's contributor ranking, price each eligible contributor against a tier table, write a labelled list into `memory/distributions.yml`, and notify the operator with a one-command run line. Humans still gate the actual send (`distribute-tokens` execution stays a manual or chained step) — this skill's job is plan generation, not money movement.
+Today is ${today}. Read this week's contributor ranking from `fork-contributor-leaderboard`, price each eligible contributor against a tier table, write a labeled list into `memory/distributions.yml`, and notify the operator with a one-command run line. The actual transfer remains a manual or chained step — plan generation is this skill's job, not money movement.
 
 ## Why this design
 
-The fork-contributor-leaderboard already names the people moving the project. The distribute-tokens skill already moves tokens with idempotency, balance preflight, and dry-run. The gap was the wiring between them: a contributor's score on Sunday's leaderboard had no path to a wallet credit. This skill is the wiring — and only the wiring.
+`fork-contributor-leaderboard` names the people moving the project. `distribute-tokens` moves tokens with idempotency, balance preflight, and dry-run support. The missing piece was the wiring: a contributor's score on Sunday's leaderboard had no path to a wallet credit. This skill is that wiring, and only that wiring.
 
-It deliberately stops short of executing transfers because (a) `distribute-tokens` is the only sanctioned transfer path and re-implementing it here would fragment the idempotency state, and (b) keeping a human-visible diff on `memory/distributions.yml` between plan and execution is the cheapest possible audit trail when real money is involved. The plan lands in git; the operator (or a chained step) runs `distribute-tokens contributors-${ISO_WEEK}` next.
+Transfers are deliberately out of scope here. `distribute-tokens` is the only sanctioned transfer path — re-implementing it would fragment idempotency state. A human-visible diff on `memory/distributions.yml` between plan and execution is also the cheapest audit trail when real money is involved. The plan lands in git; the operator (or a chained step) runs `distribute-tokens contributors-${ISO_WEEK}` next.
 
 ## Tier pricing
 

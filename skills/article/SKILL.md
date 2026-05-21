@@ -1,6 +1,6 @@
 ---
 name: Daily Article
-description: Research trending topics and write a publication-ready article
+description: Research a trending topic and produce a publication-ready article with cited sources
 var: ""
 tags: [content]
 ---
@@ -9,7 +9,7 @@ tags: [content]
 If `${var}` is set, write about that topic instead of auto-selecting.
 
 
-Today is ${today}. Your task is to research and write a high-quality article.
+Today is ${today}. Research and write a high-quality article.
 
 Steps:
 1. Read `memory/MEMORY.md` for context on what topics have been covered recently.

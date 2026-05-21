@@ -1,6 +1,6 @@
 ---
 name: Auto-Workflow Builder
-description: Analyze a URL and generate a tailored vigil.yml schedule with skill suggestions
+description: Analyze a URL, verify observable signals, and emit a delta-based vigil.yml config with tiered skill recommendations
 var: ""
 tags: [meta, dev]
 ---

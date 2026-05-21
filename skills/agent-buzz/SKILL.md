@@ -1,6 +1,6 @@
 ---
 name: Agent Buzz
-description: Curated AI-agent tweets, clustered into narratives with insight summaries
+description: AI-agent conversation on X, clustered into narratives with per-tweet signal scores and insight extraction
 var: ""
 tags: [social]
 ---

@@ -1,6 +1,6 @@
 ---
 name: cost-report
-description: Weekly API cost report — computes dollar costs from token usage, flags anomalies, forecasts burn, and prescribes concrete optimizations
+description: Weekly cost report from token usage data — flags anomalies, forecasts monthly burn, and prescribes concrete per-skill optimizations
 var: ""
 tags: [meta]
 version: "2.0.0"
@@ -8,7 +8,7 @@ version: "2.0.0"
 <!-- autoresearch: variation B — sharper output (verdict + anomalies + burn forecast + concrete optimizations, not passive tables) -->
 > **${var}** — Number of days to cover (default: 7). Pass "30" for a monthly view.
 
-Today is ${today}. Generate a cost report from Vigil's token usage data. **The output must prescribe action, not just describe spend** — every section either names an anomaly, forecasts risk, or recommends a concrete move.
+Today is ${today}. Generate a cost report from token usage data. Output must prescribe action, not just describe spend — each section either names an anomaly, forecasts risk, or recommends a concrete move.
 
 ## Model Pricing (per million tokens)
 
