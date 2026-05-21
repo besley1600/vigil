@@ -1,0 +1,1 @@
+🔍 *Changelog — Week of 2026-05-20* — 1 repo: 1 breaking change (license), 6 added (desktop app, v2 dashboard, tiers), 2 changed (rebrand, README). Major release: commercial launch + Electron desktop + feature tiers. Article: articles/changelog-2026-05-20.md

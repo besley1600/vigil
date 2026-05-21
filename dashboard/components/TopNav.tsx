@@ -1,0 +1,185 @@
+import type { Skill, Run } from '../lib/types'
+import { MODELS, BANKR_EXTRA_MODELS } from '../lib/constants'
+import { displayName } from '../lib/utils'
+import { features } from '../lib/features'
+import { AlertCenter } from './AlertCenter'
+import { WalletButton } from './WalletButton'
+
+type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'settings'
+
+interface TopNavProps {
+  view: View
+  setView: (v: View) => void
+  selectedSkill: Skill | null
+  runs: Run[]
+  repo: string
+  model: string
+  gateway: 'direct' | 'bankr'
+  authStatus: { authenticated: boolean } | null
+  authLoading: boolean
+  pulling: boolean
+  syncing: boolean
+  hasChanges: boolean
+  behind: number
+  onSetupAuth: () => void
+  onUpdateModel: (m: string) => void
+  onShowImport: () => void
+  onPull: () => void
+  onSync: () => void
+}
+
+function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled: boolean): { id: View; label: string }[] {
+  const tabs: { id: View; label: string }[] = [
+    { id: 'hq',        label: 'HQ' },
+    { id: 'activity',  label: 'Activity' },
+    { id: 'analytics', label: 'Analytics' },
+  ]
+  if (chainsEnabled) tabs.push({ id: 'chains', label: 'Chains' })
+  if (memoryEnabled) tabs.push({ id: 'memory', label: 'Memory' })
+  if (tokenEnabled)  tabs.push({ id: 'token',  label: 'Token' })
+  tabs.push({ id: 'settings', label: 'Settings' })
+  return tabs
+}
+
+export function TopNav({
+  view,
+  setView,
+  selectedSkill,
+  runs,
+  repo,
+  model,
+  gateway,
+  authStatus,
+  authLoading,
+  pulling,
+  syncing,
+  hasChanges,
+  behind,
+  onSetupAuth,
+  onUpdateModel,
+  onShowImport,
+  onPull,
+  onSync,
+}: TopNavProps) {
+  const modelOptions = gateway === 'bankr' ? [...MODELS, ...BANKR_EXTRA_MODELS] : MODELS
+  const tabs = buildTabs(features.CHAINS, features.MEMORY, features.TOKEN)
+
+  return (
+    <header className="h-14 border-b border-[rgba(255,255,255,0.07)] bg-eva-black flex items-center shrink-0">
+      {/* Left: logo + optional breadcrumb */}
+      <div className="flex items-center gap-3 px-5 shrink-0 w-56">
+        <svg width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none" aria-hidden="true">
+          <rect x="2.5" y="2.5" width="8" height="8" fill="none" stroke="#06B6D4" strokeWidth="1.3" transform="rotate(45 6.5 6.5)" style={{filter:'drop-shadow(0 0 3px rgba(6,182,212,0.7))'}}/>
+          <circle cx="6.5" cy="6.5" r="1.2" fill="#ffffff"/>
+        </svg>
+        {selectedSkill ? (
+          <span className="text-xs font-mono text-primary-70 tracking-wide">
+            <span className="text-primary-40">HQ</span>
+            <span className="text-primary-40 mx-1.5">›</span>
+            <span className="text-primary-70">{displayName(selectedSkill.name)}</span>
+          </span>
+        ) : (
+          <span className="font-display text-lg text-primary-100 leading-none">VIGIL</span>
+        )}
+      </div>
+
+      {/* Center: nav tabs */}
+      <nav className="flex-1 flex items-center justify-center h-full gap-1">
+        {tabs.map(tab => {
+          const active = view === tab.id
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setView(tab.id)}
+              className={[
+                'px-4 py-0 text-xs font-mono uppercase tracking-[1.5px] h-full flex items-center border-b-2 transition-colors',
+                active
+                  ? 'text-eva-orange border-eva-orange'
+                  : 'text-primary-50 border-transparent hover:text-primary-70',
+              ].join(' ')}
+            >
+              {tab.label}
+              {(tab.id === 'chains' || tab.id === 'memory') && (
+                <span className="ml-1.5 text-[8px] font-mono px-1 py-px bg-eva-orange/20 text-eva-orange uppercase tracking-[1px] leading-none">
+                  new
+                </span>
+              )}
+            </button>
+          )
+        })}
+      </nav>
+
+      {/* Right: toolbar */}
+      <div className="flex items-center gap-2 px-5 shrink-0">
+        {gateway === 'bankr' && (
+          <span className="text-[10px] font-mono px-2 py-0.5 bg-eva-orange/15 text-eva-orange uppercase tracking-[1px]">
+            BANKR
+          </span>
+        )}
+
+        {authStatus && !authStatus.authenticated && (
+          <button
+            onClick={onSetupAuth}
+            disabled={authLoading}
+            className="bg-eva-orange text-white text-[10px] px-3 py-1.5 font-mono uppercase tracking-[1px] hover:opacity-90 transition-opacity disabled:opacity-50"
+          >
+            {authLoading ? '...' : 'Auth'}
+          </button>
+        )}
+
+        <select
+          value={model}
+          onChange={(e) => onUpdateModel(e.target.value)}
+          className="bg-[#1A1A1E] text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono"
+        >
+          {modelOptions.map(m => (
+            <option key={m.id} value={m.id}>{m.label}</option>
+          ))}
+        </select>
+
+        <button
+          onClick={onShowImport}
+          className="bg-eva-orange text-white text-[10px] px-3 py-1.5 font-mono uppercase tracking-[1px] hover:opacity-90 transition-opacity"
+        >
+          + Install
+        </button>
+
+        {repo && (
+          <a
+            href={`https://github.com/${repo}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] text-primary-50 font-mono border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-eva-orange hover:text-eva-orange transition-colors"
+          >
+            GitHub
+          </a>
+        )}
+
+        <button
+          onClick={onPull}
+          disabled={pulling}
+          className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50"
+        >
+          {behind > 0 && (
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-orange" />
+          )}
+          {pulling ? '...' : 'Pull'}
+        </button>
+
+        <button
+          onClick={onSync}
+          disabled={syncing || !hasChanges}
+          className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50"
+        >
+          {hasChanges && (
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-green" />
+          )}
+          {syncing ? '...' : 'Push'}
+        </button>
+
+        {features.TOKEN && <WalletButton />}
+        {features.ALERTS && <AlertCenter runs={runs} />}
+      </div>
+    </header>
+  )
+}

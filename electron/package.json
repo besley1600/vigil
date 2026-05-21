@@ -1,0 +1,88 @@
+{
+  "name": "vigil-desktop",
+  "version": "1.0.0",
+  "description": "Vigil desktop dashboard",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "electron": "^42.2.0",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.vigil.desktop",
+    "productName": "Vigil",
+    "copyright": "Copyright © 2025",
+    "files": [
+      "main.js",
+      "preload.js",
+      "loading.html",
+      "setup-check.html",
+      "assets/"
+    ],
+    "extraResources": [
+      {
+        "from": "../dashboard",
+        "to": "dashboard",
+        "filter": [
+          "**/*",
+          "!node_modules/.cache/**",
+          "!.next/cache/**"
+        ]
+      }
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "category": "Development"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "besley1600",
+      "repo": "vigil"
+    }
+  }
+}

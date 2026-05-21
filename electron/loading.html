@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'" />
+  <title>Vigil — Starting</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1f 100%);
+      color: #FAFAFA;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      cursor: default;
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 32px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 20px 60px rgba(79, 70, 229, 0.3));
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1;   transform: scale(1); }
+      50%       { opacity: 0.7; transform: scale(0.95); }
+    }
+
+    .wordmark {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #FAFAFA;
+    }
+
+    .status {
+      font-size: 13px;
+      color: #A1A1AA;
+      letter-spacing: 0.02em;
+      animation: blink 2s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .progress-track {
+      width: 200px;
+      height: 3px;
+      background: rgba(79, 70, 229, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4F46E5, #06B6D4);
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
+      animation: progress 12s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes progress {
+      0%   { width: 0%; }
+      20%  { width: 35%; }
+      50%  { width: 60%; }
+      80%  { width: 78%; }
+      100% { width: 88%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="center">
+    <div class="logo">
+      <svg width="80" height="80" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" fill="#0A0A0A"/>
+        <ellipse cx="20" cy="20" rx="16" ry="8" fill="#4F46E5" opacity="0.06"/>
+        <path d="M4 20 Q12 8 20 8 Q28 8 36 20" fill="none" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M4 20 Q12 32 20 32 Q28 32 36 20" fill="none" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="7.5" fill="none" stroke="#4F46E5" stroke-width="0.75" opacity="0.45"/>
+        <circle cx="20" cy="20" r="6.5" fill="#4F46E5"/>
+        <circle cx="20" cy="20" r="4.5" fill="none" stroke="#06B6D4" stroke-width="0.8" opacity="0.55"/>
+        <circle cx="20" cy="20" r="2.4" fill="#0A0A0A"/>
+        <circle cx="22" cy="17.5" r="1.2" fill="#06B6D4" opacity="0.95"/>
+        <circle cx="18.5" cy="22" r="0.6" fill="#06B6D4" opacity="0.45"/>
+        <line x1="4" y1="20" x2="36" y2="20" stroke="#06B6D4" stroke-width="0.5" opacity="0.3"/>
+        <path d="M2 6 L2 2 L6 2" fill="none" stroke="#06B6D4" stroke-width="1.2" stroke-linecap="square"/>
+        <path d="M34 2 L38 2 L38 6" fill="none" stroke="#06B6D4" stroke-width="1.2" stroke-linecap="square"/>
+        <path d="M38 34 L38 38 L34 38" fill="none" stroke="#06B6D4" stroke-width="1.2" stroke-linecap="square"/>
+        <path d="M6 38 L2 38 L2 34" fill="none" stroke="#06B6D4" stroke-width="1.2" stroke-linecap="square"/>
+      </svg>
+    </div>
+    <div class="wordmark">Vigil</div>
+    <div class="progress-track">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="status" id="status">Starting up…</div>
+  </div>
+
+  <script>
+    // Cycle through status messages so it feels alive
+    const messages = [
+      'Starting up…',
+      'Starting server…',
+      'Loading dashboard…',
+      'Almost ready…',
+    ]
+    let i = 0
+    const el = document.getElementById('status')
+    setInterval(() => {
+      i = (i + 1) % messages.length
+      el.textContent = messages[i]
+    }, 2800)
+  </script>
+</body>
+</html>

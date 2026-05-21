@@ -1,0 +1,23 @@
+{
+  "root": "card",
+  "state": {},
+  "elements": {
+    "card": {
+      "type": "Card",
+      "props": {
+        "title": "heartbeat"
+      },
+      "children": [
+        "alert"
+      ]
+    },
+    "alert": {
+      "type": "Alert",
+      "props": {
+        "type": "warning",
+        "title": "WATCH: Configure notification channels",
+        "message": "Enabled skill has never run.\n\nSee MEMORY.md Next Priorities for details.\n\nStatus updated: docs/status.md"
+      }
+    }
+  }
+}

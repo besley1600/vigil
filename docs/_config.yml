@@ -1,0 +1,52 @@
+title: "Vigil — Skill Gallery"
+description: "Public output showcase for Vigil, a background agent runtime for AI builders running on GitHub Actions powered by Claude Code."
+baseurl: ""
+url: "https://besley1600.github.io/vigil"
+
+# Build settings
+theme: minima
+markdown: kramdown
+
+# Author
+author:
+  name: Vigil
+  url: https://github.com/besley1600/vigil
+
+# Navigation
+header_pages:
+  - index.md
+  - articles.md
+  - activity.md
+  - memory.md
+  - skills.md
+  - status.md
+
+# Permalinks
+permalink: /articles/:year/:month/:day/:title/
+
+# Collections
+collections:
+  posts:
+    output: true
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+# Exclude from processing
+exclude:
+  - "*.sh"
+  - "*.json"
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+
+# Social links
+minima:
+  social_links:
+    - { platform: github, user_url: "https://github.com/besley1600/vigil" }

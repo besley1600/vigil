@@ -1,0 +1,37 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vigil-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#0A0A0A"/>
+  <!-- Soft glow behind eye -->
+  <ellipse cx="256" cy="256" rx="128" ry="64" fill="url(#vigil-gradient)" opacity="0.08"/>
+  <!-- Eye — upper lid -->
+  <path d="M51 256 Q128 102 256 102 Q384 102 461 256" fill="none" stroke="url(#vigil-gradient)" stroke-width="12" stroke-linecap="round"/>
+  <!-- Eye — lower lid -->
+  <path d="M51 256 Q128 410 256 410 Q384 410 461 256" fill="none" stroke="url(#vigil-gradient)" stroke-width="12" stroke-linecap="round"/>
+  <!-- Outer iris ring -->
+  <circle cx="256" cy="256" r="60" fill="none" stroke="url(#vigil-gradient)" stroke-width="6" opacity="0.45"/>
+  <!-- Iris fill -->
+  <circle cx="256" cy="256" r="52" fill="url(#vigil-gradient)"/>
+  <!-- Inner iris detail ring -->
+  <circle cx="256" cy="256" r="36" fill="none" stroke="#06B6D4" stroke-width="6" opacity="0.55"/>
+  <!-- Pupil -->
+  <circle cx="256" cy="256" r="20" fill="#0A0A0A"/>
+  <!-- Primary catch light -->
+  <circle cx="276" cy="226" r="10" fill="#06B6D4" opacity="0.95"/>
+  <!-- Secondary catch light -->
+  <circle cx="236" cy="276" r="6" fill="#06B6D4" opacity="0.45"/>
+  <!-- Scan line -->
+  <line x1="51" y1="256" x2="461" y2="256" stroke="#06B6D4" stroke-width="4" opacity="0.3"/>
+  <!-- Corner marks — top-left -->
+  <path d="M20 70 L20 20 L70 20" fill="none" stroke="#06B6D4" stroke-width="10" stroke-linecap="square"/>
+  <!-- Corner marks — top-right -->
+  <path d="M442 20 L492 20 L492 70" fill="none" stroke="#06B6D4" stroke-width="10" stroke-linecap="square"/>
+  <!-- Corner marks — bottom-right -->
+  <path d="M492 442 L492 492 L442 492" fill="none" stroke="#06B6D4" stroke-width="10" stroke-linecap="square"/>
+  <!-- Corner marks — bottom-left -->
+  <path d="M70 492 L20 492 L20 442" fill="none" stroke="#06B6D4" stroke-width="10" stroke-linecap="square"/>
+</svg>

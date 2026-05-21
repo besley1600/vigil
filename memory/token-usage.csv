@@ -1,0 +1,4 @@
+date,skill,model,input_tokens,output_tokens,cache_read,cache_creation
+2026-05-20,agent-buzz,claude-haiku-4-5-20251001,93,5829,483860,19958
+2026-05-20,changelog,claude-haiku-4-5-20251001,121,12201,779406,33583
+2026-05-20,heartbeat,claude-haiku-4-5-20251001,93,5537,549211,25323

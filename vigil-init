@@ -1,0 +1,321 @@
+#!/usr/bin/env bash
+# vigil-init — Interactive first-run setup wizard for Vigil
+#
+# Usage:
+#   ./vigil-init           Interactive setup
+#   ./vigil-init --quick   Skip skill selection, enable heartbeat only
+#   ./vigil-init --help    Show this help
+
+set -euo pipefail
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# ── Colours & helpers ─────────────────────────────────────────────────────────
+
+RESET="\033[0m"
+BOLD="\033[1m"
+DIM="\033[2m"
+INDIGO="\033[38;5;99m"
+CYAN="\033[38;5;51m"
+GREEN="\033[38;5;46m"
+RED="\033[38;5;196m"
+YELLOW="\033[38;5;220m"
+
+header()  { printf "\n${BOLD}${INDIGO}%s${RESET}\n" "$*"; }
+step()    { printf "${CYAN}▶${RESET} %s\n" "$*"; }
+ok()      { printf "${GREEN}✓${RESET} %s\n" "$*"; }
+warn()    { printf "${YELLOW}⚠${RESET} %s\n" "$*"; }
+err()     { printf "${RED}✗${RESET} %s\n" "$*" >&2; }
+dim()     { printf "${DIM}%s${RESET}\n" "$*"; }
+prompt()  { printf "${BOLD}%s${RESET} " "$*"; }
+
+QUICK=false
+for arg in "$@"; do
+  case "$arg" in
+    --quick) QUICK=true ;;
+    --help|-h)
+      sed -n '3,6p' "$0" | sed 's/^# //'
+      exit 0 ;;
+    *) err "Unknown option: $arg"; exit 1 ;;
+  esac
+done
+
+# ── Banner ────────────────────────────────────────────────────────────────────
+
+echo ""
+printf "${BOLD}${INDIGO}"
+cat <<'EOF'
+  ╔══════════════════════════════════════════╗
+  ║              ◉  VIGIL INIT              ║
+  ║   Background agent runtime for AI       ║
+  ║   builders. Let's get you set up.       ║
+  ╚══════════════════════════════════════════╝
+EOF
+printf "${RESET}\n"
+
+# ── Pre-flight checks ─────────────────────────────────────────────────────────
+
+header "Checking prerequisites"
+
+check_cmd() {
+  local cmd="$1" install_hint="$2"
+  if command -v "$cmd" &>/dev/null; then
+    ok "$cmd found ($(command -v "$cmd"))"
+  else
+    warn "$cmd not found — $install_hint"
+    return 1
+  fi
+  return 0
+}
+
+MISSING=0
+check_cmd git    "install from https://git-scm.com" || MISSING=$((MISSING+1))
+check_cmd node   "install from https://nodejs.org (v18+)" || MISSING=$((MISSING+1))
+check_cmd npm    "comes with Node.js" || MISSING=$((MISSING+1))
+check_cmd gh     "install from https://cli.github.com" || warn "gh CLI not found — remote features limited"
+
+if ! check_cmd claude "npm install -g @anthropic-ai/claude-code"; then
+  MISSING=$((MISSING+1))
+fi
+
+if [[ $MISSING -gt 0 ]]; then
+  echo ""
+  err "$MISSING required tool(s) missing. Install them and re-run ./vigil-init."
+  exit 1
+fi
+
+# ── Authentication ────────────────────────────────────────────────────────────
+
+header "Authentication"
+echo "Vigil needs a Claude credential to run skills. Set one:"
+echo ""
+printf "  ${CYAN}1${RESET} CLAUDE_CODE_OAUTH_TOKEN  ${DIM}(included in Claude Pro/Max plan)${RESET}\n"
+printf "  ${CYAN}2${RESET} ANTHROPIC_API_KEY         ${DIM}(pay-per-token from console.anthropic.com)${RESET}\n"
+echo ""
+
+AUTH_TYPE=""
+AUTH_VALUE=""
+
+# Check environment first
+if [[ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]]; then
+  ok "CLAUDE_CODE_OAUTH_TOKEN already set in environment"
+  AUTH_TYPE="oauth"
+  AUTH_VALUE="$CLAUDE_CODE_OAUTH_TOKEN"
+elif [[ -n "${ANTHROPIC_API_KEY:-}" ]]; then
+  ok "ANTHROPIC_API_KEY already set in environment"
+  AUTH_TYPE="api"
+  AUTH_VALUE="$ANTHROPIC_API_KEY"
+else
+  prompt "Choose [1/2], or press Enter to skip and add secrets to GitHub manually:"
+  read -r auth_choice
+
+  case "${auth_choice:-}" in
+    1)
+      echo ""
+      step "Generating OAuth token via Claude CLI..."
+      echo "A browser window will open. Sign in and copy the token."
+      echo ""
+      claude setup-token 2>/dev/null || true
+      echo ""
+      prompt "Paste your OAuth token (sk-ant-oat01-...): "
+      read -rs AUTH_VALUE
+      echo ""
+      AUTH_TYPE="oauth"
+      ;;
+    2)
+      prompt "Paste your Anthropic API key (sk-ant-api...): "
+      read -rs AUTH_VALUE
+      echo ""
+      AUTH_TYPE="api"
+      ;;
+    *)
+      warn "Skipping — remember to add CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY as GitHub repository secrets."
+      AUTH_TYPE="skip"
+      ;;
+  esac
+fi
+
+# Offer to set as GitHub Actions secret
+if [[ "$AUTH_TYPE" != "skip" && -n "$AUTH_VALUE" ]]; then
+  if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1; then
+    REMOTE_REPO=$(git -C "$DIR" remote get-url origin 2>/dev/null | sed 's|.*github\.com[:/]\(.*\)\.git|\1|;s|.*github\.com[:/]\(.*\)|\1|' || echo "")
+    if [[ -n "$REMOTE_REPO" ]]; then
+      echo ""
+      prompt "Set as GitHub secret for repo ${REMOTE_REPO}? [Y/n]:"
+      read -r confirm
+      if [[ ! "${confirm:-y}" =~ ^[Nn] ]]; then
+        SECRET_NAME="ANTHROPIC_API_KEY"
+        [[ "$AUTH_TYPE" == "oauth" ]] && SECRET_NAME="CLAUDE_CODE_OAUTH_TOKEN"
+        echo "$AUTH_VALUE" | gh secret set "$SECRET_NAME" --repo "$REMOTE_REPO" --body -
+        ok "Secret ${SECRET_NAME} set on ${REMOTE_REPO}"
+      fi
+    fi
+  else
+    echo ""
+    dim "Add this as a GitHub repository secret manually:"
+    if [[ "$AUTH_TYPE" == "oauth" ]]; then
+      dim "  Settings → Secrets → Actions → New: CLAUDE_CODE_OAUTH_TOKEN"
+    else
+      dim "  Settings → Secrets → Actions → New: ANTHROPIC_API_KEY"
+    fi
+  fi
+fi
+
+# ── Skill selection ───────────────────────────────────────────────────────────
+
+if [[ "$QUICK" == "false" ]]; then
+  header "Skill selection"
+  echo "Pick the skills you want to start with. You can add more later from the dashboard."
+  echo ""
+
+  declare -A SKILL_GROUPS=(
+    ["1:Morning brief"]="morning-brief"
+    ["2:PR review"]="pr-review"
+    ["3:Hacker News digest"]="hacker-news-digest"
+    ["4:GitHub repo monitor"]="github-monitor"
+    ["5:Deep research (on-demand)"]="deep-research"
+    ["6:Weekly review"]="weekly-review"
+    ["7:Token price alert"]="token-alert"
+    ["8:Article writer"]="article"
+  )
+
+  printf "  ${CYAN}1${RESET}  Morning brief          ${DIM}Daily 7AM digest of your priorities${RESET}\n"
+  printf "  ${CYAN}2${RESET}  PR review              ${DIM}Auto-review new PRs with verdict + summary${RESET}\n"
+  printf "  ${CYAN}3${RESET}  Hacker News digest     ${DIM}Daily top stories filtered by your interests${RESET}\n"
+  printf "  ${CYAN}4${RESET}  GitHub repo monitor    ${DIM}Daily summary of issues, stars, and activity${RESET}\n"
+  printf "  ${CYAN}5${RESET}  Deep research          ${DIM}On-demand exhaustive research on any topic${RESET}\n"
+  printf "  ${CYAN}6${RESET}  Weekly review          ${DIM}Sunday review of the week's work${RESET}\n"
+  printf "  ${CYAN}7${RESET}  Token price alert      ${DIM}Daily crypto price and volume alerts${RESET}\n"
+  printf "  ${CYAN}8${RESET}  Article writer         ${DIM}Daily AI-written articles published to GitHub Pages${RESET}\n"
+  echo ""
+
+  prompt "Enter skill numbers separated by spaces (e.g. 1 2 3), or press Enter for none:"
+  read -r skill_choices
+
+  declare -a SELECTED_SKILLS=()
+  for num in $skill_choices; do
+    case "$num" in
+      1) SELECTED_SKILLS+=("morning-brief") ;;
+      2) SELECTED_SKILLS+=("pr-review") ;;
+      3) SELECTED_SKILLS+=("hacker-news-digest") ;;
+      4) SELECTED_SKILLS+=("github-monitor") ;;
+      5) SELECTED_SKILLS+=("deep-research") ;;
+      6) SELECTED_SKILLS+=("weekly-review") ;;
+      7) SELECTED_SKILLS+=("token-alert") ;;
+      8) SELECTED_SKILLS+=("article") ;;
+    esac
+  done
+else
+  declare -a SELECTED_SKILLS=()
+fi
+
+# ── Write vigil.yml ───────────────────────────────────────────────────────────
+
+header "Writing vigil.yml"
+
+CONFIG_FILE="$DIR/vigil.yml"
+
+if [[ ! -f "$CONFIG_FILE" ]]; then
+  warn "vigil.yml not found — creating from template"
+  cp "$DIR/aeon.yml" "$CONFIG_FILE" 2>/dev/null || {
+    err "Could not find aeon.yml to copy. Run from the repo root."
+    exit 1
+  }
+fi
+
+# Enable selected skills (toggle enabled: false → enabled: true)
+for skill in "${SELECTED_SKILLS[@]}"; do
+  if grep -q "^  ${skill}:" "$CONFIG_FILE"; then
+    sed -i.bak "s/^  ${skill}: { enabled: false,/  ${skill}: { enabled: true,/" "$CONFIG_FILE"
+    ok "Enabled: ${skill}"
+  else
+    warn "Skill '${skill}' not found in vigil.yml — skipping"
+  fi
+done
+rm -f "$CONFIG_FILE.bak"
+
+# Always enable heartbeat
+if grep -q "^  heartbeat:" "$CONFIG_FILE"; then
+  sed -i.bak 's/^  heartbeat: { enabled: false,/  heartbeat: { enabled: true,/' "$CONFIG_FILE"
+  rm -f "$CONFIG_FILE.bak"
+  ok "Enabled: heartbeat (always on)"
+fi
+
+# ── Notification channel ──────────────────────────────────────────────────────
+
+header "Notification channel"
+echo "Vigil sends skill output to you via Telegram, Discord, or Slack."
+echo ""
+printf "  ${CYAN}1${RESET}  Telegram  ${DIM}(recommended — fastest, supports replies)${RESET}\n"
+printf "  ${CYAN}2${RESET}  Discord   ${DIM}(webhook outbound + bot for replies)${RESET}\n"
+printf "  ${CYAN}3${RESET}  Slack     ${DIM}(webhook outbound + bot for replies)${RESET}\n"
+printf "  ${CYAN}4${RESET}  Skip      ${DIM}(add later from dashboard)${RESET}\n"
+echo ""
+prompt "Choose [1/2/3/4]:"
+read -r notify_choice
+
+case "${notify_choice:-4}" in
+  1)
+    echo ""
+    dim "Create a bot at t.me/BotFather, then get your chat ID from t.me/userinfobot"
+    prompt "TELEGRAM_BOT_TOKEN: "
+    read -rs TG_TOKEN; echo ""
+    prompt "TELEGRAM_CHAT_ID: "
+    read -r TG_CHAT_ID
+
+    if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1 && [[ -n "$REMOTE_REPO" ]]; then
+      echo "$TG_TOKEN" | gh secret set TELEGRAM_BOT_TOKEN --repo "$REMOTE_REPO" --body -
+      echo "$TG_CHAT_ID" | gh secret set TELEGRAM_CHAT_ID --repo "$REMOTE_REPO" --body -
+      ok "Telegram secrets set on ${REMOTE_REPO}"
+    else
+      warn "Add manually: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID as GitHub secrets"
+    fi
+    ;;
+  2)
+    dim "Discord: Channel → Integrations → Webhooks → Create Webhook → copy URL"
+    prompt "DISCORD_WEBHOOK_URL: "
+    read -rs DISCORD_URL; echo ""
+    if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1 && [[ -n "$REMOTE_REPO" ]]; then
+      echo "$DISCORD_URL" | gh secret set DISCORD_WEBHOOK_URL --repo "$REMOTE_REPO" --body -
+      ok "Discord secret set"
+    else
+      warn "Add manually: DISCORD_WEBHOOK_URL as a GitHub secret"
+    fi
+    ;;
+  3)
+    dim "Slack: api.slack.com → Create App → Incoming Webhooks → copy URL"
+    prompt "SLACK_WEBHOOK_URL: "
+    read -rs SLACK_URL; echo ""
+    if command -v gh &>/dev/null && gh auth status &>/dev/null 2>&1 && [[ -n "$REMOTE_REPO" ]]; then
+      echo "$SLACK_URL" | gh secret set SLACK_WEBHOOK_URL --repo "$REMOTE_REPO" --body -
+      ok "Slack secret set"
+    else
+      warn "Add manually: SLACK_WEBHOOK_URL as a GitHub secret"
+    fi
+    ;;
+  *)
+    warn "Skipping notifications — add a channel from the dashboard later."
+    ;;
+esac
+
+# ── Dashboard launch ──────────────────────────────────────────────────────────
+
+header "Setup complete"
+
+echo ""
+printf "${BOLD}${GREEN}Vigil is ready.${RESET} Here's what to do next:\n"
+echo ""
+printf "  ${CYAN}1${RESET}  Launch the dashboard:\n"
+printf "     ${DIM}./vigil${RESET}\n"
+echo ""
+printf "  ${CYAN}2${RESET}  Review your config at ${DIM}http://localhost:5555${RESET}, then push:\n"
+printf "     ${DIM}git add vigil.yml && git commit -m 'feat: initial vigil config' && git push${RESET}\n"
+echo ""
+printf "  ${CYAN}3${RESET}  Verify the setup is wired correctly:\n"
+printf "     ${DIM}./onboard --remote${RESET}\n"
+echo ""
+printf "  ${CYAN}4${RESET}  Add more skills anytime:\n"
+printf "     ${DIM}./add-skill besley1600/vigil --list${RESET}\n"
+echo ""
+printf "${DIM}Need help? See README.md or open an issue on GitHub.${RESET}\n"
+echo ""

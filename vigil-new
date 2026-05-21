@@ -1,0 +1,208 @@
+#!/usr/bin/env bash
+# vigil-new — Scaffold a new skill
+#
+# Usage:
+#   ./vigil-new <skill-name>             Create a new skill interactively
+#   ./vigil-new <skill-name> --minimal   Create the bare minimum SKILL.md
+#   ./vigil-new --help                   Show this help
+#
+# Examples:
+#   ./vigil-new price-watcher
+#   ./vigil-new daily-summary --minimal
+
+set -euo pipefail
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+RESET="\033[0m"
+BOLD="\033[1m"
+DIM="\033[2m"
+INDIGO="\033[38;5;99m"
+CYAN="\033[38;5;51m"
+GREEN="\033[38;5;46m"
+RED="\033[38;5;196m"
+YELLOW="\033[38;5;220m"
+
+header()  { printf "\n${BOLD}${INDIGO}%s${RESET}\n" "$*"; }
+ok()      { printf "${GREEN}✓${RESET} %s\n" "$*"; }
+warn()    { printf "${YELLOW}⚠${RESET} %s\n" "$*"; }
+err()     { printf "${RED}✗${RESET} %s\n" "$*" >&2; }
+prompt()  { printf "${BOLD}%s${RESET} " "$*"; }
+
+# ── Args ──────────────────────────────────────────────────────────────────────
+
+MINIMAL=false
+SKILL_NAME=""
+
+for arg in "$@"; do
+  case "$arg" in
+    --minimal) MINIMAL=true ;;
+    --help|-h)
+      sed -n '3,9p' "$0" | sed 's/^# //'
+      exit 0 ;;
+    -*)
+      err "Unknown option: $arg"
+      exit 1 ;;
+    *)
+      SKILL_NAME="$arg"
+      ;;
+  esac
+done
+
+if [[ -z "$SKILL_NAME" ]]; then
+  err "Usage: ./vigil-new <skill-name> [--minimal]"
+  err "Example: ./vigil-new price-watcher"
+  exit 1
+fi
+
+# Validate name: lowercase, hyphens, no leading/trailing hyphens
+if ! [[ "$SKILL_NAME" =~ ^[a-z][a-z0-9-]*[a-z0-9]$|^[a-z]$ ]]; then
+  err "Skill name must be lowercase alphanumeric with hyphens (e.g. price-watcher)"
+  exit 1
+fi
+
+SKILL_DIR="$DIR/skills/$SKILL_NAME"
+SKILL_FILE="$SKILL_DIR/SKILL.md"
+
+if [[ -d "$SKILL_DIR" ]]; then
+  err "Skill '${SKILL_NAME}' already exists at ${SKILL_DIR}"
+  exit 1
+fi
+
+# ── Collect metadata (interactive) ────────────────────────────────────────────
+
+if [[ "$MINIMAL" == "false" ]]; then
+  header "New skill: ${SKILL_NAME}"
+  echo ""
+
+  prompt "One-line description (what does this skill do?):"
+  read -r DESCRIPTION
+  [[ -z "$DESCRIPTION" ]] && DESCRIPTION="Autonomous skill: ${SKILL_NAME}"
+
+  echo ""
+  printf "  Category:\n"
+  printf "  ${CYAN}1${RESET}  research   ${DIM}Research, content, digests${RESET}\n"
+  printf "  ${CYAN}2${RESET}  dev        ${DIM}Code, repos, PRs${RESET}\n"
+  printf "  ${CYAN}3${RESET}  crypto     ${DIM}Tokens, DeFi, markets${RESET}\n"
+  printf "  ${CYAN}4${RESET}  social     ${DIM}Social media, writing${RESET}\n"
+  printf "  ${CYAN}5${RESET}  productivity ${DIM}Personal ops, planning${RESET}\n"
+  printf "  ${CYAN}6${RESET}  meta       ${DIM}Agent ops, self-improvement${RESET}\n"
+  echo ""
+  prompt "Choose category [1-6, default: 1]:"
+  read -r cat_choice
+
+  case "${cat_choice:-1}" in
+    1) CATEGORY="research" ;;
+    2) CATEGORY="dev" ;;
+    3) CATEGORY="crypto" ;;
+    4) CATEGORY="social" ;;
+    5) CATEGORY="productivity" ;;
+    6) CATEGORY="meta" ;;
+    *) CATEGORY="research" ;;
+  esac
+
+  echo ""
+  prompt "Default schedule (cron or 'workflow_dispatch', default: 0 9 * * *):"
+  read -r SCHEDULE
+  [[ -z "$SCHEDULE" ]] && SCHEDULE="0 9 * * *"
+
+  echo ""
+  prompt "Default var (optional — what does the var control for this skill?):"
+  read -r VAR_DESC
+else
+  DESCRIPTION="Autonomous skill: ${SKILL_NAME}"
+  CATEGORY="research"
+  SCHEDULE="0 9 * * *"
+  VAR_DESC=""
+fi
+
+# ── Write SKILL.md ────────────────────────────────────────────────────────────
+
+mkdir -p "$SKILL_DIR"
+
+DISPLAY_NAME=$(echo "$SKILL_NAME" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
+TODAY=$(date +%Y-%m-%d)
+
+cat > "$SKILL_FILE" <<SKILL_MD
+---
+name: ${DISPLAY_NAME}
+description: "${DESCRIPTION}"
+schedule: "${SCHEDULE}"
+tags: [${CATEGORY}]
+---
+
+# ${DISPLAY_NAME}
+
+## Context
+
+Read \`memory/MEMORY.md\` for current goals and active topics.
+Read \`memory/logs/\` for recent activity (last 3 entries).
+
+## Task
+
+<!-- Describe what this skill should do. Be specific about:
+     - What data to fetch or check
+     - What to analyse or produce
+     - When to send a notification vs. stay silent
+     - What to write to memory -->
+
+[DESCRIBE THE SKILL'S TASK HERE]
+
+## Configuration
+
+\`\`\`
+var: "${VAR_DESC:-"Optional parameter — describe what it controls"}"
+\`\`\`
+
+If \`var\` is empty, use the default behaviour described above.
+
+## Output
+
+<!-- Describe the expected output format -->
+
+Write a brief summary to \`memory/logs/${TODAY}.md\`.
+
+If the result is noteworthy, run:
+\`\`\`
+./notify "Your notification message here"
+\`\`\`
+
+## Sandbox note
+
+If curl fails for any URL, use WebFetch as a fallback — it bypasses the GitHub Actions sandbox.
+
+## Summary
+
+At the end, output a \`## Summary\` section listing what you did and any follow-up actions needed.
+SKILL_MD
+
+# ── Add to vigil.yml ──────────────────────────────────────────────────────────
+
+CONFIG="$DIR/vigil.yml"
+if [[ -f "$CONFIG" ]]; then
+  # Insert before heartbeat (last skill), disabled by default
+  ENTRY="  ${SKILL_NAME}: { enabled: false, schedule: \"${SCHEDULE}\" }"
+  if grep -q "^  heartbeat:" "$CONFIG"; then
+    # Insert the line before heartbeat
+    sed -i.bak "/^  heartbeat:/i\\
+${ENTRY}
+" "$CONFIG"
+    rm -f "$CONFIG.bak"
+    ok "Added '${SKILL_NAME}' to vigil.yml (disabled — enable from dashboard)"
+  else
+    echo "$ENTRY" >> "$CONFIG"
+    ok "Appended '${SKILL_NAME}' to vigil.yml"
+  fi
+fi
+
+# ── Done ──────────────────────────────────────────────────────────────────────
+
+echo ""
+ok "Created: ${SKILL_FILE}"
+echo ""
+printf "${BOLD}Next steps:${RESET}\n"
+printf "  1. Edit the skill:  ${DIM}${SKILL_FILE}${RESET}\n"
+printf "  2. Enable it:       ${DIM}./vigil → find '${SKILL_NAME}' → toggle on${RESET}\n"
+printf "  3. Test locally:    ${DIM}claude -p - < ${SKILL_FILE}${RESET}\n"
+printf "  4. Push to GitHub:  ${DIM}git add . && git commit -m 'feat: add ${SKILL_NAME} skill' && git push${RESET}\n"
+echo ""

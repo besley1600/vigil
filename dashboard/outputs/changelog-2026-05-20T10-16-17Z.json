@@ -1,0 +1,273 @@
+{
+  "root": "card-changelog",
+  "state": {},
+  "elements": {
+    "card-changelog": {
+      "type": "Card",
+      "props": {
+        "title": "Changelog — Week of 2026-05-20"
+      },
+      "children": [
+        "emoji",
+        "summary-stats",
+        "sep1",
+        "changes-section",
+        "sep2",
+        "highlights-section",
+        "sep3",
+        "article-link"
+      ]
+    },
+    "emoji": {
+      "type": "Text",
+      "props": {
+        "text": "🔍",
+        "variant": "muted"
+      }
+    },
+    "summary-stats": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "md"
+      },
+      "children": [
+        "repo-stat",
+        "breaking-stat",
+        "added-stat",
+        "changed-stat"
+      ]
+    },
+    "repo-stat": {
+      "type": "Stat",
+      "props": {
+        "label": "Repositories",
+        "value": "1"
+      }
+    },
+    "breaking-stat": {
+      "type": "Stat",
+      "props": {
+        "label": "Breaking Changes",
+        "value": "1"
+      }
+    },
+    "added-stat": {
+      "type": "Stat",
+      "props": {
+        "label": "Added",
+        "value": "6"
+      }
+    },
+    "changed-stat": {
+      "type": "Stat",
+      "props": {
+        "label": "Changed",
+        "value": "2"
+      }
+    },
+    "sep1": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "changes-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "lg"
+      },
+      "children": [
+        "breaking-subsection",
+        "added-subsection",
+        "changed-subsection"
+      ]
+    },
+    "breaking-subsection": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "breaking-heading",
+        "license-badge"
+      ]
+    },
+    "breaking-heading": {
+      "type": "Heading",
+      "props": {
+        "text": "Breaking Changes",
+        "level": "h3"
+      }
+    },
+    "license-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "license",
+        "variant": "destructive"
+      }
+    },
+    "added-subsection": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "added-heading",
+        "added-items"
+      ]
+    },
+    "added-heading": {
+      "type": "Heading",
+      "props": {
+        "text": "Added",
+        "level": "h3"
+      }
+    },
+    "added-items": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "desktop-badge",
+        "dashboard-badge",
+        "tiers-badge"
+      ]
+    },
+    "desktop-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Desktop app"
+      }
+    },
+    "dashboard-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "v2 dashboard"
+      }
+    },
+    "tiers-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Tiers"
+      }
+    },
+    "changed-subsection": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "changed-heading",
+        "changed-items"
+      ]
+    },
+    "changed-heading": {
+      "type": "Heading",
+      "props": {
+        "text": "Changed",
+        "level": "h3"
+      }
+    },
+    "changed-items": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "rebrand-badge",
+        "readme-badge"
+      ]
+    },
+    "rebrand-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Rebrand"
+      }
+    },
+    "readme-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "README"
+      }
+    },
+    "sep2": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "highlights-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "highlights-heading",
+        "highlights-items"
+      ]
+    },
+    "highlights-heading": {
+      "type": "Heading",
+      "props": {
+        "text": "Major Release",
+        "level": "h2"
+      }
+    },
+    "highlights-items": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "commercial-badge",
+        "electron-badge",
+        "feature-tiers-badge"
+      ]
+    },
+    "commercial-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Commercial launch",
+        "variant": "secondary"
+      }
+    },
+    "electron-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Electron desktop",
+        "variant": "secondary"
+      }
+    },
+    "feature-tiers-badge": {
+      "type": "Badge",
+      "props": {
+        "text": "Feature tiers",
+        "variant": "secondary"
+      }
+    },
+    "sep3": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "article-link": {
+      "type": "StoryLink",
+      "props": {
+        "title": "Full Changelog Article",
+        "href": "articles/changelog-2026-05-20.md",
+        "source": "Article"
+      }
+    }
+  }
+}

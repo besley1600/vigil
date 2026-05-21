@@ -1,0 +1,151 @@
+#!/usr/bin/env bash
+# vigil-pack — Install a curated skill pack
+#
+# Usage:
+#   ./vigil-pack --list                 List available packs
+#   ./vigil-pack <pack-id>              Install a pack interactively
+#   ./vigil-pack <pack-id> --yes        Install without prompts
+#   ./vigil-pack --help                 Show this help
+#
+# Available packs (see packs.json):
+#   ai-builder       Core skills for AI product developers
+#   morning-ops      Daily briefing and digest stack
+#   crypto-monitor   Full-spectrum crypto intelligence
+#   dev-ops          PR reviews, issue triage, auto-merge, vuln scanning
+#   content-machine  Autonomous research-to-publish pipeline
+#   self-healing     Health checks, quality scoring, auto-repair
+
+set -euo pipefail
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+RESET="\033[0m"
+BOLD="\033[1m"
+DIM="\033[2m"
+INDIGO="\033[38;5;99m"
+CYAN="\033[38;5;51m"
+GREEN="\033[38;5;46m"
+RED="\033[38;5;196m"
+YELLOW="\033[38;5;220m"
+
+header()  { printf "\n${BOLD}${INDIGO}%s${RESET}\n" "$*"; }
+ok()      { printf "${GREEN}✓${RESET} %s\n" "$*"; }
+warn()    { printf "${YELLOW}⚠${RESET} %s\n" "$*"; }
+err()     { printf "${RED}✗${RESET} %s\n" "$*" >&2; }
+dim()     { printf "${DIM}%s${RESET}\n" "$*"; }
+
+PACKS_FILE="$DIR/packs.json"
+LIST=false
+YES=false
+PACK_ID=""
+
+for arg in "$@"; do
+  case "$arg" in
+    --list)    LIST=true ;;
+    --yes|-y)  YES=true ;;
+    --help|-h)
+      sed -n '3,14p' "$0" | sed 's/^# //'
+      exit 0 ;;
+    -*)
+      err "Unknown option: $arg"
+      exit 1 ;;
+    *)
+      PACK_ID="$arg"
+      ;;
+  esac
+done
+
+if ! command -v node &>/dev/null; then
+  err "Node.js required. Install from https://nodejs.org"
+  exit 1
+fi
+
+if [[ ! -f "$PACKS_FILE" ]]; then
+  err "packs.json not found at $PACKS_FILE. Run from repo root."
+  exit 1
+fi
+
+# ── List packs ────────────────────────────────────────────────────────────────
+
+if [[ "$LIST" == "true" ]]; then
+  echo ""
+  printf "${BOLD}Available packs${RESET}\n\n"
+  node -e "
+    const packs = JSON.parse(require('fs').readFileSync('$PACKS_FILE', 'utf-8')).packs;
+    packs.forEach(p => {
+      console.log('\x1b[1m' + p.id.padEnd(20) + '\x1b[0m ' + p.description);
+      console.log('\x1b[2m  ' + p.skills.length + ' skills: ' + p.skills.join(', ') + '\x1b[0m');
+      console.log('');
+    });
+  "
+  echo "Install with: ./vigil-pack <pack-id>"
+  exit 0
+fi
+
+if [[ -z "$PACK_ID" ]]; then
+  err "Usage: ./vigil-pack <pack-id> | --list"
+  err "Example: ./vigil-pack ai-builder"
+  exit 1
+fi
+
+# ── Load pack ─────────────────────────────────────────────────────────────────
+
+PACK_DATA=$(node -e "
+  const packs = JSON.parse(require('fs').readFileSync('$PACKS_FILE', 'utf-8')).packs;
+  const pack = packs.find(p => p.id === '$PACK_ID');
+  if (!pack) { console.error('Pack not found: $PACK_ID'); process.exit(1); }
+  console.log(JSON.stringify(pack));
+" 2>&1) || { err "$PACK_DATA"; exit 1; }
+
+PACK_NAME=$(node -e "console.log(JSON.parse('$(echo "$PACK_DATA" | sed "s/'/\\\\''/g")').name)")
+PACK_DESC=$(node -e "console.log(JSON.parse('$(echo "$PACK_DATA" | sed "s/'/\\\\''/g")').description)")
+PACK_SKILLS=$(node -e "console.log(JSON.parse('$(echo "$PACK_DATA" | sed "s/'/\\\\''/g")').skills.join(' '))")
+
+header "Installing: $PACK_NAME"
+echo "$PACK_DESC"
+echo ""
+printf "${BOLD}Skills in this pack:${RESET}\n"
+for skill in $PACK_SKILLS; do
+  printf "  ${CYAN}•${RESET} %s\n" "$skill"
+done
+echo ""
+
+if [[ "$YES" == "false" ]]; then
+  read -rp "Install all ${#PACK_SKILLS} skills and enable heartbeat? [Y/n]: " confirm
+  if [[ "${confirm:-y}" =~ ^[Nn] ]]; then
+    echo "Aborted."
+    exit 0
+  fi
+fi
+
+# ── Install skills ────────────────────────────────────────────────────────────
+
+UPSTREAM="besley1600/vigil"
+INSTALLED=0
+SKIPPED=0
+
+for skill in $PACK_SKILLS; do
+  SKILL_DIR="$DIR/skills/$skill"
+  if [[ -d "$SKILL_DIR" ]]; then
+    printf "${DIM}  Already installed: %s${RESET}\n" "$skill"
+    SKIPPED=$((SKIPPED+1))
+  else
+    printf "  Installing: %s ... " "$skill"
+    if "$DIR/add-skill" "$UPSTREAM" "$skill" >/dev/null 2>&1; then
+      printf "${GREEN}✓${RESET}\n"
+      INSTALLED=$((INSTALLED+1))
+    else
+      printf "${YELLOW}skipped (not in upstream)${RESET}\n"
+      SKIPPED=$((SKIPPED+1))
+    fi
+  fi
+done
+
+echo ""
+ok "$INSTALLED skill(s) installed, $SKIPPED already present"
+echo ""
+printf "${BOLD}Next steps:${RESET}\n"
+printf "  1. Open dashboard to enable skills:   ${DIM}./vigil${RESET}\n"
+printf "  2. Or edit vigil.yml to enable them:  ${DIM}enabled: true${RESET} on each skill\n"
+printf "  3. Push to activate on GitHub Actions: ${DIM}git add . && git commit -m 'feat: install $PACK_NAME' && git push${RESET}\n"
+echo ""

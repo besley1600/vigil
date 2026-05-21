@@ -1,0 +1,20 @@
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="40" height="40" fill="#0A0A0A"/>
+  <!-- Eye outline — upper lid -->
+  <path d="M4 20 Q12 8 20 8 Q28 8 36 20" fill="none" stroke="#4F46E5" stroke-width="1.5"/>
+  <!-- Eye outline — lower lid -->
+  <path d="M4 20 Q12 32 20 32 Q28 32 36 20" fill="none" stroke="#4F46E5" stroke-width="1.5"/>
+  <!-- Iris -->
+  <circle cx="20" cy="20" r="6" fill="#4F46E5"/>
+  <!-- Pupil -->
+  <circle cx="20" cy="20" r="2.5" fill="#0A0A0A"/>
+  <!-- Catch light -->
+  <circle cx="22" cy="18" r="1" fill="#06B6D4" opacity="0.9"/>
+  <!-- Scan line -->
+  <line x1="4" y1="20" x2="36" y2="20" stroke="#06B6D4" stroke-width="0.5" opacity="0.4"/>
+  <!-- Corner marks — top-left -->
+  <path d="M2 6 L2 2 L6 2" fill="none" stroke="#06B6D4" stroke-width="1" stroke-linecap="square"/>
+  <!-- Corner marks — bottom-right -->
+  <path d="M38 34 L38 38 L34 38" fill="none" stroke="#06B6D4" stroke-width="1" stroke-linecap="square"/>
+</svg>

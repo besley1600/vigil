@@ -1,0 +1,420 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.besley1600/vigil-mcp",
+  "title": "Vigil",
+  "description": "The most autonomous agent framework — give it a direction and it leverages 95 skills like deep research, PR reviews, market monitoring, and Vercel deploys.",
+  "version": "1.0.0",
+  "websiteUrl": "https://github.com/besley1600/vigil",
+  "repository": {
+    "url": "https://github.com/besley1600/vigil",
+    "source": "github",
+    "subfolder": "mcp-server"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "vigil-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": []
+    }
+  ],
+  "_meta": {
+    "io.github.besley1600/vigil": {
+      "tools": [
+        {
+          "name": "vigil-action-converter",
+          "description": "[Vigil · Productivity] 5 concrete real-life actions for today based on recent signals and memory (cron: 0 18 * * *)"
+        },
+        {
+          "name": "vigil-agent-buzz",
+          "description": "[Vigil · Social] Top 10 tweets by influence mentioning AI agents (cron: 30 17 * * *)"
+        },
+        {
+          "name": "vigil-article",
+          "description": "[Vigil · Research] Research trending topics and write a publication-ready article (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-auto-merge",
+          "description": "[Vigil · Dev] Automatically merge open PRs that have passing CI, no blocking reviews, and no conflicts (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-auto-workflow",
+          "description": "[Vigil · Dev] Analyze a URL and generate a tailored vigil.yml schedule with skill suggestions (on-demand)"
+        },
+        {
+          "name": "vigil-autoresearch",
+          "description": "[Vigil · Dev] Evolve a skill by generating variations, evaluating them, and updating the best version (on-demand)"
+        },
+        {
+          "name": "vigil-changelog",
+          "description": "[Vigil · Dev] Generate a changelog from recent commits across watched repos (cron: 0 16 * * *)"
+        },
+        {
+          "name": "vigil-channel-recap",
+          "description": "[Vigil · Research] Weekly recap article from a public Telegram channel — expand on the best posts (cron: 0 17 * * 0)"
+        },
+        {
+          "name": "vigil-code-health",
+          "description": "[Vigil · Dev] Weekly report on TODOs, dead code, and test coverage gaps (cron: 0 16 * * *)"
+        },
+        {
+          "name": "vigil-cost-report",
+          "description": "[Vigil · Productivity] Weekly API cost report — reads token usage CSV, computes dollar costs per skill and model, reports trends (cron: 0 7 * * 1)"
+        },
+        {
+          "name": "vigil-create-skill",
+          "description": "[Vigil · Dev] Generate a complete new skill from a one-line prompt (on-demand)"
+        },
+        {
+          "name": "vigil-daily-routine",
+          "description": "[Vigil · Productivity] Morning briefing combining token movers, tweet roundup, paper pick, GitHub issues, and HN digest (cron: 0 7 * * *)"
+        },
+        {
+          "name": "vigil-deal-flow",
+          "description": "[Vigil · Productivity] Weekly funding round tracker across configurable verticals (cron: 0 14 * * 1)"
+        },
+        {
+          "name": "vigil-deep-research",
+          "description": "[Vigil · Research] Exhaustive multi-source synthesis on any topic using full-context ingestion — far beyond a digest (on-demand)"
+        },
+        {
+          "name": "vigil-defi-monitor",
+          "description": "[Vigil · Crypto] Check pool health, positions, and yield rates for tracked protocols (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-defi-overview",
+          "description": "[Vigil · Crypto] Daily overview of DeFi activity from DeFiLlama — TVL changes, top chains, top protocols (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-deploy-prototype",
+          "description": "[Vigil · Dev] Generate a small app or tool and deploy it live to Vercel via API (on-demand)"
+        },
+        {
+          "name": "vigil-digest",
+          "description": "[Vigil · Research] Generate and send a daily digest on a configurable topic (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-distribute-tokens",
+          "description": "[Vigil · Crypto] Send tokens to a list of contributors via Bankr Agent API (supports Twitter handles and EVM addresses) (on-demand)"
+        },
+        {
+          "name": "vigil-evening-recap",
+          "description": "[Vigil · Productivity] End-of-day operational summary — what Vigil shipped, what failed, what needs follow-up (cron: 0 21 * * *)"
+        },
+        {
+          "name": "vigil-external-feature",
+          "description": "[Vigil · Dev] Proactively enhance watched repos — fix issues, add features, improve code (cron: 30 16 * * *)"
+        },
+        {
+          "name": "vigil-farcaster-digest",
+          "description": "[Vigil · Social] Trending and relevant Farcaster casts filtered by crypto, prediction markets, and coordination topics (cron: 0 17 * * *)"
+        },
+        {
+          "name": "vigil-fetch-tweets",
+          "description": "[Vigil · Research] Search X/Twitter for tweets by keyword, username, or both (cron: 0 17 * * *)"
+        },
+        {
+          "name": "vigil-fleet-control",
+          "description": "[Vigil · Dev] Monitor managed Vigil instances — check health, dispatch skills, aggregate status (cron: 0 9,15 * * *)"
+        },
+        {
+          "name": "vigil-fork-fleet",
+          "description": "[Vigil · Dev] Inventory active Vigil forks, detect diverged work, surface upstream contribution candidates (cron: 0 10 * * 1)"
+        },
+        {
+          "name": "vigil-github-issues",
+          "description": "[Vigil · Dev] Check all your repos for new open issues in the last 24 hours (cron: 0 9 * * *)"
+        },
+        {
+          "name": "vigil-github-monitor",
+          "description": "[Vigil · Dev] Watch repos for stale PRs, new issues, and new releases (cron: 0 9 * * *)"
+        },
+        {
+          "name": "vigil-github-releases",
+          "description": "[Vigil · Dev] Track new releases from key AI, crypto, and infra repos (cron: 30 9 * * *)"
+        },
+        {
+          "name": "vigil-github-trending",
+          "description": "[Vigil · Dev] Top 10 trending repos on GitHub right now (cron: 0 9 * * *)"
+        },
+        {
+          "name": "vigil-goal-tracker",
+          "description": "[Vigil · Productivity] Compare current progress against goals stored in MEMORY.md (cron: 0 18 * * *)"
+        },
+        {
+          "name": "vigil-hacker-news-digest",
+          "description": "[Vigil · Research] Top HN stories filtered by keywords relevant to your interests (cron: 0 7 * * *)"
+        },
+        {
+          "name": "vigil-heartbeat",
+          "description": "[Vigil · Productivity] Proactive ambient check — surface anything worth attention (cron: 0 8,14,20 * * *)"
+        },
+        {
+          "name": "vigil-idea-capture",
+          "description": "[Vigil · Productivity] Quick note capture triggered via Telegram — stores to memory (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-issue-triage",
+          "description": "[Vigil · Dev] Label and prioritize new GitHub issues on watched repos (cron: 0 9 * * *)"
+        },
+        {
+          "name": "vigil-last30",
+          "description": "[Vigil · Research] Cross-platform social research — what people are actually saying about a topic across Reddit, X, HN, Polymarket, and the web over the last 30 days (on-demand)"
+        },
+        {
+          "name": "vigil-list-digest",
+          "description": "[Vigil · Research] Top tweets from tracked X lists in the past 24 hours (cron: 0 17 * * *)"
+        },
+        {
+          "name": "vigil-market-context-refresh",
+          "description": "[Vigil · Crypto] Fetch live crypto macro data and update memory/topics/market-context.md (cron: 0 13 * * *)"
+        },
+        {
+          "name": "vigil-monitor-kalshi",
+          "description": "[Vigil · Crypto] Monitor specific Kalshi prediction markets for 24h price moves, volume changes, and top events (cron: 0 13 * * *)"
+        },
+        {
+          "name": "vigil-monitor-polymarket",
+          "description": "[Vigil · Crypto] Monitor specific prediction markets for 24h price moves, volume changes, and fresh comments (cron: 30 12 * * *)"
+        },
+        {
+          "name": "vigil-monitor-runners",
+          "description": "[Vigil · Crypto] Find the top 5 tokens that ran hardest in the past 24h across major chains using GeckoTerminal (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-morning-brief",
+          "description": "[Vigil · Productivity] Aggregated daily briefing — digests, priorities, and what's ahead (cron: 0 7 * * *)"
+        },
+        {
+          "name": "vigil-narrative-tracker",
+          "description": "[Vigil · Crypto] Track rising, peaking, and fading crypto/tech narratives — identify the stories manufacturing reality before they peak (cron: 30 13 * * *)"
+        },
+        {
+          "name": "vigil-on-chain-monitor",
+          "description": "[Vigil · Crypto] Monitor blockchain addresses and contracts for notable activity (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-paper-digest",
+          "description": "[Vigil · Research] Find and summarize new papers matching tracked research interests (cron: 0 7 * * *)"
+        },
+        {
+          "name": "vigil-paper-pick",
+          "description": "[Vigil · Research] Find the one paper you should read today from Hugging Face Papers (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-polymarket-comments",
+          "description": "[Vigil · Crypto] Top trending Polymarket markets and the most interesting comments from them (cron: 0 13 * * *)"
+        },
+        {
+          "name": "vigil-pr-review",
+          "description": "[Vigil · Dev] Auto-review open PRs on watched repos and post summary comments (cron: 0 9 * * *)"
+        },
+        {
+          "name": "vigil-pr-triage",
+          "description": "[Vigil · Dev] First-touch triage for external pull requests — verdict + label + welcoming comment within minutes of open (cron: 30 9 * * *)"
+        },
+        {
+          "name": "vigil-project-lens",
+          "description": "[Vigil · Dev] Write an article about the project through a surprising lens — connecting it to current events, trends, philosophy, or comparable projects (cron: 30 15 * * 1,3,5)"
+        },
+        {
+          "name": "vigil-push-recap",
+          "description": "[Vigil · Dev] Daily deep-dive recap of all pushes — reads diffs, explains what changed and why (cron: 0 15 * * *)"
+        },
+        {
+          "name": "vigil-reddit-digest",
+          "description": "[Vigil · Research] Fetch and summarize top Reddit posts from tracked subreddits (cron: 0 7 * * *)"
+        },
+        {
+          "name": "vigil-reflect",
+          "description": "[Vigil · Productivity] Review recent activity, consolidate memory, and prune stale entries (cron: 0 18 * * *)"
+        },
+        {
+          "name": "vigil-refresh-x",
+          "description": "[Vigil · Social] Fetch a tracked X/Twitter account's latest tweets and save the gist to memory (cron: 0 17 * * *)"
+        },
+        {
+          "name": "vigil-reg-monitor",
+          "description": "[Vigil · Productivity] Track legislation, regulatory actions, and legal developments affecting prediction markets, crypto, and AI agents (cron: 0 14 * * 3)"
+        },
+        {
+          "name": "vigil-remix-tweets",
+          "description": "[Vigil · Social] Fetch 10 random past tweets from your account and craft 10 new rephrased versions in your voice (cron: 30 17 * * *)"
+        },
+        {
+          "name": "vigil-reply-maker",
+          "description": "[Vigil · Social] Generate two reply options for 5 tweets from tracked X accounts or topics (cron: 0 17 * * *)"
+        },
+        {
+          "name": "vigil-repo-actions",
+          "description": "[Vigil · Dev] Generate actionable ideas to improve the repo — features, integrations, community, and growth (cron: 0 15 * * *)"
+        },
+        {
+          "name": "vigil-repo-article",
+          "description": "[Vigil · Dev] Write an article about the current state, progress, and vision of the watched repo (cron: 0 15 * * *)"
+        },
+        {
+          "name": "vigil-repo-pulse",
+          "description": "[Vigil · Dev] Daily report on new stars, forks, and traffic for watched repos (cron: 0 15 * * *)"
+        },
+        {
+          "name": "vigil-repo-scanner",
+          "description": "[Vigil · Dev] Catalog all GitHub repos for a user or org (cron: 0 15 * * 0)"
+        },
+        {
+          "name": "vigil-research-brief",
+          "description": "[Vigil · Research] Deep dive on a topic combining web search, papers, and synthesis (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-rss-digest",
+          "description": "[Vigil · Research] Fetch, summarize, and deliver RSS feed highlights (cron: 0 7 * * *)"
+        },
+        {
+          "name": "vigil-rss-feed",
+          "description": "[Vigil · Productivity] Generate an Atom XML feed from articles in the repo (cron: 30 17 * * *)"
+        },
+        {
+          "name": "vigil-search-skill",
+          "description": "[Vigil · Dev] Search the open agent skills ecosystem for useful skills to install (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-security-digest",
+          "description": "[Vigil · Research] Monitor recent security advisories from the GitHub Advisory Database for tracked ecosystems (cron: 0 14 * * *)"
+        },
+        {
+          "name": "vigil-self-improve",
+          "description": "[Vigil · Productivity] Improve the agent itself — better skills, prompts, workflows, and config based on recent performance (cron: 0 18 1/2 * *)"
+        },
+        {
+          "name": "vigil-skill-evals",
+          "description": "[Vigil · Productivity] Evaluate skill output quality against assertion manifests — detects regressions before users notice (cron: 0 6 * * 0)"
+        },
+        {
+          "name": "vigil-skill-health",
+          "description": "[Vigil · Productivity] Audit skill quality metrics, detect API degradation, and report health trends (cron: 0 18 * * *)"
+        },
+        {
+          "name": "vigil-skill-leaderboard",
+          "description": "[Vigil · Productivity] Weekly ranking of which skills are most popular across all active forks (cron: 0 17 * * 0)"
+        },
+        {
+          "name": "vigil-skill-repair",
+          "description": "[Vigil · Productivity] Diagnose and fix failing or degraded skills automatically (on-demand)"
+        },
+        {
+          "name": "vigil-skill-security-scan",
+          "description": "[Vigil · Dev] Audit imported skills for shell injection, secret exfiltration, path traversal, and prompt injection before they run (cron: 0 16 * * 1)"
+        },
+        {
+          "name": "vigil-skill-update-check",
+          "description": "[Vigil · Productivity] Check imported skills for upstream changes and security regressions since the version in skills.lock (cron: 0 19 * * 0)"
+        },
+        {
+          "name": "vigil-smithery-manifest",
+          "description": "[Vigil · Productivity] Auto-generate Smithery + MCP Registry submission docs from skills.json and the vigil-mcp server (cron: 0 6 1/7 * *)"
+        },
+        {
+          "name": "vigil-spawn-instance",
+          "description": "[Vigil · Dev] Clone this Vigil agent into a new GitHub repo — fork, configure skills, register in fleet (on-demand)"
+        },
+        {
+          "name": "vigil-star-milestone",
+          "description": "[Vigil · Dev] Announces when a watched repo crosses a star-count milestone (100, 150, 200, 250, 500, 1000, ...) with a highlight reel of recent work (cron: 15 15 * * *)"
+        },
+        {
+          "name": "vigil-startup-idea",
+          "description": "[Vigil · Productivity] 2 startup ideas tailored to the user's skills, interests, and context (cron: 0 18 * * *)"
+        },
+        {
+          "name": "vigil-technical-explainer",
+          "description": "[Vigil · Research] Generate a visual technical explanation of a recent topic using Replicate for the hero image (cron: 30 14 * * *)"
+        },
+        {
+          "name": "vigil-telegram-digest",
+          "description": "[Vigil · Research] Digest of recent posts from tracked public Telegram channels (cron: 30 7 * * *)"
+        },
+        {
+          "name": "vigil-thread-formatter",
+          "description": "[Vigil · Social] Score the day's events from memory/logs and format the top one as a 5-tweet thread ready to paste (cron: 30 17 * * *)"
+        },
+        {
+          "name": "vigil-token-alert",
+          "description": "[Vigil · Crypto] Notify on price or volume anomalies for tracked tokens (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-token-movers",
+          "description": "[Vigil · Crypto] Top movers, losers, and trending coins from CoinGecko (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-token-pick",
+          "description": "[Vigil · Crypto] One token recommendation and one prediction market pick based on live data (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-token-report",
+          "description": "[Vigil · Crypto] Daily price performance report for the project's token — price, volume, liquidity, and context (cron: 30 12 * * *)"
+        },
+        {
+          "name": "vigil-tool-builder",
+          "description": "[Vigil · Productivity] Build automation scripts from action-converter suggestions and recurring manual tasks (on-demand)"
+        },
+        {
+          "name": "vigil-treasury-info",
+          "description": "[Vigil · Crypto] Show holdings overview for a wallet using Bankr API with block explorer fallback (cron: 0 12 * * *)"
+        },
+        {
+          "name": "vigil-tweet-roundup",
+          "description": "[Vigil · Social] Gist of the latest tweets on configurable topics (cron: 0 17 * * *)"
+        },
+        {
+          "name": "vigil-unlock-monitor",
+          "description": "[Vigil · Crypto] Weekly token unlock and vesting tracker — flag major supply events before they move markets (cron: 0 10 * * 1)"
+        },
+        {
+          "name": "vigil-update-gallery",
+          "description": "[Vigil · Productivity] Sync articles, activity logs, and memory to the GitHub Pages site (cron: 0 18 * * 0)"
+        },
+        {
+          "name": "vigil-vercel-projects",
+          "description": "[Vigil · Dev] Catalog all Vercel projects with deployment status, domains, and framework info (cron: 0 18 * * 0)"
+        },
+        {
+          "name": "vigil-vibecoding-digest",
+          "description": "[Vigil · Research] Monitor r/vibecoding for trending posts, interesting discussions, and notable projects shipped (cron: 30 17 * * *)"
+        },
+        {
+          "name": "vigil-vuln-scanner",
+          "description": "[Vigil · Dev] Fork trending repos, audit for security vulnerabilities, and PR fixes (cron: 0 16 * * 6)"
+        },
+        {
+          "name": "vigil-weekly-review",
+          "description": "[Vigil · Productivity] Synthesize the week's logs into a structured retrospective (cron: 0 19 * * 1)"
+        },
+        {
+          "name": "vigil-weekly-shiplog",
+          "description": "[Vigil · Productivity] Weekly narrative of everything shipped — features, fixes, and momentum, written as a compelling update (cron: 0 9 * * 1)"
+        },
+        {
+          "name": "vigil-workflow-security-audit",
+          "description": "[Vigil · Dev] Audit .github/workflows/ for script injection, over-permissioning, unverified actions, and secret exposure. Auto-fixes critical findings and opens a PR. (cron: 0 16 * * 0)"
+        },
+        {
+          "name": "vigil-write-tweet",
+          "description": "[Vigil · Social] Generate 10 tweet drafts across 5 size tiers (2 variations each) on a topic from today's outputs (cron: 0 17 * * *)"
+        }
+      ],
+      "totalSkills": 95,
+      "categories": {
+        "crypto": 16,
+        "dev": 30,
+        "productivity": 24,
+        "research": 17,
+        "social": 8
+      },
+      "generated": "2026-05-01"
+    }
+  }
+}

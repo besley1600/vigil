@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "packs": [
+    {
+      "id": "ai-builder",
+      "name": "AI Builder Pack",
+      "description": "Core skills for developers building AI products — PR reviews, repo monitoring, research digests, and self-healing infrastructure.",
+      "skills": ["pr-review", "github-monitor", "deep-research", "hacker-news-digest", "ai-framework-watch", "huggingface-trending", "heartbeat", "skill-repair", "cost-report"]
+    },
+    {
+      "id": "morning-ops",
+      "name": "Morning Ops Pack",
+      "description": "Everything you need to start each day informed — briefing, digest, market context, and task focus.",
+      "skills": ["morning-brief", "hacker-news-digest", "rss-digest", "token-alert", "daily-routine", "heartbeat"]
+    },
+    {
+      "id": "crypto-monitor",
+      "name": "Crypto Monitor Pack",
+      "description": "Full-spectrum crypto intelligence — price alerts, DeFi monitoring, on-chain tracking, and market narrative detection.",
+      "skills": ["token-alert", "token-movers", "defi-monitor", "on-chain-monitor", "narrative-tracker", "market-context-refresh", "monitor-polymarket", "cost-report", "heartbeat"]
+    },
+    {
+      "id": "dev-ops",
+      "name": "Dev Ops Pack",
+      "description": "Autonomous code quality and repo health — PR reviews, issue triage, auto-merge, vuln scanning, and changelog generation.",
+      "skills": ["pr-review", "pr-triage", "auto-merge", "issue-triage", "github-monitor", "vuln-scanner", "code-health", "changelog", "heartbeat"]
+    },
+    {
+      "id": "content-machine",
+      "name": "Content Machine Pack",
+      "description": "Fully autonomous content pipeline — research, write, format for social, and publish to your gallery.",
+      "skills": ["article", "deep-research", "rss-digest", "thread-formatter", "write-tweet", "syndicate-article", "rss-feed", "heartbeat"]
+    },
+    {
+      "id": "self-healing",
+      "name": "Self-Healing Pack",
+      "description": "The complete autonomy layer — health checks, quality scoring, failure detection, auto-repair, and self-improvement.",
+      "skills": ["heartbeat", "skill-health", "skill-evals", "skill-repair", "self-improve", "cost-report", "operator-scorecard"]
+    }
+  ]
+}

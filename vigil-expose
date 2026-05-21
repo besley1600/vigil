@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+# vigil-expose — Expose the local Vigil dashboard publicly for webhook integrations
+#
+# Usage:
+#   ./vigil-expose              Expose port 5555 using best available tunnel
+#   ./vigil-expose --port 3000  Expose a custom port
+#   ./vigil-expose --ngrok      Force ngrok (requires ngrok installed + account)
+#   ./vigil-expose --lt         Force localtunnel (requires npm -g localtunnel)
+#   ./vigil-expose --cloudflare Force Cloudflare Tunnel (requires cloudflared)
+#
+# Once the public URL is displayed, set it as your webhook endpoint:
+#   https://<your-url>/api/webhook
+#
+# Secure it with a secret:
+#   gh secret set VIGIL_WEBHOOK_SECRET --body "$(openssl rand -hex 32)"
+
+set -euo pipefail
+
+RESET="\033[0m"
+BOLD="\033[1m"
+DIM="\033[2m"
+INDIGO="\033[38;5;99m"
+CYAN="\033[38;5;51m"
+GREEN="\033[38;5;46m"
+YELLOW="\033[38;5;220m"
+
+PORT=5555
+TOOL=""
+
+header()  { printf "\n${BOLD}${INDIGO}%s${RESET}\n" "$*"; }
+ok()      { printf "${GREEN}✓${RESET} %s\n" "$*"; }
+warn()    { printf "${YELLOW}⚠${RESET} %s\n" "$*"; }
+dim()     { printf "${DIM}%s${RESET}\n" "$*"; }
+
+for arg in "$@"; do
+  case "$arg" in
+    --port=*)   PORT="${arg#--port=}" ;;
+    --port)     shift; PORT="$1" ;;
+    --ngrok)      TOOL="ngrok" ;;
+    --lt)         TOOL="lt" ;;
+    --cloudflare) TOOL="cloudflared" ;;
+    --help|-h)
+      sed -n '3,14p' "$0" | sed 's/^# //'
+      exit 0 ;;
+  esac
+done
+
+header "Vigil Expose"
+printf "Exposing port ${CYAN}%s${RESET} to the internet...\n\n" "$PORT"
+
+# Check dashboard is running
+if ! curl -sf "http://localhost:$PORT/api/webhook" >/dev/null 2>&1; then
+  warn "Dashboard doesn't seem to be running on port $PORT"
+  warn "Start it with: ./vigil"
+  echo ""
+fi
+
+# Pick tunnel tool
+if [[ -z "$TOOL" ]]; then
+  if command -v ngrok &>/dev/null; then
+    TOOL="ngrok"
+  elif command -v cloudflared &>/dev/null; then
+    TOOL="cloudflared"
+  elif command -v lt &>/dev/null || npx localtunnel --version &>/dev/null 2>&1; then
+    TOOL="lt"
+  else
+    printf "No tunnel tool found. Install one:\n"
+    printf "  ${DIM}brew install ngrok/ngrok/ngrok${RESET}     (recommended, free tier available)\n"
+    printf "  ${DIM}brew install cloudflared${RESET}           (Cloudflare Tunnel, free)\n"
+    printf "  ${DIM}npm install -g localtunnel${RESET}         (localtunnel, simplest)\n"
+    exit 1
+  fi
+fi
+
+WEBHOOK_URL=""
+
+case "$TOOL" in
+  ngrok)
+    ok "Using ngrok"
+    dim "Starting tunnel on port $PORT..."
+    # Start ngrok in background, get URL from API
+    ngrok http "$PORT" --log stdout --log-format json > /tmp/vigil-ngrok.log 2>&1 &
+    NGROK_PID=$!
+    sleep 3
+    WEBHOOK_URL=$(curl -sf http://localhost:4040/api/tunnels 2>/dev/null | \
+      node -e "
+        let d='';
+        process.stdin.on('data',c=>d+=c);
+        process.stdin.on('end',()=>{
+          try{const t=JSON.parse(d).tunnels.find(t=>t.proto==='https');
+          console.log(t?t.public_url:'');}catch{console.log('');}
+        });
+      " 2>/dev/null || echo "")
+    if [[ -z "$WEBHOOK_URL" ]]; then
+      warn "Could not get ngrok URL from API. Check http://localhost:4040"
+      wait $NGROK_PID
+    fi
+    trap "kill $NGROK_PID 2>/dev/null || true" EXIT
+    ;;
+
+  cloudflared)
+    ok "Using Cloudflare Tunnel"
+    dim "Starting tunnel on port $PORT..."
+    cloudflared tunnel --url "http://localhost:$PORT" 2>&1 | tee /tmp/vigil-cloudflared.log &
+    CF_PID=$!
+    sleep 4
+    WEBHOOK_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /tmp/vigil-cloudflared.log 2>/dev/null | head -1 || echo "")
+    trap "kill $CF_PID 2>/dev/null || true" EXIT
+    ;;
+
+  lt)
+    ok "Using localtunnel"
+    dim "Starting tunnel on port $PORT..."
+    if command -v lt &>/dev/null; then
+      lt --port "$PORT" 2>&1 | tee /tmp/vigil-lt.log &
+    else
+      npx localtunnel --port "$PORT" 2>&1 | tee /tmp/vigil-lt.log &
+    fi
+    LT_PID=$!
+    sleep 3
+    WEBHOOK_URL=$(grep -o 'https://[^ ]*\.loca\.lt' /tmp/vigil-lt.log 2>/dev/null | head -1 || echo "")
+    trap "kill $LT_PID 2>/dev/null || true" EXIT
+    ;;
+esac
+
+echo ""
+if [[ -n "$WEBHOOK_URL" ]]; then
+  printf "${BOLD}Public URL:${RESET} ${CYAN}%s${RESET}\n\n" "$WEBHOOK_URL"
+  printf "${BOLD}Webhook endpoint:${RESET}\n"
+  printf "  ${CYAN}%s/api/webhook${RESET}\n\n" "$WEBHOOK_URL"
+  printf "${BOLD}OpenAI-compatible endpoint:${RESET}\n"
+  printf "  ${CYAN}%s/v1${RESET}\n\n" "$WEBHOOK_URL"
+  printf "${BOLD}Test it:${RESET}\n"
+  printf "  ${DIM}curl -X POST %s/api/webhook \\\n" "$WEBHOOK_URL"
+  printf "    -H 'Authorization: Bearer \$VIGIL_WEBHOOK_SECRET' \\\n"
+  printf "    -H 'Content-Type: application/json' \\\n"
+  printf "    -d '{\"skill\":\"deep-research\",\"var\":\"AI agents 2025\"}'${RESET}\n\n"
+  printf "${BOLD}Set as GitHub secret for remote access:${RESET}\n"
+  printf "  ${DIM}gh secret set VIGIL_PUBLIC_URL --body '%s'${RESET}\n\n" "$WEBHOOK_URL"
+fi
+
+printf "${DIM}Press Ctrl+C to stop the tunnel${RESET}\n\n"
+wait
