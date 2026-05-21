@@ -6,11 +6,11 @@ const REPO_ROOT = resolve(process.cwd(), '..')
 
 function ghRepo(): string | null {
   try {
-    const repo = execSync('gh repo set-default --view', { stdio: 'pipe', cwd: REPO_ROOT }).toString().trim()
+    const repo = execSync('gh repo set-default --view', { stdio: 'pipe', cwd: REPO_ROOT, timeout: 6000 }).toString().trim()
     if (repo && !repo.startsWith('no default')) return repo
   } catch {}
   try {
-    const repo = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { stdio: 'pipe', cwd: REPO_ROOT }).toString().trim()
+    const repo = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { stdio: 'pipe', cwd: REPO_ROOT, timeout: 6000 }).toString().trim()
     if (repo) return repo
   } catch {}
   return null
@@ -26,7 +26,7 @@ export async function GET() {
     const out = execFileSync(
       'gh',
       ['run', 'list', ...ghArgsRepo(), '--json', 'databaseId,name,status,conclusion,createdAt,url,displayTitle', '--limit', '20'],
-      { stdio: 'pipe', cwd: REPO_ROOT },
+      { stdio: 'pipe', cwd: REPO_ROOT, timeout: 10000 },
     ).toString()
     const raw = JSON.parse(out)
     const runs = raw.map((r: Record<string, unknown>) => ({

@@ -73,6 +73,11 @@ export default function Dashboard() {
     try { const r = await fetch('/api/runs'); if (r.ok) setRuns((await r.json()).runs) } catch {}
   }, [])
 
+  useEffect(() => {
+    document.body.classList.add('vigil-app')
+    return () => { document.body.classList.remove('vigil-app') }
+  }, [])
+
   useEffect(() => { fetchData() }, [fetchData])
   useEffect(() => { const id = setInterval(refreshRuns, 10_000); return () => clearInterval(id) }, [refreshRuns])
   useEffect(() => {

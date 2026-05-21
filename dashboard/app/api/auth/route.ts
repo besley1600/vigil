@@ -3,7 +3,7 @@ import { execFileSync, execSync } from 'child_process'
 
 function ghAvailable(): boolean {
   try {
-    execSync('gh auth status', { stdio: 'pipe' })
+    execSync('gh auth status', { stdio: 'pipe', timeout: 6000 })
     return true
   } catch {
     return false
@@ -12,11 +12,11 @@ function ghAvailable(): boolean {
 
 function ghRepo(): string | null {
   try {
-    const repo = execSync('gh repo set-default --view', { stdio: 'pipe' }).toString().trim()
+    const repo = execSync('gh repo set-default --view', { stdio: 'pipe', timeout: 6000 }).toString().trim()
     if (repo && !repo.startsWith('no default')) return repo
   } catch {}
   try {
-    const repo = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { stdio: 'pipe' }).toString().trim()
+    const repo = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', { stdio: 'pipe', timeout: 6000 }).toString().trim()
     if (repo) return repo
   } catch {}
   return null
@@ -35,6 +35,7 @@ export async function GET() {
     }
     const out = execFileSync('gh', ['secret', 'list', ...ghArgsRepo(), '--json', 'name', '-q', '.[].name'], {
       stdio: 'pipe',
+      timeout: 10000,
     }).toString().trim()
     const secrets = out ? out.split('\n').filter(Boolean) : []
     const hasApiKey = secrets.includes('ANTHROPIC_API_KEY')

@@ -59,6 +59,10 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Font only applied in the dashboard — landing page at / uses system-ui */
+body.vigil-app {
   font-family: var(--font-mono), 'Space Mono', monospace;
 }
 
