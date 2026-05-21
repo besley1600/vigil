@@ -1,6 +1,8 @@
 ---
 name: [REPLACE: SKILL_NAME]
 description: Daily summary of the [REPLACE: CHANNEL_PLATFORM] channel [REPLACE: CHANNEL_NAME] — top [REPLACE: TOP_N_THREADS] threads + open questions
+author: [REPLACE: AUTHOR]
+wallet: "[REPLACE: WALLET]"
 var: ""
 tags: [social]
 ---

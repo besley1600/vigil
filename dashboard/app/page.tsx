@@ -20,9 +20,9 @@ import { ImportModal } from '../components/ImportModal'
 import { AuthModal } from '../components/AuthModal'
 import { FloatingDispatch } from '../components/FloatingDispatch'
 import { KeyboardShortcuts } from '../components/KeyboardShortcuts'
-import { TokenPanel } from '../components/TokenPanel'
+import { ContributeView } from '../components/ContributeView'
 
-type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'settings'
+type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'contribute' | 'settings'
 
 export default function Dashboard() {
   const [view, setView] = useState<View>('hq')
@@ -251,9 +251,9 @@ export default function Dashboard() {
             <MemoryView />
           </div>
         )}
-        {view === 'token' && features.TOKEN && (
+{view === 'contribute' && (
           <div className="flex-1 overflow-y-auto">
-            <TokenPanel />
+            <ContributeView />
           </div>
         )}
         {view === 'settings' && (

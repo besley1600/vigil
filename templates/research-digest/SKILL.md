@@ -1,6 +1,8 @@
 ---
 name: [REPLACE: SKILL_NAME]
 description: Daily digest of the most interesting new posts on [REPLACE: TOPIC] from RSS feeds and the open web
+author: [REPLACE: AUTHOR]
+wallet: "[REPLACE: WALLET]"
 var: ""
 tags: [research]
 ---

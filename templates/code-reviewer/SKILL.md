@@ -1,6 +1,8 @@
 ---
 name: [REPLACE: SKILL_NAME]
 description: First-touch review of newly opened PRs on [REPLACE: WATCHED_REPO] — verdict + welcoming comment + label
+author: [REPLACE: AUTHOR]
+wallet: "[REPLACE: WALLET]"
 var: ""
 tags: [dev]
 ---

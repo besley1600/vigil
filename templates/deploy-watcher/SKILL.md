@@ -1,6 +1,8 @@
 ---
 name: [REPLACE: SKILL_NAME]
 description: Watch Vercel deploys for [REPLACE: VERCEL_PROJECT] — alert on [REPLACE: ALERT_ON] in the last [REPLACE: LOOKBACK_HOURS] hours
+author: [REPLACE: AUTHOR]
+wallet: "[REPLACE: WALLET]"
 var: ""
 tags: [dev]
 ---

@@ -3,8 +3,8 @@ import { join, resolve } from 'path'
 
 const GITHUB_API = 'https://api.github.com'
 
-// Resolve the repo root (one level up from dashboard/)
-const REPO_ROOT = resolve(process.cwd(), '..')
+// Resolve the repo root — prefer explicit env var (set by Electron for standalone server)
+const REPO_ROOT = process.env.REPO_ROOT || resolve(process.cwd(), '..')
 
 function isLocal() {
   return !process.env.GITHUB_TOKEN || !process.env.GITHUB_REPO

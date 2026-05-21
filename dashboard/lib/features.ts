@@ -6,7 +6,7 @@ export const features = {
   COSTS:    true,
   QUALITY:  true,
   MEMORY:   true,
-  TOKEN:    true,
+  TOKEN:    false,
 } as const
 
 export type FeatureFlag = keyof typeof features

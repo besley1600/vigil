@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Young_Serif, Space_Mono } from 'next/font/google'
-import { Web3Provider } from '../components/Web3Provider'
 import './globals.css'
 
 const youngSerif = Young_Serif({
@@ -25,9 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${youngSerif.variable} ${spaceMono.variable} antialiased`}>
-        <Web3Provider>
-          {children}
-        </Web3Provider>
+        {children}
       </body>
     </html>
   )

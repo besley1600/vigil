@@ -1,6 +1,8 @@
 ---
 name: [REPLACE: SKILL_NAME]
 description: Daily mention/keyword sweep on social platforms for [REPLACE: KEYWORDS] — trends, sentiment, top posts
+author: [REPLACE: AUTHOR]
+wallet: "[REPLACE: WALLET]"
 var: ""
 tags: [social]
 ---

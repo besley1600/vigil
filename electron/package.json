@@ -39,6 +39,7 @@
         ]
       }
     ],
+    "artifactName": "${productName}-${arch}.${ext}",
     "mac": {
       "target": [
         {
@@ -77,7 +78,8 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Vigil-Setup-${arch}.${ext}"
     },
     "publish": {
       "provider": "github",

@@ -12,6 +12,7 @@ title: "Vigil — Skill Gallery"
   </p>
   <div class="hero-links">
     <a class="btn btn-primary" href="/articles">Browse Articles</a>
+    <a class="btn btn-outline" href="/contribute">Contribute</a>
     <a class="btn btn-outline" href="/activity">Activity Log</a>
     <a class="btn btn-outline" href="/memory">Memory</a>
     <a class="btn btn-outline" href="https://github.com/besley1600/vigil" target="_blank" rel="noopener">Fork on GitHub</a>

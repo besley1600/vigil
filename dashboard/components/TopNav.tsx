@@ -3,9 +3,8 @@ import { MODELS, BANKR_EXTRA_MODELS } from '../lib/constants'
 import { displayName } from '../lib/utils'
 import { features } from '../lib/features'
 import { AlertCenter } from './AlertCenter'
-import { WalletButton } from './WalletButton'
 
-type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'settings'
+type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'contribute' | 'settings'
 
 interface TopNavProps {
   view: View
@@ -28,8 +27,8 @@ interface TopNavProps {
   onSync: () => void
 }
 
-function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled: boolean): { id: View; label: string }[] {
-  const tabs: { id: View; label: string }[] = [
+function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled: boolean): { id: View; label: string; badge?: string }[] {
+  const tabs: { id: View; label: string; badge?: string }[] = [
     { id: 'hq',        label: 'HQ' },
     { id: 'activity',  label: 'Activity' },
     { id: 'analytics', label: 'Analytics' },
@@ -37,6 +36,7 @@ function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled:
   if (chainsEnabled) tabs.push({ id: 'chains', label: 'Chains' })
   if (memoryEnabled) tabs.push({ id: 'memory', label: 'Memory' })
   if (tokenEnabled)  tabs.push({ id: 'token',  label: 'Token' })
+  tabs.push({ id: 'contribute', label: 'Contribute' })
   tabs.push({ id: 'settings', label: 'Settings' })
   return tabs
 }
@@ -99,9 +99,9 @@ export function TopNav({
               ].join(' ')}
             >
               {tab.label}
-              {(tab.id === 'chains' || tab.id === 'memory') && (
+              {tab.badge && (
                 <span className="ml-1.5 text-[8px] font-mono px-1 py-px bg-eva-orange/20 text-eva-orange uppercase tracking-[1px] leading-none">
-                  new
+                  {tab.badge}
                 </span>
               )}
             </button>
@@ -177,7 +177,6 @@ export function TopNav({
           {syncing ? '...' : 'Push'}
         </button>
 
-        {features.TOKEN && <WalletButton />}
         {features.ALERTS && <AlertCenter runs={runs} />}
       </div>
     </header>

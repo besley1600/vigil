@@ -29,13 +29,19 @@
       "id": "content-machine",
       "name": "Content Machine Pack",
       "description": "Fully autonomous content pipeline — research, write, format for social, and publish to your gallery.",
-      "skills": ["article", "deep-research", "rss-digest", "thread-formatter", "write-tweet", "syndicate-article", "rss-feed", "heartbeat"]
+      "skills": ["article", "deep-research", "rss-digest", "thread-formatter", "write-tweet", "rss-feed", "heartbeat"]
     },
     {
       "id": "self-healing",
       "name": "Self-Healing Pack",
-      "description": "The complete autonomy layer — health checks, quality scoring, failure detection, auto-repair, and self-improvement.",
-      "skills": ["heartbeat", "skill-health", "skill-evals", "skill-repair", "self-improve", "cost-report", "operator-scorecard"]
+      "description": "The complete autonomy layer — health checks, quality scoring, failure detection, auto-repair, and performance reporting.",
+      "skills": ["heartbeat", "skill-health", "skill-evals", "skill-repair", "cost-report", "operator-scorecard"]
+    },
+    {
+      "id": "fleet",
+      "name": "Fleet Pack",
+      "description": "Manage and monitor a fleet of Vigil forks — cohort analysis, contributor spotlights, divergence tracking, and release alerts.",
+      "skills": ["fork-fleet", "fork-cohort", "fork-release-tracker", "contributor-spotlight", "fork-first-run-alert", "fleet-state", "fleet-control", "skill-leaderboard", "heartbeat"]
     }
   ]
 }

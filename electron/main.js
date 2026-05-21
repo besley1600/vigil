@@ -111,12 +111,13 @@ async function startNextServer () {
       ? path.join(process.resourcesPath, 'dashboard')
       : DASHBOARD_DIR
 
-    const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+    // standalone output requires `node .next/standalone/server.js` — `npm run start` errors
+    const serverScript = path.join(dashDir, '.next', 'standalone', 'server.js')
 
-    nextProcess = spawn(npmCmd, ['run', 'start', '--', '--port', String(DASHBOARD_PORT)], {
+    nextProcess = spawn(process.execPath, [serverScript], {
       cwd:   dashDir,
       stdio: ['ignore', 'pipe', 'pipe'],
-      env:   { ...process.env, PORT: String(DASHBOARD_PORT) },
+      env:   { ...process.env, PORT: String(DASHBOARD_PORT), HOSTNAME: 'localhost', REPO_ROOT: path.resolve(dashDir, '..') },
     })
 
     nextProcess.stdout.on('data', (data) => {
@@ -455,6 +456,16 @@ app.on('before-quit', () => {
 app.on('will-quit', () => {
   if (nextProcess && !nextProcess.killed) {
     console.log('[main] Shutting down Next.js server…')
-    nextProcess.kill('SIGTERM')
+    // SIGTERM is not a real signal on Windows; kill() without args is cross-platform safe
+    try {
+      if (process.platform === 'win32') {
+        const { execSync } = require('child_process')
+        execSync(`taskkill /pid ${nextProcess.pid} /T /F`, { stdio: 'ignore' })
+      } else {
+        nextProcess.kill('SIGTERM')
+      }
+    } catch {
+      // Process may have already exited
+    }
   }
 })

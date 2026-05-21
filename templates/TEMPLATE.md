@@ -41,12 +41,27 @@ Every template is a single directory under `templates/` containing one `SKILL.md
 ---
 name: [REPLACE: SKILL_NAME]
 description: One-line description of what this skill does
+author: [REPLACE: AUTHOR]
+wallet: "[REPLACE: WALLET]"
 var: ""
 tags: [...]
 ---
 ```
 
 Replacement tokens use the form `[REPLACE: KEY]`. Keys are uppercase snake-case so they're easy to spot in a diff. The literal token `[REPLACE: SKILL_NAME]` is special — it's auto-set to the skill name passed to `./new-from-template` (the second positional argument).
+
+### Frontmatter fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Human-readable skill name. Auto-set by `./new-from-template`. |
+| `description` | Yes | One-line summary shown in `./add-skill --list` and the community registry. |
+| `author` | Yes | Your GitHub username or handle. Displayed in the registry and earnings reports. |
+| `wallet` | Yes | Your EVM wallet address (Base). Receives your share of the skill economy payouts. |
+| `var` | Yes | Default value for the `${var}` runtime parameter. Use `""` if not needed. |
+| `tags` | Yes | Category array. Use one of: `crypto`, `dev`, `research`, `social`, `productivity`, `meta`. |
+
+The `author` and `wallet` fields power the Vigil skill economy — when operators earn bankr trading fees, a pro-rata share flows to skill creators based on how many times their skills ran. See [`docs/skill-economy.md`](../docs/skill-economy.md) for the full model.
 
 ## Adding a new template
 

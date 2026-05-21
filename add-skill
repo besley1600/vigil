@@ -244,6 +244,8 @@ for skill in "${SKILL_NAMES[@]}"; do
   fi
 
   # Build new entry and upsert into lock file (replace existing entry for this skill)
+  SKILL_AUTHOR=$(grep -m1 '^author:' "$dest/SKILL.md" 2>/dev/null | sed 's/^author:[[:space:]]*//' | tr -d '"' || echo "")
+  SKILL_WALLET=$(grep -m1 '^wallet:' "$dest/SKILL.md" 2>/dev/null | sed 's/^wallet:[[:space:]]*//' | tr -d '"' || echo "")
   NEW_ENTRY=$(jq -n \
     --arg name "$skill" \
     --arg repo "$REPO" \
@@ -251,7 +253,9 @@ for skill in "${SKILL_NAMES[@]}"; do
     --arg branch "$BRANCH" \
     --arg sha "$COMMIT_SHA" \
     --arg at "$IMPORTED_AT" \
-    '{skill_name: $name, source_repo: $repo, source_path: $path, branch: $branch, commit_sha: $sha, imported_at: $at}')
+    --arg author "$SKILL_AUTHOR" \
+    --arg wallet "$SKILL_WALLET" \
+    '{skill_name: $name, source_repo: $repo, source_path: $path, branch: $branch, commit_sha: $sha, imported_at: $at, author: $author, wallet: $wallet}')
 
   jq --argjson entry "$NEW_ENTRY" \
     '[.[] | select(.skill_name != $entry.skill_name)] + [$entry]' \
