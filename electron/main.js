@@ -12,6 +12,7 @@ const os = require('os')
 
 const DASHBOARD_PORT = 5555
 const DASHBOARD_URL  = `http://localhost:${DASHBOARD_PORT}`
+const DASHBOARD_APP  = `${DASHBOARD_URL}/app`
 const DASHBOARD_DIR  = path.resolve(__dirname, '..', 'dashboard')
 const POLL_INTERVAL  = 500   // ms between readiness checks
 const POLL_TIMEOUT   = 60000 // ms before giving up
@@ -295,7 +296,7 @@ ipcMain.handle('gh:recheck', async () => {
     waitForDashboard(
       () => {
         console.log(`[main] Dashboard ready at ${DASHBOARD_URL}`)
-        mainWindow.loadURL(DASHBOARD_URL)
+        mainWindow.loadURL(DASHBOARD_APP)
       },
       () => {
         console.error('[main] Timed out waiting for dashboard')
@@ -425,7 +426,7 @@ app.whenReady().then(async () => {
   waitForDashboard(
     () => {
       console.log(`[main] Dashboard ready at ${DASHBOARD_URL}`)
-      mainWindow.loadURL(DASHBOARD_URL)
+      mainWindow.loadURL(DASHBOARD_APP)
     },
     () => {
       console.error('[main] Timed out waiting for dashboard')
