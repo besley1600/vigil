@@ -975,6 +975,51 @@ function Token() {
           </div>
         )}
 
+        {/* How to buy */}
+        <div style={{ marginTop: '3.5rem', textAlign: 'left' }}>
+          <p style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#4f46e5', marginBottom: '1.5rem', textAlign: 'center' }}>
+            How to buy on Base
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {[
+              {
+                n: '01',
+                title: 'Get a Web3 wallet',
+                body: 'Download Coinbase Wallet, MetaMask, or Rainbow. Coinbase Wallet has native Base support and is the easiest starting point.',
+              },
+              {
+                n: '02',
+                title: 'Add ETH to Base',
+                body: 'Buy ETH on Coinbase and withdraw directly to your Base wallet address, or bridge existing ETH using bridge.base.org.',
+              },
+              {
+                n: '03',
+                title: 'Swap for $VIGIL',
+                body: 'Open Bankr or Uniswap on Base, paste the contract address above, and swap your ETH for $VIGIL. Always verify the CA before swapping.',
+              },
+            ].map(({ n, title, body }, i, arr) => (
+              <div
+                key={n}
+                style={{
+                  display: 'flex',
+                  gap: '1.25rem',
+                  padding: '1.25rem 1.5rem',
+                  backgroundColor: '#0F1124',
+                  border: '1px solid #2E3058',
+                  borderBottom: i < arr.length - 1 ? 'none' : '1px solid #2E3058',
+                  borderRadius: i === 0 ? '10px 10px 0 0' : i === arr.length - 1 ? '0 0 10px 10px' : '0',
+                }}
+              >
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#4f46e5', fontWeight: 700, letterSpacing: '0.08em', paddingTop: '2px', flexShrink: 0 }}>{n}</div>
+                <div>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fafafa', marginBottom: '0.3rem' }}>{title}</div>
+                  <div style={{ fontSize: '0.825rem', color: '#71717a', lineHeight: 1.6 }}>{body}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Socials */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginTop: '2.5rem' }}>
           {SOCIALS.map(({ label, href }) =>
