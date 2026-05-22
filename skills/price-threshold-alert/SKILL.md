@@ -1,19 +1,19 @@
 ---
 name: price-threshold-alert
-description: Fire when the tracked token does something — new ATH, sharp 1h move, or operator-set target crossed. Silent on normal days.
+description: Alert when the tracked token hits a new ATH, crosses a target price, or moves sharply in an hour — silent on unremarkable days
 var: ""
 tags: [crypto]
 ---
 > **${var}** — Optional. Pass one or more `target_price` levels (comma-separated USD numbers, scientific notation allowed) to fire a one-time alert when the price crosses any of them. Empty = only ATH and sharp-move gates run. Pass `dry-run` to skip notify (state still updates).
 
-Today is ${today}. `token-report` produces a daily verdict at a fixed hour. `repo-pulse` reports star/fork deltas once a day. Neither tells the operator "the price just hit a new high" or "the token moved 28% in the last hour" — both are events that warrant attention the moment they happen, not 14 hours later in the daily digest. This skill closes that window.
+Today is ${today}. `token-report` produces a daily verdict at a fixed hour. `repo-pulse` reports star/fork deltas once a day. Neither tells the operator "the price just hit a new high" or "the token moved 28% in the last hour" — events that warrant attention when they happen, not 14 hours later in the daily digest. This skill closes that window.
 
 ## Why this exists
 
-The daily token-report is a calm summary. Real moves need real-time signal. Three classes of move are worth a same-day ping:
-- **New all-time high.** The single most narrative-shaping price event a token can have. Worth marking on the timeline regardless of size.
+The daily token-report is a calm summary. Real moves need real-time signal. Three classes of move warrant a same-day ping:
+- **New all-time high.** The most narrative-shaping price event a token can have. Worth marking regardless of size.
 - **Sharp 1h moves (±20%).** Either a buyer wave or a liquidation cascade — both change what the operator does next (post about it, watch for follow-through, check the chart).
-- **Operator-set target crossings.** The operator may want to know when price clears $X (often a personal stretch goal or a level tied to a tweet/launch). One alert per target per direction.
+- **Operator-set target crossings.** When price clears a stretch goal or a level tied to a tweet or launch. One alert per target per direction.
 
 Everything else is noise the daily report handles.
 

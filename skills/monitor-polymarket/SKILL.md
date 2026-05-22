@@ -1,6 +1,6 @@
 ---
 name: Monitor Polymarket
-description: Monitor specific prediction markets for 24h price moves, volume changes, and fresh comments
+description: Monitor Polymarket prediction markets for 24h price moves, volume shifts, and fresh comments on watched events
 var: ""
 tags: [crypto]
 ---

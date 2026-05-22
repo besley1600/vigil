@@ -1,6 +1,6 @@
 ---
 name: show-hn-draft
-description: Draft a Show HN post (plus shorter Reddit r/MachineLearning + r/selfhosted variants) from the live repo state — README, SHOWCASE, recent repo-articles + project-lens, real autonomous behavior examples from logs, and current stars/forks/skill counts. Operator pastes; agent writes.
+description: Draft a Show HN post plus r/MachineLearning and r/selfhosted variants from live repo state — README, SHOWCASE, recent articles, log-sourced behavior examples, current stars and skill count. Operator pastes, Vigil writes.
 var: ""
 tags: [dev]
 ---
@@ -11,9 +11,9 @@ Today is ${today}. Write a Show HN post — plus two shorter platform variants �
 
 ## Why this skill exists
 
-Show HN is a one-shot moment. A front-page run for a project at this scale (~250 stars, growing autonomous-agent narrative) historically adds 50–200 stars in 48h — but the difference between front page and dead post is largely the title and the first 200 words. Those are exactly the parts that suffer when written last-minute. This skill is the inverse of `repo-article` (which turns one event into one article every day): it turns the entire project state into one launch post on demand, so the launch text is ready before the launch.
+Show HN is a one-shot moment. A front-page run at this scale (~250 stars, growing autonomous-agent narrative) historically adds 50–200 stars in 48h — but the gap between front page and a dead post is mostly the title and the first 200 words. Those suffer most when written in a hurry. Where `repo-article` turns one event into one article daily, this skill turns the full project state into a launch post on demand. The text is ready before the launch window opens.
 
-The Reddit variants exist because cross-posting verbatim from HN to r/MachineLearning or r/selfhosted reads as low-effort. Each subreddit has a different framing that lands; this skill writes both.
+The Reddit variants exist because copying an HN post verbatim to r/MachineLearning or r/selfhosted reads as low-effort. Each community has a different framing that lands; both are written here.
 
 ## Steps
 
@@ -43,7 +43,7 @@ Read in this order; any missing input is non-fatal — log `SHOW_HN_DRAFT_MISSIN
 
 For repo stats, run:
 ```bash
-gh api repos/besley1600/vigil --jq '{stars:.stargazers_count, forks:.forks_count, open_issues:.open_issues_count, default_branch:.default_branch}'
+gh api repos/$GITHUB_REPOSITORY --jq '{stars:.stargazers_count, forks:.forks_count, open_issues:.open_issues_count, default_branch:.default_branch}'
 ```
 If `gh api` fails, fall through to scraping the latest `articles/repo-pulse-*.md` for the most recent count and footnote the draft with `_<stars> stars at last repo-pulse run_`. Do NOT fabricate live numbers.
 
@@ -76,7 +76,7 @@ Pick a title that names exactly **one** non-obvious capability. Avoid: "framewor
 1. **Cold open** — the lead beat from step 3 in 2–3 sentences. Concrete, dated, with a PR or commit if available. No "I'm excited to share."
 2. **What it actually does** — 4–6 sentences naming the capabilities a senior engineer would care about: schedule-driven runs on Actions, file-based memory in git, quality scoring per run, self-healing via skill-repair, MCP server + A2A gateway. Reference the README comparison table — Vigil vs Claude Code / Hermes / OpenClaw — without re-pasting it.
 3. **Honest scope** — 3–4 sentences. What it's good at (recurring background work). What it's NOT (interactive coding — keep using Claude Code for that). The "configure once, walk away" framing belongs here. Naming the boundary is what makes the rest credible.
-4. **Pointer + ask** — repo URL `https://github.com/besley1600/vigil`, the install one-liner (`git clone https://github.com/besley1600/vigil && cd vigil && ./vigil`), and a specific question for HN comments — e.g. *"What's the worst recurring-task class you've automated and abandoned because the agent kept needing you?"* Specific questions get specific replies; "feedback welcome" gets nothing.
+4. **Pointer + ask** — repo URL `https://github.com/$GITHUB_REPOSITORY`, the install one-liner (`git clone https://github.com/$GITHUB_REPOSITORY && cd $(basename $GITHUB_REPOSITORY) && ./vigil`), and a specific question for HN comments — e.g. *"What's the worst recurring-task class you've automated and abandoned because the agent kept needing you?"* Specific questions get specific replies; "feedback welcome" gets nothing.
 
 **Hard rules:**
 - No emoji in the title or body. None.
@@ -124,7 +124,7 @@ Append a `## Launch checklist` section to `articles/show-hn-draft-${today}.md`. 
 ## Launch checklist
 - [ ] Star count check (rerun this skill if stars > 300; titles update with the new round number)
 - [ ] No active known-broken skills (./scripts/skill-runs --hours 24 --failures shows clean)
-- [ ] No pinned issues that contradict the post (open issues at `gh issue list -R besley1600/vigil --state open`)
+- [ ] No pinned issues that contradict the post (open issues at `gh issue list -R $GITHUB_REPOSITORY --state open`)
 - [ ] Final read-through for tone (anything that sounds like marketing → cut)
 - [ ] Pick the slot: Tuesday–Thursday, 8–10 AM US Eastern is the empirical sweet spot for HN
 - [ ] Have one concrete answer ready for "how does this differ from <X>" — pull from SHOWCASE.md comparison table

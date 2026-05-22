@@ -1,19 +1,19 @@
 ---
 name: PR Triage
-description: First-touch triage for external pull requests — verdict + label + welcoming comment within minutes of open
+description: First-touch triage for external PRs — reads the diff, posts a verdict with rationale, and labels the PR for the human reviewer
 var: ""
 tags: [dev]
 ---
 > **${var}** — PR scope. Accepts `owner/repo`, `owner/repo#N`, or empty (all watched repos). If empty, scans every repo in `memory/watched-repos.md`.
 
-External PRs that sit unanswered look unwelcoming. This skill is the **first touch** for every external pull request — it reads the diff, applies a structured rubric, posts a comment with a verdict + rationale, and labels the PR so a human reviewer can pick it up with full context. It is not a substitute for `pr-review` (depth) or `auto-merge` (execution); it is the welcoming layer that runs before either of those decide whether to engage.
+External PRs that sit unanswered look unwelcoming. This skill provides the first touch for every external pull request — reads the diff, applies a structured rubric, posts a comment with a verdict and rationale, and labels the PR so a human reviewer can pick it up with full context. It is not a substitute for `pr-review` (depth) or `auto-merge` (execution); it is the welcoming layer that runs before either of those engage.
 
 ## What "external" means
 
 Any PR whose author is **not** in the trusted set qualifies. The trusted set is, by precedence:
 
 1. Logins ending in `[bot]` (`dependabot[bot]`, `renovate[bot]`, `github-actions[bot]`, …) — these route to `auto-merge` / `pr-review`.
-2. The agent's own login: `vigilframework`, `besley1600`, and any login under a `## Trusted Authors` heading in `memory/watched-repos.md` (same allowlist convention used by `auto-merge`).
+2. The repo owner's login — resolved at runtime via `gh api user --jq '.login'` — plus any login under a `## Trusted Authors` heading in `memory/watched-repos.md` (same allowlist convention used by `auto-merge`).
 
 Everything else is **external** and gets triaged.
 
@@ -23,8 +23,8 @@ Everything else is **external** and gets triaged.
 
 ```markdown
 # Watched Repos
-- besley1600/vigil
-- besley1600/vigil-agent
+- owner/repo
+- owner/another-repo
 
 ## Trusted Authors
 - alice
@@ -135,8 +135,10 @@ Once updated, push to the same branch and this triage will re-run automatically.
 **DEFER:**
 ```
 **Triage:** DEFER — <one-line reason: size / RFC / external-secret / depends-on>.
-This PR is sound but needs maintainer attention before it can move (reason above). Leaving open and labelled `triage:deferred`; @besley1600 will pick it up on the next review pass.
+This PR is sound but needs maintainer attention before it can move (reason above). Leaving open and labelled `triage:deferred`; @${REPO_OWNER} will pick it up on the next review pass.
 ```
+
+Resolve `REPO_OWNER` before posting by running `gh api user --jq '.login'` (returns the token-holder's login, which is the repo owner in a standard single-maintainer setup) or by splitting `$GITHUB_REPOSITORY` on `/` and taking the first segment.
 
 **OUT-OF-SCOPE:**
 ```
@@ -186,7 +188,7 @@ Append the triage record to `memory/triaged-prs.json`:
 
 ```json
 {
-  "besley1600/vigil": [
+  "owner/repo": [
     {"n": 143, "sha": "abc1234", "at": "2026-04-29", "verdict": "ACCEPTED"},
     {"n": 145, "sha": "def5678", "at": "2026-04-29", "verdict": "DEFER"}
   ]

@@ -1,23 +1,23 @@
 ---
 name: product-hunt-launch
-description: Draft the full Product Hunt launch asset package (tagline, description, first comment, maker comment, six-bullet feature list) from live repo state — operator reviews and submits.
+description: Generate a complete Product Hunt launch asset pack from live repo state — tagline, description, comments, and feature bullets — ready for operator review and submission
 var: ""
 tags: [dev]
 ---
 
 > **${var}** — Optional. If empty: generate the full asset pack (tagline + description + first comment + maker comment + 6 feature bullets). If set to one of `tagline`, `description`, `first-comment`, `maker-comment`, `bullets`: regenerate that single section only and overwrite the matching block in today's launch file. Any other value: log `PRODUCT_HUNT_LAUNCH_BAD_VAR: ${var}` and exit without notifying.
 
-Today is ${today}. Write a Product Hunt launch asset pack — five paste-ready sections — that an operator can submit **as-is** on launch day. Product Hunt accepts launches in a small set of strict character-limited fields, and a half-written first comment at 12:01 AM PT is the difference between a #1 product of the day and a hidden launch. **The agent writes the text now, under zero pressure, with full repo context. The operator reviews, pastes, ships.**
+Today is ${today}. Write a Product Hunt launch asset pack — five paste-ready sections — that an operator can submit as-is on launch day. A half-written first comment at 12:01 AM PT is the difference between a #1 product of the day and a buried launch. Write the text now, under zero pressure, with full repo context. The operator reviews, pastes, ships.
 
 ## Why this skill exists
 
 Product Hunt is a single-shot distribution event with a tight asset format:
 
-- **Tagline** is a 60-char headline shown next to the logo on the front page — every word fights for click.
-- **Description** is the 260-char card body — what gets you to "Learn more."
-- **First comment** is the "why we built this" maker thread — what converts skim to "I'll try this." Posted by the maker within 5 minutes of launch — too late and the algorithm has already de-prioritized you.
-- **Maker comment** is the technical-differentiation reply that wins the dev-leaning audience.
-- **6 feature bullets** are the body content shown when someone clicks through — the "what does it do" gallery.
+- **Tagline** — 60-char headline next to the logo on the front page. Every word fights for the click.
+- **Description** — 260-char card body. Gets the reader to "Learn more."
+- **First comment** — the "why we built this" maker thread. Converts skim to "I'll try this." Post within 5 minutes of launch or the algorithm de-prioritizes you.
+- **Maker comment** — technical-differentiation reply that wins the dev-leaning audience.
+- **6 feature bullets** — body content shown when someone clicks through. The "what does it do" gallery.
 
 All five of these have to be ready before the launch window opens. Writing them at 7:55 AM the day-of, against five other priorities, produces the worst version. This skill turns full repo state into those five fields on demand, under no pressure, with full context. The complement to `show-hn-draft` (which targets HN's technical skim audience): this targets PH's "is this useful to me right now" decision-makers.
 
@@ -49,7 +49,7 @@ Read in this order; any missing input is non-fatal — log `PRODUCT_HUNT_LAUNCH_
 For live repo stats:
 
 ```bash
-gh api repos/besley1600/vigil --jq '{stars:.stargazers_count, forks:.forks_count, open_issues:.open_issues_count}'
+gh api repos/$GITHUB_REPOSITORY --jq '{stars:.stargazers_count, forks:.forks_count, open_issues:.open_issues_count}'
 ```
 
 If `gh api` fails, fall through to the latest `articles/repo-pulse-*.md` for the most recent count and footnote the draft with `_<stars> stars at last repo-pulse run_`. Do NOT fabricate live numbers.

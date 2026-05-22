@@ -1,6 +1,6 @@
 ---
 name: Paper Digest
-description: Find and summarize new papers matching tracked research interests
+description: Find new papers matching tracked research interests and deliver a signal-first digest with "what's new" and "so what" per paper
 var: ""
 tags: [research]
 ---

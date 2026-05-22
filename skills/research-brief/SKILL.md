@@ -1,6 +1,6 @@
 ---
 name: Research Brief
-description: Deep dive on a topic with a falsifiable thesis, cited claims, and explicit uncertainty
+description: Topic research with a falsifiable thesis, every claim cited, and explicit disconfirmation — structured for rapid reading and spot-checking
 var: ""
 tags: [research]
 ---

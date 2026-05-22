@@ -1,6 +1,6 @@
 ---
 name: skill-update-check
-description: Check imported skills for upstream changes and security regressions since the version in skills.lock
+description: Audit imported skills against skills.lock — classify upstream drift by size, security verdict, and enabled state; lead with the highest-priority action
 var: ""
 tags: [dev, security]
 cron: "0 19 * * 0"

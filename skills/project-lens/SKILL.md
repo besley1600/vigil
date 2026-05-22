@@ -1,6 +1,6 @@
 ---
 name: project-lens
-description: Write an article about the project through a surprising lens — connecting it to current events, trends, philosophy, or comparable projects
+description: Write a project article through an unexpected lens — connecting it to current events, philosophy, trends, or comparable work
 var: ""
 tags: [content, dev]
 ---

@@ -15,11 +15,17 @@ Read `soul/SOUL.md` + `soul/STYLE.md` if populated to match voice.
 
 ## Watchlist
 
-Hardcoded set of 9 frameworks tracked every run. The list is intentionally curated — large enough to surface ecosystem-wide shifts, small enough to keep the digest scannable. Anchor (`besley1600/vigil`) sits at the top so deltas across runs read as "where does Vigil stand vs. peers" rather than just "ecosystem snapshot."
+Hardcoded set of 9 frameworks tracked every run. The list is intentionally curated — large enough to surface ecosystem-wide shifts, small enough to keep the digest scannable. The operator's own repo (`$GITHUB_REPOSITORY`) is the anchor so deltas across runs read as "where does Vigil stand vs. peers" rather than just "ecosystem snapshot."
+
+Resolve the anchor at runtime:
+```bash
+REPO_FULL_NAME="${GITHUB_REPOSITORY}"   # e.g. acme/my-vigil
+REPO_SLUG=$(basename "$REPO_FULL_NAME") # e.g. my-vigil
+```
 
 | Slug | Repo | Surface |
 |------|------|---------|
-| Vigil | besley1600/vigil | Anchor — agent-as-platform, GitHub-native runtime |
+| ${REPO_SLUG} | ${REPO_FULL_NAME} | Anchor — agent-as-platform, GitHub-native runtime |
 | langgraph | langchain-ai/langgraph | Stateful multi-agent orchestration |
 | crewai | crewAIInc/crewAI | Role-based crew patterns |
 | autogen | microsoft/autogen | Conversational multi-agent |
@@ -126,7 +132,7 @@ Path: `articles/ai-framework-watch-${today}.md`
 
 **Verdict:** {one-line verdict from step 6}
 
-**Tracked:** N_TRACKED of {WATCHLIST_SIZE} frameworks  ·  **Unreachable:** N_UNREACHABLE  ·  **Anchor:** besley1600/vigil
+**Tracked:** N_TRACKED of {WATCHLIST_SIZE} frameworks  ·  **Unreachable:** N_UNREACHABLE  ·  **Anchor:** ${REPO_FULL_NAME}
 
 ---
 
@@ -136,7 +142,7 @@ Path: `articles/ai-framework-watch-${today}.md`
 
 | Framework | Stars | 7d Δ | 30d Δ | Releases (7d) | Breaking? | Headline |
 |-----------|-------|------|-------|---------------|-----------|----------|
-| besley1600/vigil | N | +/-N | +/-N | N | — | one-line release headline or `—` |
+| ${REPO_FULL_NAME} | N | +/-N | +/-N | N | — | one-line release headline or `—` |
 | langchain-ai/langgraph | N | +/-N | +/-N | N | [BREAKING] | one-line release headline |
 | ... |
 
@@ -188,7 +194,7 @@ Write `memory/topics/framework-watch-state.json`:
   "watchlist_size": 9,
   "frameworks": {
     "vigil": {
-      "repo": "besley1600/vigil",
+      "repo": "${REPO_FULL_NAME}",
       "stars": N, "forks": N, "open_issues": N,
       "stars_7d_ago": N,
       "stars_30d_ago": N,

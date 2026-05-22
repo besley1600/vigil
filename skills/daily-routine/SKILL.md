@@ -1,6 +1,6 @@
 ---
 name: Daily Routine
-description: Morning briefing combining token movers, tweet roundup, paper pick, GitHub issues, and HN digest
+description: Morning briefing that combines token movers, tweet roundup, paper pick, GitHub issues, and HN digest into one notification
 var: ""
 tags: [news]
 ---
@@ -21,24 +21,24 @@ Read the last 2 days of memory/logs/ to avoid repeating items.
 
 ## Tweet Roundup
 
-Search X for the latest chatter across topics relevant to your interests. Use the X.AI API if `XAI_API_KEY` is set:
+Search X for the latest chatter across topics relevant to your interests. If `XAI_API_KEY` is set, use the X.AI API via **WebFetch** for each of the following topics (run three separate calls):
 
-```bash
-FROM_DATE=$(date -u -d "yesterday" +%Y-%m-%d 2>/dev/null || date -u -v-1d +%Y-%m-%d)
-TO_DATE=$(date -u +%Y-%m-%d)
+- "crypto OR bitcoin OR ethereum OR DeFi"
+- "artificial intelligence OR AI agents OR LLM"
+- "programming OR open source OR developer tools"
 
-# Customize these topics to your interests
-for TOPIC in "crypto OR bitcoin OR ethereum OR DeFi" "artificial intelligence OR AI agents OR LLM" "programming OR open source OR developer tools"; do
-  curl -s -X POST "https://api.x.ai/v1/responses" \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $XAI_API_KEY" \
-    -d '{
-      "model": "grok-4-1-fast",
-      "input": [{"role": "user", "content": "Search X for the latest popular tweets about: '"$TOPIC"' from '"$FROM_DATE"' to '"$TO_DATE"'. Return the 3-5 most interesting or viral tweets. For each: @handle, a one-line summary of what they said, and the direct link (https://x.com/username/status/ID). Skip low-engagement noise."}],
-      "tools": [{"type": "x_search", "from_date": "'"$FROM_DATE"'", "to_date": "'"$TO_DATE"'"}]
-    }'
-done
+For each topic, use WebFetch to POST to `https://api.x.ai/v1/responses` with:
+- Header `Authorization: Bearer <value>` — read `$XAI_API_KEY` from the environment and embed the actual value directly in the request header (do not use a shell variable reference)
+- Header `Content-Type: application/json`
+- Body:
+```json
+{
+  "model": "grok-4-1-fast",
+  "input": [{"role": "user", "content": "Search X for the latest popular tweets about: TOPIC from YESTERDAY to TODAY. Return the 3-5 most interesting or viral tweets. For each: @handle, a one-line summary of what they said, and the direct link (https://x.com/username/status/ID). Skip low-engagement noise."}],
+  "tools": [{"type": "x_search", "from_date": "YESTERDAY", "to_date": "TODAY"}]
+}
 ```
+Replace `TOPIC`, `YESTERDAY`, and `TODAY` with actual values (yesterday's date and today's date in `YYYY-MM-DD` format).
 
 If `XAI_API_KEY` is not set, fall back to WebSearch for each topic and summarize the top 3-5 results per topic instead.
 

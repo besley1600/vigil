@@ -1,6 +1,6 @@
 ---
 name: star-momentum-alert
-description: Project the date a watched repo crosses its next star milestone — alert only when projected date lands inside the Show HN dispatch window (7-14 days out, Tue/Wed/Thu)
+description: Project the next star milestone crossing date from 14 days of repo-pulse data — alert only when the projected date falls in the Show HN dispatch window (7-14 days out, Tue/Wed/Thu)
 var: ""
 tags: [meta, growth]
 ---

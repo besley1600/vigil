@@ -1,6 +1,6 @@
 ---
 name: Reply Maker
-description: Generate two reply options for 5 tweets from tracked X accounts or topics
+description: Generate two reply options each for five reply-worthy tweets from tracked X accounts or topics
 var: ""
 tags: [social]
 ---

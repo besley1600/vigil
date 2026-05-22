@@ -1,6 +1,6 @@
 ---
 name: Idea Capture
-description: Quick note capture triggered via Telegram — restates, triages, logs, and echoes back for confirmation
+description: On-demand note capture from Telegram — restates the idea, triages it with PARA, and echoes back for confirmation
 var: ""
 tags: [creative]
 ---
@@ -10,7 +10,7 @@ tags: [creative]
 
 If `${var}` is empty or whitespace-only, abort and notify: "idea-capture called without an idea — pass the note as var=". Do not create a log entry.
 
-This skill is triggered on demand via Telegram. The user sends a quick idea, thought, or note. The capture must be fast (one pass), low-friction, and echo back a restatement so the user can spot misinterpretation immediately.
+Triggered on demand via Telegram. The user sends a quick idea, thought, or note. Capture in one pass, stay low-friction, and echo back a restatement so the user can spot misinterpretation immediately.
 
 ## Steps
 

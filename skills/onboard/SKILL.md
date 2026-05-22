@@ -1,13 +1,13 @@
 ---
 name: onboard
-description: One-shot setup validator — runs every check from the ./onboard CLI inside the workflow and sends the resulting checklist to the configured notification channel
+description: One-shot setup validator — checks that the fork is correctly configured and delivers a gap report with exact fix commands to the notification channel
 var: ""
 tags: [meta]
 ---
 
 > **${var}** — Optional. Set to `--silent-on-pass` to suppress the notification when every required check passes (useful for nightly self-audits). Default: always notify.
 
-Today is ${today}. Validate that this Vigil fork is correctly set up and report the result through the operator's configured notification channels. **The point of this skill is to convert a freshly-forked, half-configured repo into a known-working state in one notification — every gap must come with the exact command that fixes it.**
+Today is ${today}. Validate that this fork is correctly configured and report the result through the operator's notification channels. Every gap must come with the exact command that fixes it — the goal is to go from a freshly-forked, half-configured repo to a known-working state in a single notification.
 
 ## When this skill runs
 

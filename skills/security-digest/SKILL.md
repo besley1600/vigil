@@ -1,6 +1,6 @@
 ---
 name: Security Digest
-description: Lead with confirmed exploitation (CISA KEV), enrich with EPSS, filter GitHub Advisories to your tracked stack, output one action per item
+description: Rank today's CVEs by real-world exploitation signal — CISA KEV first, EPSS second, CVSS last — filtered to your tracked stack, one concrete action per item
 var: ""
 tags: [news, dev]
 ---
@@ -13,7 +13,7 @@ Read last 2 days of `memory/logs/` — collect CVE/GHSA IDs mentioned to avoid r
 
 ## Frame
 
-CVSS measures theoretical severity. Most critical CVEs are never exploited. A security digest that lists them by score trains the reader to ignore it. This version inverts the order: **what's actually being exploited** first, **what's likely to be** second, and only then **what's severe but quiet**. Every item ends with one concrete action.
+CVSS measures theoretical severity. Most critical CVEs are never exploited in the wild. A digest that ranks by CVSS alone trains the reader to ignore it. The order here is inverted: **what's being exploited now** first, **what's likely next** second, and only then **what's severe but quiet**. Every item ends with one concrete action.
 
 ## Steps
 

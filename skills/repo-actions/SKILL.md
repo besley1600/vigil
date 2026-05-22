@@ -1,6 +1,6 @@
 ---
 name: repo-actions
-description: Generate 5 anchored, implementable action ideas for a watched repo — specificity-gated, priority-ranked, with a Top Pick verdict
+description: Generate five specificity-gated, priority-ranked action ideas for a watched repo, with a Top Pick verdict
 var: ""
 tags: [dev]
 ---

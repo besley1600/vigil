@@ -1,6 +1,6 @@
 ---
 name: On-Chain Monitor
-description: Monitor blockchain addresses and contracts for notable activity
+description: Monitor watched blockchain addresses and contracts for notable transfers, decoded with counterparty labels and USD-denominated summaries
 var: ""
 tags: [crypto]
 ---

@@ -1,6 +1,6 @@
 ---
 name: Treasury Info
-description: Decision-ready treasury overview — verdict, concentration, depegs, significant changes
+description: Treasury overview for watched wallets — verdict, concentration flags, depeg detection, and a significance-gated "what changed" lede computed from a persistent snapshot
 var: ""
 tags: [crypto]
 ---

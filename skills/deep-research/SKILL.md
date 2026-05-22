@@ -1,6 +1,6 @@
 ---
 name: Deep Research
-description: Exhaustive multi-source synthesis on any topic with explicit source credibility tiering and per-finding confidence — analyst-grade, not aggregator-grade
+description: Multi-source synthesis with credibility-tiered sources and per-finding confidence levels — produces analyst-grade reports, not aggregator summaries
 var: ""
 tags: [research]
 ---
@@ -10,9 +10,9 @@ tags: [research]
 
 ## Overview
 
-This skill ingests 30–50 sources in a single 1M-token context session, but unlike most "deep research" pipelines it does not weight every URL equally. Each source is classified by type (primary / secondary / tertiary) and scored on a CRAAP-lite rubric (Authority, Recency, Verifiability) producing a tier (T1 / T2 / T3). Every finding in the final report carries an explicit confidence level grounded in how many T1 sources corroborate it. The report includes a "Falsifiable claims" section so the reader knows what evidence would change the conclusion.
+Ingests 30–50 sources in a single context session but does not treat every URL equally. Each source is classified by type (primary / secondary / tertiary) and scored on a CRAAP-lite rubric (Authority, Recency, Verifiability) to produce a tier (T1 / T2 / T3). Every finding in the final report carries an explicit confidence level tied to the number of T1 sources that corroborate it. A "Falsifiable claims" section shows the reader what evidence would change the conclusion.
 
-Run on-demand via `workflow_dispatch` with `var` set to the research question. Not recommended as a daily cron — save it for questions that warrant the depth.
+Run on-demand via `workflow_dispatch` with `var` set to the research question. Not intended for daily cron — reserve it for questions that warrant the depth.
 
 ---
 

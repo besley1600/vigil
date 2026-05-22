@@ -1,16 +1,16 @@
 ---
 name: fork-skill-digest
-description: Weekly cross-fork customization digest — surfaces where the fleet's enable/disable/var/model decisions diverge from upstream defaults
+description: Weekly cross-fork divergence digest — highlights where the fleet's enable/disable/var/model decisions systematically differ from upstream defaults
 var: ""
 tags: [meta]
 ---
 > **${var}** — Target repo to scan forks of (e.g. "owner/vigil"). If empty, reads `memory/watched-repos.md` and uses the first entry.
 
-Today is ${today}. Generate the weekly **divergence digest** — where the configured fork fleet systematically disagrees with upstream defaults on `enabled`, `var`, `model`, or `schedule`, and a per-fork customization fingerprint for the heaviest customizers.
+Today is ${today}. Generate the weekly divergence digest — where the configured fork fleet systematically disagrees with upstream defaults on `enabled`, `var`, `model`, or `schedule`, plus a per-fork customization fingerprint for the heaviest customizers.
 
 ## Why this exists
 
-`skill-leaderboard` ranks **what's popular** (top 15 by enabled count). `fork-fleet` surfaces **per-fork unique work** (commits, new skills). Neither answers: **where do operators consistently disagree with upstream defaults?** That's the peer-learning signal — if 6 out of 8 configured forks enable a skill upstream defaults off, upstream is shipping the wrong default. If 5 out of 8 disable a skill upstream defaults on, that skill is noise. This skill surfaces those signals weekly so the operator can flip defaults that the fleet has already voted on.
+`skill-leaderboard` ranks what's popular (top 15 by enabled count). `fork-fleet` surfaces per-fork unique work (commits, new skills). Neither answers: where do operators consistently disagree with upstream defaults? That's the peer-learning signal. If 6 of 8 configured forks enable a skill that upstream defaults off, upstream is shipping the wrong default. If 5 of 8 disable a skill that upstream defaults on, that skill is noise. This skill surfaces those signals weekly so the operator can flip defaults the fleet has already voted on.
 
 ## Steps
 

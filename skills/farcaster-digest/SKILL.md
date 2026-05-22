@@ -1,6 +1,6 @@
 ---
 name: Farcaster Digest
-description: Clustered, signal-scored digest of Farcaster casts with conversation-shape lead and insight-first editorial notes
+description: Signal-scored Farcaster digest — casts clustered into sub-narratives with a conversation-shape lead and per-cast insight extraction
 var: ""
 tags: [crypto, social]
 ---
@@ -16,7 +16,7 @@ Load persistent dedup state from `memory/state/farcaster-seen-hashes.json` (auto
 
 ## Thesis
 
-Curation is the biggest lever, not fetching. Raw engagement counts rank by popularity, not conversation. This skill ranks by a signal score, clusters casts into 2–3 sub-narratives, leads with a one-line conversation-shape header, and demands an original insight per cast — not a paraphrase of the cast text.
+Curation is the biggest lever, not fetching. Raw engagement counts rank by popularity, not conversation quality. Ranking by a computed signal score, clustering into 2–3 sub-narratives, and requiring an original insight per cast (not a paraphrase) are the core disciplines here.
 
 ## Steps
 

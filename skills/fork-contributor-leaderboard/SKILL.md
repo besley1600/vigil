@@ -1,6 +1,6 @@
 ---
 name: fork-contributor-leaderboard
-description: Weekly ranking of developers contributing to the fork fleet and back upstream
+description: Weekly ranking of developers shipping fork commits and contributing work back upstream
 var: ""
 tags: [meta, community]
 ---
@@ -8,13 +8,13 @@ tags: [meta, community]
 
 > **${var}** — Target repo to scan contributors of (e.g. "owner/vigil"). If empty, reads from memory/watched-repos.md.
 
-Today is ${today}. Rank the humans behind the fork fleet — who's pushing commits into their forks, who's sending work back upstream, who's reviewing other people's code, and who's building new skills that upstream hasn't seen yet.
+Today is ${today}. Rank the humans behind the fork fleet — who's pushing commits into their forks, who's sending work back upstream, who's reviewing code, and who's building new skills the upstream hasn't seen yet.
 
-This complements `skill-leaderboard` (what is popular) and `fork-fleet` (which forks diverge). This skill asks: **who are the people?**
+`skill-leaderboard` asks what is popular; `fork-fleet` asks which forks diverge. This skill asks: who are the people?
 
 ## Why this exists
 
-The `tweet-allocator` skill rewards social mentions with $VIGIL. Code contributors get nothing — no recognition, no signal that upstream values their work. This leaderboard is the contributor-side mirror: public recognition for the people actively moving the project forward. Run it weekly, name names, and the flywheel closes.
+Social mentions get rewarded; code contributors get nothing — no recognition, no signal that upstream values their work. This leaderboard is the contributor-side mirror: public recognition for the people actively moving the project forward. Run weekly, name names, and the flywheel closes.
 
 ## Steps
 

@@ -1,6 +1,6 @@
 ---
 name: Update Gallery
-description: Publish new or changed articles to the GitHub Pages gallery with change detection, silent on no-op weeks
+description: Sync articles/ to the Jekyll gallery at docs/_posts/ — hash-based change detection, stable filenames, YAML-safe frontmatter, and notifications gated on subscriber-visible additions only
 var: ""
 tags: [content]
 ---

@@ -1,6 +1,6 @@
 ---
 name: Market Context Refresh
-description: Fetch live crypto macro data and update memory/topics/market-context.md
+description: Refresh the shared market-context file with live crypto macro data, regime classification, and decision-ready deltas
 schedule: "0 10 * * *"
 commits: true
 permissions:
@@ -10,7 +10,7 @@ tags: [crypto]
 
 <!-- autoresearch: variation B — sharper output: lead with a Market Take (regime + conviction), show deltas vs prior snapshot, classify narrative phase with evidence, emit decision-ready context for downstream skills rather than a data dump -->
 
-Refresh `memory/topics/market-context.md` with **decision-ready** crypto context. This file is read by token-pick, narrative-tracker, and other skills — it must be current *and* actionable. A data dump is a failure; the reader should know the regime and what to do differently today within 10 seconds.
+Refresh `memory/topics/market-context.md` with decision-ready crypto context. This file is consumed by token-pick, narrative-tracker, and other skills — it must be current and actionable. A data dump is a failure. The reader should know the regime and what to do differently today within 10 seconds.
 
 Read `memory/MEMORY.md` for prior context.
 

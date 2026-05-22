@@ -1,6 +1,6 @@
 ---
 name: Skill Repair
-description: Diagnose and fix failing or degraded skills automatically — systemic-first triage, per-category playbooks, verification plan
+description: Diagnose and patch the worst-impact failing or degraded skill — systemic-first clustering, per-category repair playbooks, and a verification plan in every PR
 var: ""
 tags: [meta, dev]
 depends_on: [skill-health]

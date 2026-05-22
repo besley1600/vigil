@@ -1,6 +1,6 @@
 ---
 name: Token Alert
-description: Notify on price or volume anomalies for tracked tokens
+description: Check tracked tokens for price moves above threshold or volume spikes, and notify only when an anomaly fires
 var: ""
 tags: [crypto]
 ---

@@ -1,6 +1,6 @@
 ---
 name: Skill Dependency Graph
-description: Generate a navigable Mermaid dependency map of all skills with change detection, per-category drill-downs, and enabled overlay
+description: Build a navigable Mermaid map of all skills — explicit and derived dependency edges, per-category drill-down diagrams, enabled overlay, and change-detection to skip no-op runs
 var: ""
 tags: [meta, dev]
 ---

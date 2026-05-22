@@ -1,6 +1,6 @@
 ---
 name: skill-leaderboard
-description: Weekly ranking of which skills are most popular across CONFIGURED Vigil forks (excludes untouched templates)
+description: Weekly ranking of skill adoption across configured Vigil forks — scored against forks that diverged from upstream defaults, excluding untouched templates
 var: ""
 tags: [meta]
 ---
@@ -12,7 +12,7 @@ Today is ${today}. Generate a weekly leaderboard of which Vigil skills the **con
 
 ## Why this version
 
-Upstream `vigil.yml` ships with effectively only `heartbeat: enabled: true`. Every fresh fork inherits that default. If we score "skills enabled" across **all active forks**, the leaderboard is a tautology (heartbeat always wins, everything else hovers near 0) and operator learns nothing. The lever is to score against **configured forks only** — forks whose `vigil.yml` diverges from upstream defaults — and to convert the result into three actionable recommendations: which skills to promote, which fleet patterns to copy upstream, which skills to sunset.
+Upstream `vigil.yml` ships with effectively only `heartbeat: enabled: true`. Every fresh fork inherits that default. Scoring "skills enabled" across all active forks is a tautology — heartbeat always wins, everything else hovers near zero, and the operator learns nothing. The signal comes from scoring against configured forks only — those whose `vigil.yml` diverges from upstream defaults. That produces three actionable outputs: which skills to promote, which fleet patterns to copy upstream, which skills to sunset.
 
 ## Steps
 

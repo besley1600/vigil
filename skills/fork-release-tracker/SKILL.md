@@ -1,16 +1,16 @@
 ---
 name: fork-release-tracker
-description: Weekly scan — celebrate when any fork of the parent repo cuts a tagged GitHub release. Silent when no fork releases in the window.
+description: Weekly scan for tagged releases across the fork fleet — fires a named announcement when a fork ships; silent when none do
 var: ""
 tags: [meta, community]
 ---
 > **${var}** — Optional `owner/repo` to override the parent repo. If empty, infers parent from the current repo's `parent.full_name` (or, on a non-fork, uses the current repo itself as parent). Pass `dry-run` to skip notify (state still updates).
 
-Today is ${today}. `fork-cohort` answers "is the fork alive?" (workflow runs in 7d). `contributor-spotlight` answers "who's pushing the most code?" (POWER-fork operator recognition). Neither answers **"has any fork shipped a real product?"** — a tagged GitHub release, a versioned artifact, something the operator deemed worth publishing on the public timeline. The first fork to cut a release is a milestone worth announcing; subsequent fork releases keep the social loop running. This skill closes that gap.
+Today is ${today}. `fork-cohort` answers "is the fork alive?" (workflow runs in 7d). `contributor-spotlight` answers "who's pushing the most code?" (POWER-fork recognition). Neither answers "has any fork shipped a real product?" — a tagged GitHub release, a versioned artifact, something the operator considered good enough to put on the public timeline. The first fork to cut a release is a milestone worth announcing; subsequent fork releases keep the social loop running. This skill closes that gap.
 
 ## Why this exists
 
-A tagged release on a fork is the strongest possible signal that the platform is being treated as **infrastructure**, not a toy. Pushed_at, star counts, and workflow runs all measure activity; only a release measures the operator's confidence that something is good enough to version. When the first fork crosses that line — and when any subsequent fork does — the parent project earns a name in the wild and a story to tell.
+A tagged release on a fork is the strongest signal that the platform is being used as infrastructure, not a toy. Pushed_at, star counts, and workflow runs all measure activity; only a release captures the operator's confidence that something is good enough to version. When the first fork crosses that line — and when any subsequent fork does — the parent project earns a name in the wild and a story to tell.
 
 ## Steps
 

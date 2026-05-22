@@ -1,13 +1,13 @@
 ---
 name: Hugging Face Trending
-description: Curated trending Hugging Face models, datasets, and spaces — filtered, clustered, and labeled with a "why notable" line per pick
+description: Curated trending Hugging Face models, datasets, and spaces — noise filtered, clustered, with a "why notable" line per pick
 var: ""
 tags: [research]
 ---
 
 > **${var}** — Optional. One of `models`, `datasets`, `spaces` to scope the digest to a single resource type. Empty = pull from all three and let the curator pick the best 5–8 across them.
 
-Today is ${today}. The Hugging Face Hub is where new AI artifacts land first — models hours after a paper, datasets before they get cited, spaces as the first runnable form of a technique. The Hub's own front page lists "trending" but doesn't filter the noise (test models, gated previews, redundant fine-tunes of the same base). This skill mirrors `github-trending`'s contract for the AI ecosystem: don't dump the top 10, deliver a **curated** slate of 5–8 picks a busy AI/dev reader would actually want to click, with a one-line "why notable" each.
+Today is ${today}. The Hugging Face Hub is where new AI artifacts land first — models hours after a paper, datasets before they get cited, spaces as the first runnable form of a technique. The Hub's own front page lists "trending" but doesn't filter the noise (test models, gated previews, redundant fine-tunes of the same base). Following `github-trending`'s contract: skip the raw top 10 and deliver a curated slate of 5–8 picks a busy AI/dev reader would actually click, with a one-line "why notable" each.
 
 Read `memory/MEMORY.md` for context.
 Read the last 3 days of `memory/logs/` to dedupe artifacts already featured.
@@ -23,19 +23,19 @@ The Hugging Face Hub REST API is fully keyless for the list endpoints used here.
 # Models — sort=trendingScore returns the same ranking that backs the HF front page
 curl -sf "https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=20" \
   -H "accept: application/json" \
-  -H "user-agent: vigil/1.0 (+https://github.com/besley1600/vigil)" \
+  -H "user-agent: vigil/1.0 (+https://github.com/$GITHUB_REPOSITORY)" \
   > .hf-models.json
 
 # Datasets
 curl -sf "https://huggingface.co/api/datasets?sort=trendingScore&direction=-1&limit=15" \
   -H "accept: application/json" \
-  -H "user-agent: vigil/1.0 (+https://github.com/besley1600/vigil)" \
+  -H "user-agent: vigil/1.0 (+https://github.com/$GITHUB_REPOSITORY)" \
   > .hf-datasets.json
 
 # Spaces
 curl -sf "https://huggingface.co/api/spaces?sort=trendingScore&direction=-1&limit=15" \
   -H "accept: application/json" \
-  -H "user-agent: vigil/1.0 (+https://github.com/besley1600/vigil)" \
+  -H "user-agent: vigil/1.0 (+https://github.com/$GITHUB_REPOSITORY)" \
   > .hf-spaces.json
 ```
 

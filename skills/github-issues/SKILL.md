@@ -1,6 +1,6 @@
 ---
 name: GitHub Issues
-description: Daily digest of new open issues across your repos, ranked by signal (security/bug/feature/other)
+description: Daily priority-ranked triage queue of new open issues across watched repos
 var: ""
 tags: [dev]
 ---

@@ -1,12 +1,12 @@
 ---
 name: Thread Formatter
-description: Score the day's events from memory/logs and format the top one as a 5-tweet thread ready to paste
+description: Score today's logged events, pick the highest-signal one, and write a 5-tweet thread — ready to paste, every tweet within 280 chars, no emojis or hashtags
 var: ""
 tags: [social]
 ---
 > **${var}** — Optional event override. If empty, auto-picks the highest-signal event from today's log.
 
-Every daily run produces something — a feature shipped, a price move, a star milestone, a notable tweet — and most of it dies in Telegram because nobody copy-pastes it onto X. This skill reads `memory/logs/${today}.md`, scores the events that actually happened, picks the single highest-signal one, and formats a 5-tweet thread ready to paste. The thread itself is organic content that amplifies whatever already ran; it does not spend the tweet-allocator budget.
+Every daily run produces something — a feature shipped, a price move, a star milestone, a notable tweet — and most of it never reaches X. Reads `memory/logs/${today}.md`, scores events by signal type, picks the strongest one, and writes a 5-tweet thread ready to paste. The thread is organic amplification of what already ran; it does not spend the tweet-allocator budget.
 
 ## Voice
 

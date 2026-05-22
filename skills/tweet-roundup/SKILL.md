@@ -1,6 +1,6 @@
 ---
 name: Tweet Roundup
-description: Gist of the latest tweets on configurable topics
+description: Round up the latest X posts on configurable topics — signal-scored, sub-narrative clustered, insight line per item, and deduplicated against prior runs
 var: ""
 tags: [social]
 ---

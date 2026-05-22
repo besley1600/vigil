@@ -1,6 +1,6 @@
 ---
 name: repo-pulse
-description: Daily report on new stars, forks, and releases for watched repos — with notable-stargazer enrichment and a one-line growth verdict
+description: Daily growth report for watched repos — new stars, forks, and releases with notable-stargazer enrichment and a one-line verdict
 var: ""
 tags: [dev]
 ---

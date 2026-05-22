@@ -1,6 +1,6 @@
 ---
 name: Hacker News Digest
-description: Top HN stories filtered by interests, with comment-mined insights and themed clustering
+description: Top HN stories filtered by tracked interests — comment-mined for insights and grouped into themes
 var: ""
 tags: [research]
 ---

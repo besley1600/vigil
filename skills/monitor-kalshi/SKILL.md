@@ -1,6 +1,6 @@
 ---
 name: Monitor Kalshi
-description: Monitor specific Kalshi prediction markets for 24h price moves, volume changes, and top events
+description: Monitor Kalshi prediction markets for 24h implied-probability moves, volume changes, and conviction signals
 var: ""
 tags: [crypto, research]
 ---
@@ -13,7 +13,7 @@ Read the last 2 days of `memory/logs/` to compare against previous readings and 
 
 ## Why this skill exists
 
-A table of prices isn't useful. An operator reading this notification wants to answer: **"is there a market worth forming a view on right now, and why?"** Every rule below exists to push output toward that question — the skill suppresses noise, ranks by decision value, and demands one line of reasoning per alert.
+A table of prices isn't useful. The question an operator actually wants to answer is: "is there a market worth forming a view on right now, and why?" Every rule below pushes the output toward that question — noise suppressed, ranked by decision value, one line of reasoning required per alert.
 
 ## Watchlist
 

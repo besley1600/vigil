@@ -1,6 +1,6 @@
 ---
 name: fork-fleet
-description: Inventory active Vigil forks, detect diverged work, surface upstream contribution candidates
+description: Inventory active Vigil forks, detect diverged work, and surface commits worth pulling upstream
 var: ""
 tags: [dev]
 cron: "0 10 * * 1"
@@ -8,7 +8,7 @@ cron: "0 10 * * 1"
 <!-- autoresearch: variation B — sharper output: verdict + PROMOTE/REVIEW/NOTE tiers + week-over-week delta + notify gate -->
 > **${var}** — Optional `owner/repo` to analyze a single fork. If empty, scans all active forks.
 
-Today is ${today}. Track Vigil's fork fleet: discover active forks, surface the fork work that actually matters, and gate notifications on real change.
+Today is ${today}. Track the fork fleet: discover active forks, surface fork work that actually matters, and gate notifications on real change.
 
 ## Operating principles
 - **Verdict first, catalog second.** Operator reads one line and knows if action is needed.

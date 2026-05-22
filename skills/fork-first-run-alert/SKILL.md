@@ -1,21 +1,21 @@
 ---
 name: fork-first-run-alert
-description: Daily — named alert the day a fork completes its first ever workflow run. Fork-cohort runs weekly; this catches the activation moment.
+description: Named alert the day a fork completes its first workflow run — catches activation events that fork-cohort's weekly cadence would otherwise miss by days
 var: ""
 tags: [meta, community]
 ---
 > **${var}** — Optional. `dry-run` skips notify (state still updates). `owner/repo` overrides the parent repo. Empty = normal run.
 
-Today is ${today}. A new fork completing its very first workflow run is the highest-signal community event Vigil emits — someone deployed, configured secrets, and actually ran the agent. `fork-cohort` already names this transition (`NEW_ACTIVE`) but only fires on Sundays. Mid-week activations sit in the void for up to 6 days until the next cohort run. This skill catches them the day they happen.
+Today is ${today}. A fork completing its first workflow run is the highest-signal community event Vigil emits — someone deployed, configured secrets, and actually ran the agent. `fork-cohort` already names this transition (`NEW_ACTIVE`) but only fires on Sundays. Mid-week activations sit unnoticed for up to six days until the next cohort run. This skill catches them the day they happen.
 
 ## Why this exists
 
-`fork-cohort` (Sunday 19:00 UTC) bucketises every fork as COLD / STALE / ACTIVE / POWER and flags weekly transitions — but a fork that activates Monday morning waits 6 days before anyone notices. Two costs:
+`fork-cohort` buckets every fork as COLD / STALE / ACTIVE / POWER and flags weekly transitions, but a fork that activates on Monday morning waits six days before anyone notices. Two costs:
 
-- **Operator** loses the chance to reach out while the new fork owner is still in setup-flow with the agent open in another tab.
-- **New operator** doesn't feel seen — Vigil's "you matter to us" loop runs on a weekly cadence when activation itself is a same-day event.
+- The operator loses the chance to reach out while the new fork owner is still in setup-flow with the agent open in another tab.
+- The new operator doesn't feel seen — recognition runs on a weekly cadence when activation is a same-day event.
 
-This skill closes the gap with a daily cron that diffs the cohort's ACTIVE set against a persistent seen-list and emits per-fork named alerts the day each fork first runs.
+A daily cron that diffs the cohort's ACTIVE set against a persistent seen-list and emits per-fork named alerts closes that gap.
 
 ## Two-sided value
 

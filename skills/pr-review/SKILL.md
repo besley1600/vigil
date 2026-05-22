@@ -1,6 +1,6 @@
 ---
 name: PR Review
-description: Auto-review open PRs with severity-tagged findings, inline comments, and a one-line verdict
+description: Review open PRs and post severity-tagged findings with inline comments and a one-line verdict per PR
 var: ""
 tags: [dev]
 ---

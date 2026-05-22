@@ -1,17 +1,17 @@
 ---
 name: Repo Scanner
-description: Catalog GitHub repos into a prioritized fleet report with concrete, coded opportunities that downstream skills consume directly
+description: Catalog watched GitHub repos into a prioritized fleet report with coded opportunity labels that downstream skills consume directly
 var: ""
 tags: [dev, meta]
 ---
 <!-- autoresearch: variation B — sharper output: opportunity taxonomy + fleet Top-5 + priority column + GraphQL bulk fetch -->
 > **${var}** — GitHub username or org to scan. Required — set in vigil.yml var field. Accepts `name`, `@name`, or `https://github.com/name` (normalized to bare login).
 
-Today is ${today}. Catalog all GitHub repos under `${var}` into a structured reference file that downstream skills (`external-feature`, `pr-review`, `code-health`, `repo-pulse`, `vercel-projects`) consume — each repo labelled with a **priority** and a list of **concrete, coded opportunities**, with a fleet-level **Top 5 opportunities** block at the top.
+Today is ${today}. Catalog all GitHub repos under `${var}` into a structured reference file that downstream skills (`external-feature`, `pr-review`, `code-health`, `repo-pulse`, `vercel-projects`) consume — each repo labeled with a priority and a list of concrete, coded opportunities, topped by a fleet-level Top 5 opportunities block.
 
 ## Why this shape
 
-`external-feature` is the main reader and needs specific, codeable targets, not free-form TODOs. This skill grounds every opportunity in a fixed taxonomy (`MISSING_CI`, `STALE_PRS:N`, `OPEN_ISSUE_BACKLOG:N`, …) so `external-feature` can pick one and ship a PR the same day. The pre-ranked Top 5 fleet opportunities block removes the ranking burden from every downstream skill.
+`external-feature` is the primary reader and needs specific, codeable targets, not free-form TODOs. Grounding every opportunity in a fixed taxonomy (`MISSING_CI`, `STALE_PRS:N`, `OPEN_ISSUE_BACKLOG:N`, …) lets `external-feature` pick one and ship a PR the same day. The pre-ranked Top 5 fleet opportunities block removes the ranking burden from every downstream skill.
 
 ## Steps
 

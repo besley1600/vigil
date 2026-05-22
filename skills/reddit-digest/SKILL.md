@@ -1,6 +1,6 @@
 ---
 name: Reddit Digest
-description: Detect cross-subreddit narratives — stories surfacing in multiple unrelated subs at once
+description: Cross-subreddit narrative detector — surfaces stories appearing across multiple unrelated subs simultaneously
 var: ""
 tags: [news]
 ---

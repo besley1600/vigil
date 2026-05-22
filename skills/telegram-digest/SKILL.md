@@ -1,6 +1,6 @@
 ---
 name: Telegram Digest
-description: Cross-channel digest of public Telegram posts — ranked by signal, clustered by narrative, not by channel
+description: Digest of public Telegram channels — globally ranked by signal score, clustered into cross-channel narratives, with one insight line per item rather than per-channel grouping
 var: ""
 tags: [social]
 ---
@@ -13,7 +13,7 @@ Read the last 2 days of `memory/logs/` to dedupe surfaced posts.
 
 ## Core thesis
 
-A digest grouped "top N per channel" buries the lede: the real signal is **what multiple channels are saying at once** and **which single posts deliver an insight you couldn't get from the headline**. This skill ranks by signal globally, clusters cross-channel stories into narratives, and forces an insight line per item (not a paraphrase).
+A digest grouped by top N per channel buries the story. The real signal is what multiple channels are saying simultaneously and which posts deliver an insight the headline alone doesn't carry. Ranking globally, clustering into cross-channel narratives, and requiring an insight line per item (not a paraphrase) are the three departures that make the difference.
 
 ## Steps
 

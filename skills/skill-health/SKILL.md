@@ -1,6 +1,6 @@
 ---
 name: Skill Health
-description: Audit skill metrics, file/resolve issues in memory/issues/, and notify on state change only
+description: Classify every enabled skill by health status, file issues in memory/issues/ for new failures, resolve them on recovery, and notify only when fleet state changes
 var: ""
 tags: [meta]
 ---
@@ -12,7 +12,7 @@ If `${var}` is set, only check that specific skill.
 
 ## Purpose
 
-Audit skill quality metrics, detect API degradation, **file issues for new failures and resolve them when skills recover**, and notify only when fleet health state actually changes.
+Audit quality metrics per skill, detect API degradation, file issues for new failures and close them on recovery, and send notifications only when the fleet's health state actually changes.
 
 ## Data sources
 

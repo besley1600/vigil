@@ -1,6 +1,6 @@
 ---
 name: Token Pick
-description: One token recommendation and one prediction market pick — scored, quantified, with a skip branch when signals are weak
+description: One scored token call and one prediction-market pick with an explicit edge calculation — skips the run and says so when neither clears the conviction floor
 var: ""
 tags: [crypto]
 ---

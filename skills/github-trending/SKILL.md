@@ -1,6 +1,6 @@
 ---
 name: GitHub Trending
-description: Curated trending GitHub repos — clustered, filtered, and labeled by momentum
+description: Curated trending GitHub repos — clustered, noise-filtered, and tagged by momentum with a "why notable" per pick
 var: ""
 tags: [dev]
 ---
@@ -14,7 +14,7 @@ Read `soul/SOUL.md` + `soul/STYLE.md` if populated to match voice.
 
 ## Goal
 
-Don't just dump the top 10 trending repos — GitHub already shows that. Deliver a **curated** slate of 5-8 repos that a busy dev would actually want to click, grouped by category, stripped of noise, with a one-line "why notable" per pick and a momentum tag.
+GitHub already shows the top 10. Deliver a curated slate of 5–8 repos a busy dev would actually click: grouped by category, noise stripped, one-line "why notable" per pick, momentum tag attached.
 
 ## Steps
 

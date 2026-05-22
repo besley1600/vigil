@@ -1,6 +1,6 @@
 ---
 name: Morning Brief
-description: Priority-driven daily briefing — the 3 things to focus on today, why now, and what moved
+description: Priority-driven daily briefing — the top 3 things to focus on today, with "why now" justification and what moved overnight
 var: ""
 tags: [meta]
 ---
@@ -8,7 +8,7 @@ tags: [meta]
 
 > **${var}** — Area to emphasize. If empty, covers all areas.
 
-A good morning brief is a **priming document**, not a news dump. Every line must answer "so what?".
+A morning brief is a priming document, not a news dump. Every line must answer "so what?".
 
 Today is ${today}. Read `memory/MEMORY.md`, `memory/logs/${yesterday}.md` (and today's if it exists), and `memory/cron-state.json` (if present).
 

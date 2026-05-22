@@ -1,6 +1,6 @@
 ---
 name: token-report
-description: Daily price performance report for the project's token — price, volume, liquidity, and context
+description: Daily performance report for the project's token — verdict-first with true 1d/7d/30d deltas from a persistent state log, whale trade callouts, and skip rules for quiet days
 var: ""
 tags: [crypto]
 ---
@@ -25,7 +25,7 @@ Read the last 30 days of `memory/logs/*.md` for prior `TOKEN_REPORT_STATE:` line
 
 ## Thesis
 
-A daily token report is only useful if it tells the reader *what changed and whether it matters*. Snapshots of price, volume, and liquidity are table-stakes; the value is in the verdict. Every section below must either sharpen the verdict or be dropped. No filler, no "N/A", no "no specific context" sentences.
+A daily token report is only useful if it tells the reader what changed and whether it matters. Price, volume, and liquidity snapshots are table-stakes; the verdict is the point. Every section either sharpens it or gets dropped. No filler, no "N/A", no "no specific context" sentences.
 
 ## Steps
 
@@ -136,18 +136,18 @@ Save to `articles/token-report-${today}.md`:
 
 ### 6. Social sentiment (conditional)
 
-If `XAI_API_KEY` is set:
-
-```bash
-curl -s -X POST "https://api.x.ai/v1/responses" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $XAI_API_KEY" \
-  -d '{
-    "model": "grok-4-1-fast",
-    "input": [{"role": "user", "content": "Search X for $TOKEN_SYMBOL or CONTRACT_ADDRESS mentions in the last 24 hours with at least 10 likes. Return up to 5 notable tweets with @handle, engagement counts, and a one-line summary of the claim or vibe. Exclude obvious bots and generic shill posts."}],
-    "tools": [{"type": "x_search"}]
-  }'
+If `XAI_API_KEY` is set, use WebFetch to POST to `https://api.x.ai/v1/responses` with:
+- Header `Authorization: Bearer <value>` — read `$XAI_API_KEY` from the environment and embed the actual value directly in the request header (do not use a shell variable reference)
+- Header `Content-Type: application/json`
+- Body:
+```json
+{
+  "model": "grok-4-1-fast",
+  "input": [{"role": "user", "content": "Search X for $TOKEN_SYMBOL or CONTRACT_ADDRESS mentions in the last 24 hours with at least 10 likes. Return up to 5 notable tweets with @handle, engagement counts, and a one-line summary of the claim or vibe. Exclude obvious bots and generic shill posts."}],
+  "tools": [{"type": "x_search"}]
+}
 ```
+Replace `$TOKEN_SYMBOL` and `CONTRACT_ADDRESS` with actual values.
 
 If the response has fewer than 2 tweets that clear the engagement bar, skip the Social Pulse section and set `xai=skip` in the footer. On API error, set `xai=fail` and skip. If `XAI_API_KEY` is not set, set `xai=skip`.
 

@@ -1,6 +1,6 @@
 ---
 name: Skill Evals
-description: Validate skill outputs against assertions, diff vs prior eval to flag regressions, file issues for new failures, and queue concrete fixes
+description: Assert skill outputs against a spec, diff against the prior eval run to detect regressions, file issues for new failures, and surface a concrete action queue
 var: ""
 tags: [meta]
 ---

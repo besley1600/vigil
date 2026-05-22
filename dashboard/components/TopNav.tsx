@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import type { Skill, Run } from '../lib/types'
 import { MODELS, BANKR_EXTRA_MODELS } from '../lib/constants'
 import { displayName } from '../lib/utils'
@@ -61,11 +64,12 @@ export function TopNav({
   onPull,
   onSync,
 }: TopNavProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const modelOptions = gateway === 'bankr' ? [...MODELS, ...BANKR_EXTRA_MODELS] : MODELS
   const tabs = buildTabs(features.CHAINS, features.MEMORY, features.TOKEN)
 
   return (
-    <header className="h-14 border-b border-[rgba(255,255,255,0.07)] bg-[#0E1022] flex items-center shrink-0">
+    <header className="h-14 border-b border-[rgba(255,255,255,0.07)] bg-[#0E1022] flex items-center shrink-0 relative">
       {/* Left: logo + optional breadcrumb */}
       <div className="flex items-center gap-3 px-5 shrink-0 w-56">
         <svg width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none" aria-hidden="true">
@@ -83,8 +87,8 @@ export function TopNav({
         )}
       </div>
 
-      {/* Center: nav tabs */}
-      <nav className="flex-1 flex items-center justify-center h-full gap-1">
+      {/* Center: nav tabs - hidden on mobile */}
+      <nav className="hidden md:flex flex-1 items-center justify-center h-full gap-1">
         {tabs.map(tab => {
           const active = view === tab.id
           return (
@@ -109,8 +113,8 @@ export function TopNav({
         })}
       </nav>
 
-      {/* Right: toolbar */}
-      <div className="flex items-center gap-2 px-5 shrink-0">
+      {/* Right: toolbar - hidden on mobile */}
+      <div className="hidden md:flex items-center gap-2 px-5 shrink-0">
         {gateway === 'bankr' && (
           <span className="text-[10px] font-mono px-2 py-0.5 bg-eva-orange/15 text-eva-orange uppercase tracking-[1px]">
             BANKR
@@ -179,6 +183,101 @@ export function TopNav({
 
         {features.ALERTS && <AlertCenter runs={runs} />}
       </div>
+
+      {/* Mobile: hamburger button - hidden on desktop */}
+      <button
+        className="md:hidden ml-auto mr-4 flex flex-col justify-center gap-1.5 p-1.5 hover:opacity-70 transition-opacity"
+        onClick={() => setMobileMenuOpen(o => !o)}
+        aria-label="Menu"
+      >
+        <span className="w-5 h-px bg-primary-70 transition-all" />
+        <span className="w-5 h-px bg-primary-70 transition-all" />
+        <span className="w-5 h-px bg-primary-70 transition-all" />
+      </button>
+
+      {/* Mobile: dropdown menu - hidden on desktop */}
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="md:hidden fixed inset-0 z-40"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          {/* Dropdown panel */}
+          <div className="md:hidden absolute top-14 left-0 right-0 bg-[#0E1022] border-b border-[rgba(255,255,255,0.07)] z-50 max-h-[calc(100vh-56px)] overflow-y-auto">
+            {/* Navigation tabs */}
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setView(tab.id)
+                  setMobileMenuOpen(false)
+                }}
+                className={`w-full px-5 py-3 text-xs font-mono uppercase tracking-[1.5px] text-left border-b border-[rgba(255,255,255,0.05)] transition-colors ${
+                  view === tab.id
+                    ? 'text-eva-orange bg-[rgba(99,102,241,0.08)]'
+                    : 'text-primary-50 hover:text-primary-70'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+            {/* Actions */}
+            <div className="flex flex-col gap-2 px-4 py-3 border-t border-[rgba(255,255,255,0.05)]">
+              {gateway === 'bankr' && (
+                <span className="text-[10px] font-mono px-2 py-0.5 bg-eva-orange/15 text-eva-orange uppercase tracking-[1px]">
+                  BANKR
+                </span>
+              )}
+              <select
+                value={model}
+                onChange={(e) => onUpdateModel(e.target.value)}
+                className="bg-eva-white text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono"
+              >
+                {modelOptions.map(m => (
+                  <option key={m.id} value={m.id}>{m.label}</option>
+                ))}
+              </select>
+              <button
+                onClick={onShowImport}
+                className="bg-eva-orange text-white text-[10px] px-3 py-1.5 font-mono uppercase tracking-[1px] hover:opacity-90 transition-opacity text-left"
+              >
+                + Install
+              </button>
+              {repo && (
+                <a
+                  href={`https://github.com/${repo}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] text-primary-50 font-mono border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-eva-orange hover:text-eva-orange transition-colors text-center"
+                >
+                  GitHub
+                </a>
+              )}
+              <button
+                onClick={onPull}
+                disabled={pulling}
+                className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50 text-left"
+              >
+                {behind > 0 && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-orange" />
+                )}
+                {pulling ? '...' : 'Pull'}
+              </button>
+              <button
+                onClick={onSync}
+                disabled={syncing || !hasChanges}
+                className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50 text-left"
+              >
+                {hasChanges && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-green" />
+                )}
+                {syncing ? '...' : 'Push'}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </header>
   )
 }

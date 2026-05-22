@@ -1,6 +1,6 @@
 ---
 name: Goal Tracker
-description: Compare current progress against goals with quantified status, velocity, trend, and a concrete next action per goal
+description: Measure progress against stated goals — quantified status, velocity, week-over-week trend, and one concrete next action per open goal
 var: ""
 tags: [meta]
 ---

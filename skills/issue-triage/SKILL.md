@@ -1,6 +1,6 @@
 ---
 name: Issue Triage
-description: Decision-ready triage — classify, dedupe, and emit a verdict + next action per new GitHub issue
+description: Classify and dedupe new GitHub issues, emitting a verdict and one concrete next action per issue
 var: ""
 tags: [dev]
 ---
@@ -12,7 +12,7 @@ If `${var}` is set and does not match `owner/repo`, abort with `issue-triage: in
 
 ## Why decision-first
 
-A maintainer's scarce resource is decision time, not labels. For every new issue this skill emits one of four **verdicts** so the maintainer can act in under 30 seconds:
+A maintainer's scarce resource is decision time, not labels. Every new issue gets one of four verdicts so the maintainer can act in under 30 seconds:
 
 | Verdict | Meaning | Action taken |
 |---|---|---|

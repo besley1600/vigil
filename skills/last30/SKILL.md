@@ -1,6 +1,6 @@
 ---
 name: Last 30 Days
-description: Cross-platform social research — narrative-first intelligence on what people are saying about a topic across Reddit, X, HN, Polymarket, and the web over the last 30 days
+description: Narrative-first social intelligence on a topic — clusters cross-platform conversation from Reddit, X, HN, Polymarket, and the web over a 30-day window
 var: ""
 tags: [research, social]
 ---
@@ -8,7 +8,7 @@ tags: [research, social]
 
 > **${var}** — Topic to research (required). Append `--quick` for a lighter pass (≤15 sources), or `--days=N` to change the lookback window (default: 30).
 
-Google aggregates editors. A flat "top N posts per platform" aggregates noise. This skill does two things differently: (1) reframes output around **narratives** (clusters the same story across platforms) instead of platform-siloed recaps, and (2) makes the **disagreement** between platforms the primary signal — where Reddit is bearish and X is bullish on the same story, that divergence is usually the most actionable finding.
+A flat "top N posts per platform" aggregates noise. Two things differentiate the output here: (1) it frames results around narratives — clustering the same story across platforms — instead of platform-siloed recaps, and (2) it treats disagreement between platforms as the primary signal. Where Reddit is bearish and X is bullish on the same story, that divergence is usually the most actionable finding.
 
 If `${var}` is empty, abort and notify: `"last30 requires var= set to a topic"`. Exit.
 

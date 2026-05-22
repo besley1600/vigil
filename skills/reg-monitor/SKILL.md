@@ -1,6 +1,6 @@
 ---
 name: Regulatory Monitor
-description: Track legislation, regulatory actions, and legal developments affecting prediction markets, crypto, and AI agents — triaged by stage × impact for decision-ready output
+description: Track legislation and regulatory actions affecting prediction markets, crypto, and AI agents — triaged by stage and impact for decision-ready output
 var: ""
 tags: [crypto, research]
 ---

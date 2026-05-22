@@ -125,16 +125,16 @@ function SkillRow({ skill, runs, busy, onSelect, onToggle, onRun }: {
       className="flex items-center gap-3 px-4 py-2.5 border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.025)] cursor-pointer group transition-colors">
       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDotCls}`} />
       <span className="w-1.5 h-1.5 rounded-full shrink-0 opacity-55" style={{ backgroundColor: dept.color }} />
-      <span className="font-mono text-[12px] text-primary-70 group-hover:text-eva-orange transition-colors w-44 shrink-0 truncate">
+      <span className="font-mono text-[12px] text-primary-70 group-hover:text-eva-orange transition-colors flex-1 md:flex-none md:w-44 shrink-0 truncate">
         {displayName(skill.name)}
       </span>
-      <span className="text-[11px] text-primary-50 font-mono flex-1 min-w-0 truncate">
+      <span className="hidden md:block text-[11px] text-primary-50 font-mono flex-1 min-w-0 truncate">
         {skill.description || '—'}
       </span>
-      <span className="text-[10px] font-mono text-primary-40 w-24 text-right shrink-0 tabular-nums">
+      <span className="hidden md:block text-[10px] font-mono text-primary-40 w-24 text-right shrink-0 tabular-nums">
         {cronLabel(skill.schedule)}
       </span>
-      <div className="flex gap-px shrink-0 w-[62px]">
+      <div className="hidden md:flex gap-px shrink-0 w-[62px]">
         {history.map((s, i) => (
           <div key={i} className={`flex-1 h-4 ${
             s === 'success' ? 'bg-eva-green/50' :
@@ -205,8 +205,8 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
   return (
     <div className="flex flex-1 min-h-0">
 
-      {/* ── Left sidebar ─────────────────────────────────────────────────── */}
-      <aside className="w-48 shrink-0 border-r border-[rgba(255,255,255,0.07)] flex flex-col bg-[#13152B]">
+      {/* ── Left sidebar - hidden on mobile ─────────────────────────────── */}
+      <aside className="hidden md:flex md:flex-col w-48 shrink-0 border-r border-[rgba(255,255,255,0.07)] bg-[#13152B]">
 
         {/* Fleet stats */}
         <div className="p-4 border-b border-[rgba(255,255,255,0.07)]">
@@ -289,6 +289,38 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
           </div>
         </div>
 
+        {/* Mobile: horizontal dept filter pills - hidden on desktop */}
+        <div className="md:hidden flex gap-1.5 px-3 py-2 overflow-x-auto border-b border-[rgba(255,255,255,0.07)] shrink-0 bg-[#171930]">
+          <button
+            onClick={() => setActiveDept('all')}
+            className={`shrink-0 text-[10px] font-mono px-2.5 py-1 border transition-colors ${
+              activeDept === 'all'
+                ? 'border-eva-orange text-eva-orange bg-[rgba(99,102,241,0.08)]'
+                : 'border-[rgba(255,255,255,0.1)] text-primary-50 hover:text-primary-70'
+            }`}
+          >
+            All
+          </button>
+          {deptTags.map(tag => {
+            const dept = DEPARTMENTS[tag] || DEPARTMENTS.meta
+            const isActive = activeDept === tag
+            return (
+              <button
+                key={tag}
+                onClick={() => setActiveDept(tag)}
+                className={`shrink-0 flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 border transition-colors ${
+                  isActive
+                    ? 'border-eva-orange text-eva-orange bg-[rgba(99,102,241,0.08)]'
+                    : 'border-[rgba(255,255,255,0.1)] text-primary-50 hover:text-primary-70'
+                }`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: dept.color }} />
+                <span className="truncate">{dept.label}</span>
+              </button>
+            )
+          })}
+        </div>
+
         {/* Content area */}
         {filtered.length === 0 ? (
           <div className="flex-1 flex items-center justify-center">
@@ -300,10 +332,10 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
             <div className="flex items-center gap-3 px-4 py-1.5 border-b border-[rgba(255,255,255,0.07)] bg-[#171930] sticky top-0 z-10">
               <span className="w-1.5 shrink-0" />
               <span className="w-1.5 shrink-0" />
-              <span className="text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] w-44 shrink-0">Skill</span>
-              <span className="text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] flex-1 min-w-0">Description</span>
-              <span className="text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] w-24 text-right shrink-0">Schedule</span>
-              <span className="text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] w-[62px] shrink-0">History</span>
+              <span className="text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] flex-1 md:flex-none md:w-44 shrink-0">Skill</span>
+              <span className="hidden md:block text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] flex-1 min-w-0">Description</span>
+              <span className="hidden md:block text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] w-24 text-right shrink-0">Schedule</span>
+              <span className="hidden md:block text-[9px] font-mono text-primary-40 uppercase tracking-[1.5px] w-[62px] shrink-0">History</span>
               <span className="w-7 shrink-0" />
               <span className="w-8 shrink-0" />
             </div>

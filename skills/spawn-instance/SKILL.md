@@ -1,6 +1,6 @@
 ---
 name: Spawn Instance
-description: Clone this Vigil agent into a new GitHub repo — fork, configure skills, validate, register in fleet
+description: Fork this repo into a new named Vigil instance — configure skills from the live catalog, validate, push, enable Actions, and register in the fleet
 var: ""
 tags: [dev]
 ---

@@ -1,6 +1,6 @@
 ---
 name: DeFi Monitor
-description: Check pool health, positions, and yield rates for tracked protocols
+description: Poll pool health, position state, and yield rates for watched on-chain positions
 var: ""
 tags: [crypto]
 ---

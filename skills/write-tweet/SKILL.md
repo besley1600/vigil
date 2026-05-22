@@ -20,17 +20,19 @@ Otherwise, read today's `memory/logs/${today}.md` and pick the **single most twe
 
 If the topic needs fresher context, use WebSearch to verify or expand.
 
-If `XAI_API_KEY` is set, search X for what people are already saying about the topic:
-```bash
-curl -s -X POST "https://api.x.ai/v1/responses" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $XAI_API_KEY" \
-  -d '{
-    "model": "grok-4-1-fast",
-    "input": [{"role": "user", "content": "Search X for what people are saying about TOPIC in the last 24 hours. Return the 5 most notable tweets with @handle and summary."}],
-    "tools": [{"type": "x_search"}]
-  }'
+If `XAI_API_KEY` is set, search X for what people are already saying about the topic. Use WebFetch to POST to `https://api.x.ai/v1/responses` with:
+- Header `Authorization: Bearer <value>` — read `$XAI_API_KEY` from the environment and embed the actual value directly in the request header (do not use a shell variable reference)
+- Header `Content-Type: application/json`
+- Body:
+```json
+{
+  "model": "grok-4-1-fast",
+  "input": [{"role": "user", "content": "Search X for what people are saying about TOPIC in the last 24 hours. Return the 5 most notable tweets with @handle and summary."}],
+  "tools": [{"type": "x_search"}]
+}
 ```
+Replace `TOPIC` with the actual topic string.
+
 This helps understand the existing conversation so you can add signal, not noise.
 
 ## Voice

@@ -1,6 +1,6 @@
 ---
 name: Daily Digest
-description: Generate and send a daily digest on a configurable topic
+description: Daily signal digest on a configurable topic — filtered, structured, and under 3000 chars
 var: ""
 tags: [content]
 ---
@@ -10,7 +10,7 @@ tags: [content]
 
 Today is ${today}. Generate and send a daily **${var}** digest.
 
-The whole point of a digest is **signal, not volume**. A reader skimming for 60 seconds should walk away with three things they didn't know that morning and one of them should change a decision they'd make this week. Anything that doesn't clear that bar gets cut.
+A digest is signal, not volume. A reader skimming for 60 seconds should learn three things they didn't know and at least one should change a decision they'll make this week. Anything that doesn't clear that bar gets cut.
 
 ## Phase 1 — Gather (cast a wide net)
 

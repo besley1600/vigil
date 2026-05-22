@@ -1,6 +1,6 @@
 ---
 name: GitHub Releases
-description: Upgrade-triage digest of new releases across watched AI/infra/crypto repos
+description: Upgrade-triage digest for new releases across watched AI/infra/crypto repos — each release earns an action verdict
 schedule: "0 8 * * *"
 commits: false
 permissions: []
@@ -16,7 +16,7 @@ Read the last 2 days of `memory/logs/` and `memory/github-releases-state.json` (
 
 ## Goal
 
-Turn a list of "$N$ new releases" into $M$ upgrade decisions. Every release earns a triage verdict from semver delta + release-notes content, so the reader acts rather than skims.
+Turn a list of N new releases into M upgrade decisions. Every release earns a triage verdict based on semver delta and release-notes content, so the reader acts rather than skims.
 
 ## Steps
 

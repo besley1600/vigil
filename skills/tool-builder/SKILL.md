@@ -1,6 +1,6 @@
 ---
 name: Tool Builder
-description: Build automation scripts from action-converter suggestions and recurring manual tasks
+description: Score automation candidates from logs and action-converter output, build the highest-value one as a CLI script with full quality gates, and open a PR
 var: ""
 tags: [dev, build]
 depends_on: [action-converter]

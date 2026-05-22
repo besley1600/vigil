@@ -1,6 +1,6 @@
 ---
 name: Token Movers
-description: Top movers, losers, and trending coins from CoinGecko — with signal enrichment and pump-risk flags
+description: Top movers, losers, and trending coins from CoinGecko — enriched with signal tags, a calibrated market pulse sentence, and explicit pump-risk warnings
 var: ""
 tags: [crypto]
 ---
@@ -13,7 +13,7 @@ Read the last 2 days of `memory/logs/` to avoid repeating the same movers/trendi
 
 ## Goal
 
-Produce an **actionable** movers report. Plain % change lists are noise — the value is in distinguishing real signal (on volume, from a credible cap tier) from pump-and-dump noise and stablecoin wiggle.
+Produce an actionable movers report. Raw % change lists are noise — the value is in separating real signal (volume-confirmed, credible cap tier) from pump-and-dump noise and stablecoin wiggle.
 
 ## Steps
 

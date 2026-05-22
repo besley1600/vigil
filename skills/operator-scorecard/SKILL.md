@@ -1,19 +1,19 @@
 ---
 name: operator-scorecard
-description: Weekly plain-language synthesis of agent health + community growth + economic activity — answers "was this week worth it?" in one notification
+description: Weekly plain-language synthesis of agent health, community growth, and economic activity — answers "was this week worth it?" in one notification
 var: ""
 tags: [meta, productivity]
 ---
 
 > **${var}** — Optional. Pass `dry-run` to skip the notification (article + JSON spec still write). Pass an integer N to override the window (default 7 days = 168h). Empty = run normally on the 7-day window.
 
-Today is ${today}. Synthesize the last 7 days of agent activity into a single plain-language scorecard the operator can read in 30 seconds. Three paragraphs (agent health / community growth / economic activity) plus a one-line verdict (OK / WATCH / DEGRADED). The point of this skill is to answer the question every operator quietly asks after a week of autonomous runs: **was this week worth it?**
+Today is ${today}. Synthesize the last 7 days of agent activity into a plain-language scorecard readable in 30 seconds. Three paragraphs (agent health / community growth / economic activity) plus a one-line verdict (OK / WATCH / DEGRADED). Answer the question every operator quietly asks after a week of autonomous runs: was this week worth it?
 
 ## Why this exists
 
-Every signal needed to answer that question already lives in the repo — `skill-analytics` ranks pass rates, `heartbeat` issues per-run verdicts, `tweet-allocator` totals weekly $VIGIL spend, `token-report` tracks 7d price delta, `repo-pulse` records star/fork deltas. But each lives in its own article, on its own cadence, in its own format. A new operator (or a returning one) opens five files to assemble the weekly picture. This skill assembles it once on Monday morning and pushes it to the notification channel so the picture is delivered, not fetched.
+Every signal needed to answer that question already lives in the repo — `skill-analytics` ranks pass rates, `heartbeat` issues per-run verdicts, `tweet-allocator` totals weekly $VIGIL spend, `token-report` tracks 7d price delta, `repo-pulse` records star/fork deltas. Each lives in its own article, on its own cadence, in its own format. A new operator opens five files to assemble the weekly picture. This skill assembles it once on Monday morning and pushes it to the notification channel so the picture is delivered, not fetched.
 
-It is deliberately a synthesis skill, not a measurement skill — every number it prints is sourced from a file another skill already wrote. It introduces zero new APIs, zero new secrets, zero new cron-state. If an upstream skill didn't run, the matching paragraph degrades gracefully ("no data this week") rather than fabricating numbers.
+It is a synthesis skill, not a measurement skill — every number it prints comes from a file another skill already wrote. No new APIs, no new secrets, no new cron-state. If an upstream skill didn't run, the matching paragraph degrades gracefully ("no data this week") rather than fabricating numbers.
 
 ## Config
 

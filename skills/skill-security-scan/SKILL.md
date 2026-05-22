@@ -1,6 +1,6 @@
 ---
 name: Skill Security Scan
-description: Audit skills, workflows, and companion scripts for injection, exfiltration, traversal, and prompt-override risks with delta tracking, baseline suppression, issue filing, and per-finding remediation
+description: Audit skill files, workflows, and scripts for injection, exfiltration, traversal, and prompt-override risks — delta-tracked against prior runs, baseline-suppressed, with issue filing and per-finding remediation hints
 var: ""
 tags: [dev]
 ---

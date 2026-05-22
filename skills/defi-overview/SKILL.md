@@ -1,6 +1,6 @@
 ---
 name: DeFi Overview
-description: Daily DeFi read — regime verdict, biggest movers with "why it matters", sustainable vs incentive yields, fees fundamentals
+description: Daily DeFi read with a regime verdict, biggest movers with causation notes, sustainable vs incentive yield split, and fees fundamentals
 var: ""
 tags: [crypto]
 ---
@@ -12,7 +12,7 @@ Read `memory/MEMORY.md` for context. Read the last 2 days of `memory/logs/` to a
 
 ## Thesis
 
-The original produced a table of numbers. This version produces a **read of the market**: one verdict line at the top, then only items that *changed* or *matter*, each with a one-line reason a reader should care. TVL alone is lagging and emission-subsidized — we pair it with fees/revenue (real fundamentals) and split yields into sustainable (`apyBase`) vs incentive-driven (`apyReward`) so readers stop chasing scam-tier APYs.
+A table of numbers is not a read. One verdict line leads, then only items that changed or matter — each with a one-line reason the reader should care. TVL is lagging and emission-subsidized, so the skill pairs it with fees/revenue (real fundamentals) and splits yields into sustainable (`apyBase`) vs incentive-driven (`apyReward`) to keep readers from chasing scam-tier APYs.
 
 ## Focus mode
 

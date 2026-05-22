@@ -1,6 +1,6 @@
 ---
 name: Weekly Reflect
-description: Review recent activity, consolidate memory, and prune stale entries
+description: Review recent activity, consolidate memory files, and prune stale entries
 var: ""
 tags: [meta]
 ---
@@ -9,7 +9,7 @@ tags: [meta]
 If `${var}` is set, focus the reflection on that specific area.
 
 
-Today is ${today}. Your task is to review the agent's recent activity and maintain long-term memory.
+Today is ${today}. Review recent activity and maintain long-term memory.
 
 Steps:
 1. Read memory/MEMORY.md to understand current memory state.

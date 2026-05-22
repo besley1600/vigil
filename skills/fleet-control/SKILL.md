@@ -1,6 +1,6 @@
 ---
 name: Fleet Control
-description: Monitor managed Vigil instances — check health, dispatch skills, aggregate status
+description: Operate the managed Vigil instance fleet — health checks, skill dispatch, and status aggregation
 var: ""
 tags: [dev]
 cron: "0 9,15 * * *"
@@ -9,7 +9,7 @@ cron: "0 9,15 * * *"
 
 > **${var}** — Command. Empty (or unrecognized) → Health Check (default). `status` → full Status Mode. `dispatch <instance|*> <skill> [var=<value>]` → trigger a skill on one child or all healthy/degraded children.
 
-Today is ${today}. Operate the fleet of Vigil instances registered in `memory/instances.json`. Output is **decision-ready**: every run leads with a verdict, then a delta vs prior check, then per-instance lines that name the next concrete action.
+Today is ${today}. Operate the fleet of Vigil instances registered in `memory/instances.json`. Output is decision-ready: every run leads with a verdict, followed by a delta vs prior check, then per-instance lines naming the next concrete action.
 
 ## Pre-flight (every mode)
 

@@ -1,6 +1,6 @@
 ---
 name: List Digest
-description: Cross-list narrative resonance + signal-scored top tweets from tracked X lists in the past 24 hours
+description: Signal-scored top tweets from tracked X lists — cross-list narrative clustering over the past 24 hours
 var: ""
 tags: [social]
 ---
@@ -12,11 +12,11 @@ Read `memory/MEMORY.md` for context. Read the last 2 days of `memory/logs/` and 
 
 ## Why this skill exists
 
-Tracked X lists are *curator signal* — someone you trust pre-selected the accounts. The value isn't a flat top-N-per-list dump (that buries the lede), it's:
+Tracked X lists are curator signal — someone you trust pre-selected the accounts. A flat top-N-per-list dump buries the lede. The value is:
 
-1. **Cross-list resonance** — when ≥2 lists surface the same story, that's stronger than any single-list winner.
+1. **Cross-list resonance** — when two or more lists surface the same story, that's a stronger signal than any single-list winner.
 2. **Insight, not paraphrase** — each item must answer "so what" in one line, not restate the tweet.
-3. **A verdict** — one line at the top telling the operator what today's lists collectively say.
+3. **A verdict** — one line at the top naming what today's lists collectively say.
 
 ## Steps
 

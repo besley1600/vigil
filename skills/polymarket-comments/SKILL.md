@@ -1,6 +1,6 @@
 ---
 name: Polymarket Comments
-description: Top trending Polymarket markets and the most interesting comments from them
+description: Surface the top trending Polymarket markets and the most signal-rich comments from each
 var: ""
 tags: [crypto]
 ---

@@ -1,6 +1,6 @@
 ---
 name: v4-readiness
-description: Generate a per-fork v4 upgrade readiness checklist — reads the fork's vigil.yml, skills.json, and MEMORY.md, cross-references against the embedded v4 change manifest, emits Safe / Review / Custom / Action-items breakdown
+description: Per-fork v4 upgrade readiness check — scans vigil.yml, skills.json, and MEMORY.md against the embedded manifest, outputs Safe / Review / Custom / Action-items breakdown before the upgrade lands
 var: ""
 tags: [meta, dx]
 ---
@@ -11,9 +11,9 @@ Today is ${today}. Convert the **current** state of this fork — its enabled sk
 
 ## Why this exists
 
-v4 is announced as a full redesign (~2 weeks lead time per operator's social posts). 40+ forks are running on the current architecture. Without a structured per-fork readiness check, operators hit breaking changes blind: they pull the upstream, their custom `vigil.yml` contains a now-removed key, a chain consumer references a renamed skill, a model override points to a retired model, their custom skill imports from a path that moved. Every one of those is recoverable in five minutes if it's surfaced ahead of time and unrecoverable in five hours if it's discovered at the moment a cron fires.
+v4 is a full redesign with ~2 weeks lead time. 40+ forks are running on the current architecture. Without a per-fork readiness check, operators hit breaking changes blind: they pull upstream, discover a now-removed vigil.yml key, a chain consumer referencing a renamed skill, a model override pointing to a retired model, or a custom skill importing from a moved path. Each is recoverable in five minutes when surfaced ahead of time and unrecoverable in five hours when discovered at the moment a cron fires.
 
-This skill surfaces them ahead of time. It is read-only across the fork; it never auto-edits config, never opens PRs, never auto-pulls upstream. It writes one article and one notification — the operator owns the upgrade decision.
+Read-only across the fork — no config edits, no PRs, no auto-pulls. One article and one notification; the upgrade decision stays with the operator.
 
 ## When this skill runs
 
@@ -85,12 +85,20 @@ For each custom skill, we list:
 - whether it consumes any path from the **Review** table above
 - count of references to other skills (chained or implicit)
 
-### Removed (placeholder)
+### Removed — v4 breaking changes
 
 | Pattern | Replacement | Migration note |
 |---------|-------------|----------------|
+| `claude-3-opus-20240229` | `claude-opus-4-7` | Replace model ID in `vigil.yml` per-skill `model:` overrides and any SKILL.md prose that names the model |
+| `claude-3-sonnet-20240229` | `claude-sonnet-4-6` | Replace model ID wherever referenced; also covers `claude-3-5-sonnet-20241022` which maps to the same replacement |
+| `claude-3-haiku-20240307` | `claude-haiku-4-5-20251001` | Replace model ID; covers `claude-3-5-haiku-20241022` too |
+| `claude-3-5-sonnet-20241022` | `claude-sonnet-4-6` | Latest Claude 3.5 Sonnet retired; use Claude 4 Sonnet |
+| `claude-3-5-haiku-20241022` | `claude-haiku-4-5-20251001` | Latest Claude 3.5 Haiku retired; use Claude 4 Haiku |
+| `claude-instant-1` / `claude-instant-1.x` | `claude-haiku-4-5-20251001` | Claude Instant family fully retired; nearest replacement is Claude 4 Haiku |
+| `claude-2` / `claude-2.0` / `claude-2.1` | `claude-sonnet-4-6` | Claude 2 family fully retired; nearest replacement is Claude 4 Sonnet |
+| `anthropic-beta: tools-2024-04-04` header | _(no header needed)_ | Tool use beta header is obsolete; remove from any SKILL.md curl commands or prefetch scripts that set it explicitly |
 
-(Empty until v4 is announced. The operator's job — and the maintainer's job upstream — is to populate this row by row as the v4 PRs land. Each row should have a one-line migration recipe so the readiness report can convert it directly into an action item.)
+Each row above produces an action item in the readiness report when the fork's `vigil.yml` or SKILL.md files contain the listed pattern. Migration is a one-line model-ID substitution in all cases except the beta header, which is a header deletion.
 
 ## Steps
 

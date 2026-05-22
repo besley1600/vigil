@@ -1,18 +1,18 @@
 ---
 name: fork-skill-gap
-description: Weekly cross-fork skill adoption digest — per-fork table of upstream skills the fork hasn't enabled, top forks by gap size called out, silent on small-gap weeks
+description: Weekly skill-gap digest — per-fork table of upstream skills not yet enabled, with the widest gaps called out and silent weeks suppressed
 var: ""
 tags: [meta, community]
 ---
 > **${var}** — Optional. Pass `dry-run` to skip notify (state and article still write). Pass `owner/repo` to override the parent repo. Combine with a space (`dry-run owner/repo`) for both.
 
-Today is ${today}. Three fork-intelligence skills already exist: `fork-cohort` answers *is the fork alive?* (workflow runs in 7d), `fork-release-tracker` answers *has any fork shipped a versioned artifact?*, `contributor-spotlight` answers *who's pushing the most code?* None of them answer the obvious operator question: **"what's in upstream that I haven't adopted yet?"** This skill closes that layer.
+Today is ${today}. `fork-cohort` answers "is the fork alive?" (workflow runs in 7d). `fork-release-tracker` answers "has any fork shipped a versioned artifact?". `contributor-spotlight` answers "who's pushing the most code?". None of them answer the obvious operator question: "what's in upstream that I haven't adopted yet?" This skill closes that layer.
 
 ## Why this exists
 
-A fork that activates the agent on day one and never re-syncs accumulates an invisible drift — upstream keeps shipping skills, the fork stays at its activation-day skill count, and the operator has no surface that flags the gap. Skill drift is silent. The first sign is usually a fork operator noticing six months later that everyone else's agent is doing something theirs isn't.
+A fork that activates on day one and never re-syncs accumulates invisible drift — upstream keeps shipping skills, the fork stays at its activation-day skill count, and the operator has no surface that flags the gap. Skill drift is silent. The first sign is usually a fork operator realizing six months later that everyone else's agent does something theirs doesn't.
 
-The gap also tells upstream something: which new skills are getting picked up by the fleet, and which are launching into silence. A skill that ships and is never adopted by any fork in 8 weeks is a skill worth re-examining.
+The gap also tells upstream something: which new skills are getting picked up by the fleet, and which are landing into silence. A skill that ships and is never adopted by any fork in eight weeks is worth re-examining.
 
 ## Scope and inputs
 

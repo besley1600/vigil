@@ -1,6 +1,6 @@
 ---
 name: Heartbeat
-description: Proactive ambient check — surface anything worth attention
+description: Ambient health check — surfaces failing skills, memory issues, and anything else worth operator attention
 var: ""
 tags: [meta]
 ---

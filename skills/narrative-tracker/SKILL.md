@@ -1,6 +1,6 @@
 ---
 name: Narrative Tracker
-description: Track rising, peaking, and fading crypto/tech narratives with quantitative mindshare + velocity signals and explicit positioning calls
+description: Track crypto and tech narratives with quantitative mindshare scores, velocity signals, and explicit position calls for rising, peaking, and fading stories
 schedule: "0 14 * * *"
 commits: true
 tags: [crypto, research]
@@ -14,7 +14,7 @@ Read the last 3 days of `memory/logs/` — specifically any prior `### narrative
 
 ## Goal
 
-Produce a *decision-grade* narrative map: every narrative gets a mindshare score, a velocity arrow, a sentiment tag, named drivers, and an explicit position call. Classification without a position call is noise.
+Produce a decision-grade narrative map. Every narrative gets a mindshare score, a velocity arrow, a sentiment tag, named drivers, and an explicit position call. Classification without a position call is noise.
 
 ## Steps
 

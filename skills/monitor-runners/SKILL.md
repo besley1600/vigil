@@ -1,6 +1,6 @@
 ---
 name: Monitor Runners
-description: Find the top 5 tokens that ran hardest in the past 24h across major chains using GeckoTerminal
+description: Identify the top tokens by composite runner score across major chains in the past 24h, using GeckoTerminal data
 var: ""
 tags: [crypto]
 ---
@@ -13,7 +13,7 @@ Read the last 2 days of `memory/logs/` to find any tokens previously flagged as 
 
 ## Why this skill exists
 
-A flat "top 5 by 24h %" list is dominated by micro-cap meme coins with <$50k liquidity. That output trains the operator to ignore it. The biggest lever is **ranking by a composite Runner Score and tagging each pick with an actionable category** — so the operator can tell at a glance which picks are serious (deep-liq, sustained momentum) vs speculative (micro-cap, brand-new pool).
+A flat "top 5 by 24h %" list is dominated by micro-cap meme coins with under $50k liquidity — output that trains the operator to ignore it. Ranking by a composite Runner Score and tagging each pick with an actionable category gives the operator an immediate read on which picks are serious (deep liquidity, sustained momentum) vs speculative (micro-cap, brand-new pool).
 
 ## Data Source
 

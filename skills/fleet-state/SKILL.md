@@ -1,22 +1,22 @@
 ---
 name: fleet-state
-description: Weekly fleet-state digest — synthesises fork-cohort, contributor-spotlight, and fork-release-tracker into one "state of the fleet" narrative
+description: Weekly digest synthesizing fork-cohort, contributor-spotlight, and fork-release-tracker into one state-of-the-fleet view with week-over-week deltas
 var: ""
 tags: [meta, community]
 ---
 > **${var}** — Optional. Pass `dry-run` to skip notify (state still updates and the article still writes). Pass `owner/repo` to override the parent repo. Otherwise empty.
 
-Today is ${today}. Three weekly skills already produce fork intelligence in isolation:
+Today is ${today}. Three weekly skills produce fork intelligence in isolation:
 
-- `fork-cohort` (Sunday 19:00 UTC) answers **"is the fork alive?"** — POWER / ACTIVE / STALE / COLD buckets by workflow runs in the last 7d.
-- `fork-release-tracker` (Sunday 19:30 UTC) answers **"did any fork ship a versioned artifact?"** — silent when no tagged releases.
-- `contributor-spotlight` (Sunday 20:00 UTC) answers **"who's the named operator we celebrate this week?"** — one POWER-fork callout.
+- `fork-cohort` (Sunday 19:00 UTC) answers "is the fork alive?" — POWER / ACTIVE / STALE / COLD buckets by workflow runs in the last 7d.
+- `fork-release-tracker` (Sunday 19:30 UTC) answers "did any fork ship a versioned artifact?" — silent when no tagged releases.
+- `contributor-spotlight` (Sunday 20:00 UTC) answers "who's the named operator this week?" — one POWER-fork callout.
 
-Each fires its own Telegram blip. The operator reads three separate notifications and has to do the synthesis in their head. **Fleet-State Digest** closes that gap: one Monday read that answers the composite question — how many POWER forks, who leveled up, who shipped a release, who's the spotlight pick — with week-over-week deltas computed against the prior fleet snapshot.
+Each fires its own notification. The operator reads three separate blips and synthesizes in their head. Fleet-State Digest closes that gap: one Monday read answering the composite question — how many POWER forks, who leveled up, who shipped, who's the spotlight pick — with week-over-week deltas against the prior fleet snapshot.
 
 ## Why this exists
 
-The fork fleet has grown to 48 (and growing). With three independent weekly skills, the operator's mental model of "how is the fleet" requires opening three notifications, three articles, three state files — and remembering last week's numbers to compute deltas. The synthesis layer is the next natural step now that all three constituent skills are shipped. This skill produces nothing the constituent skills don't already produce in pieces — its value is the *single weekly view* that lets the operator land on Monday morning with the fleet picture already assembled.
+The fork fleet has grown to 48 (and climbing). With three independent weekly skills, understanding "how is the fleet" requires opening three notifications, three articles, and three state files — then remembering last week's numbers to compute deltas manually. Now that all three constituent skills are shipped, the synthesis layer is the natural next step. This skill produces nothing the constituents don't already cover in pieces; its value is the single weekly view that has the fleet picture assembled before Monday morning starts.
 
 ## Config
 

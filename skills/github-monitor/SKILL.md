@@ -1,6 +1,6 @@
 ---
 name: GitHub Monitor
-description: Watch repos for stale PRs, new issues, and new releases — tiered by urgency with concrete next actions
+description: Watch repos for stale PRs, new issues, and releases — urgency-tiered with concrete next actions per item
 var: ""
 tags: [dev]
 ---

@@ -1,18 +1,18 @@
 ---
 name: fork-cohort
-description: Weekly fork-activation cohort tracker — buckets every fork by recent run activity (COLD / STALE / ACTIVE / POWER) with week-over-week deltas
+description: Weekly fork-activation tracker — assigns every fork to a COLD / STALE / ACTIVE / POWER bucket by recent run activity, with week-over-week deltas
 var: ""
 tags: [meta, community]
 ---
 > **${var}** — Optional `owner/repo` to scope the parent repo. If empty, infers parent from the current repo's `parent.full_name` (or, on a non-fork, uses the current repo as parent).
 
-Today is ${today}. Bucket every fork of the parent repo by *current activation stage* — not by code divergence (`fork-fleet` already does that), not by who's contributing (`fork-contributor-leaderboard` already does that), but by **whether the fork is actually running right now**.
+Today is ${today}. Bucket every fork of the parent repo by current activation stage — not by code divergence (`fork-fleet` already does that), not by who's contributing (`fork-contributor-leaderboard` already does that), but by whether the fork is actually running right now.
 
-This closes the visibility gap. `fork-fleet` reads pushed_at and unique commits — both hide silent abandonment, because a fork can have great code yet zero scheduled runs (workflows disabled, secrets unset, fork created and forgotten). The ground truth for "is this Vigil instance alive?" is GitHub Actions run history on the fork itself.
+`fork-fleet` reads pushed_at and unique commits, both of which hide silent abandonment: a fork can have great code but zero scheduled runs (workflows disabled, secrets unset, fork created and forgotten). The authoritative signal for "is this Vigil instance alive?" is GitHub Actions run history on the fork itself.
 
 ## Why this exists
 
-At ~38 forks (and growing), @besley1600 and the operator community can't support every fork — but they can support the *running* ones. "X of N forks are currently running in production" is also a more compelling social-proof claim than "N forks" when the X is real, recent, and reproducible. This skill gives both numbers.
+At ~38 forks (and growing), supporting every fork is impractical — but supporting the *running* ones is not. "X of N forks are currently running in production" is also a stronger social-proof claim than "N forks" when the X is real, recent, and reproducible. This skill produces both numbers.
 
 ## Cohort definitions
 

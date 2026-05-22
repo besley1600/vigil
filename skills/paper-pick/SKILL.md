@@ -1,6 +1,6 @@
 ---
 name: Paper Pick
-description: Find the one paper you should read today from Hugging Face Papers
+description: Pick the single most relevant paper to read today from Hugging Face Papers, matched to tracked research interests
 var: ""
 tags: [research]
 ---

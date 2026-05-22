@@ -1,6 +1,6 @@
 ---
 name: Unlock Monitor
-description: Weekly token unlock and vesting tracker — quantify supply pressure via absorption ratio, classify cliff vs linear, deliver one-line market reads
+description: Weekly token unlock tracker — ranks events by absorption ratio (unlock $ / avg daily volume) rather than supply %, classifies cliff vs linear vesting, and delivers a one-line market read per event
 schedule: "0 10 * * 1"
 commits: true
 tags: [crypto]
@@ -16,7 +16,7 @@ Read `memory/state/unlock-monitor-seen.json` if present — a list of `${ticker}
 
 ## Core thesis
 
-The original skill ranked unlocks by **% of circulating supply**. That's a weak proxy. The right metric is **Absorption Ratio = unlock_dollar_value / 7-day avg daily volume**. Keyrock's analysis of 16k+ unlocks shows that ratios above ~2.4× consistently strain liquidity and produce measurable price drawdown. Below ~0.5× the market typically yawns. This skill ranks by absorption ratio first, supply % second, and folds in cliff-vs-linear structure plus pre-unlock price action to produce a per-event verdict.
+Ranking unlocks by % of circulating supply is a weak proxy. The right metric is Absorption Ratio = unlock_dollar_value / 7-day avg daily volume. Keyrock's analysis of 16k+ unlocks shows ratios above ~2.4× consistently strain liquidity and produce measurable price drawdown; below ~0.5× the market typically ignores it. Events are ranked by absorption ratio first and supply % second. Cliff-vs-linear structure and pre-unlock price action combine into a per-event verdict.
 
 ## Steps
 

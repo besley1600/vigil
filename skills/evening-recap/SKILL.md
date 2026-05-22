@@ -1,6 +1,6 @@
 ---
 name: Evening Recap
-description: End-of-day operational summary — what Vigil shipped, what failed, what needs follow-up
+description: End-of-day operational summary — shipped artifacts, failures, and decisions queued for tomorrow
 var: ""
 tags: [meta]
 ---
@@ -11,7 +11,7 @@ Read memory/MEMORY.md for context and `memory/issues/INDEX.md` for open issues.
 
 ## Goal
 
-The recap is not a log dump — the operator can read the log themselves. Its job is to deliver a verdict on the shape of the day and surface the calls that need a human. Lead with a one-sentence TL;DR; cap headlines; demand a URL on every shipped item; and never print empty sections.
+The recap is not a log dump — the operator can read the log themselves. Deliver a verdict on the shape of the day and surface the calls that need a human. Lead with a one-sentence TL;DR, cap headlines, require a URL on every shipped item, and never print empty sections.
 
 ## Steps
 

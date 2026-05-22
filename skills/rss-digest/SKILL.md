@@ -1,6 +1,6 @@
 ---
 name: RSS Digest
-description: Fetch, summarize, and deliver RSS feed highlights
+description: Fetch RSS feeds, select the most relevant items from the last 24h, and deliver a concise digest with per-item summaries
 var: ""
 tags: [news]
 ---

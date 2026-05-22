@@ -1,6 +1,6 @@
 ---
 name: skill-freshness
-description: Audit every enabled skill's upstream file dependencies for staleness — flags chained skills about to consume yesterday's article or a long-dead topic file
+description: Check every enabled skill's upstream file dependencies against per-class freshness thresholds — catches a chained consumer silently reading a stale article or an expired topic file
 var: ""
 tags: [meta, dev]
 ---

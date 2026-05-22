@@ -1,6 +1,6 @@
 ---
 name: skill-analytics
-description: Weekly fleet-level skill-run analytics — ranks skills by 7d run count, surfaces success rates, exit-taxonomy distribution, and anomaly flags (significance-gated)
+description: Fleet-level run analytics for the last 7d — skills ranked by run count, success rates, exit-taxonomy distribution, and significance-gated anomaly flags across the entire schedule
 var: ""
 tags: [meta]
 ---
@@ -11,7 +11,7 @@ Today is ${today}. Generate a fleet-level performance view of every Vigil skill 
 
 ## Why this exists
 
-`heartbeat` runs three times daily and emits a per-skill ✓/✗. `skill-health` files issues for skills that breach degradation thresholds. Neither produces a ranked, fleet-wide view. The 80 autoresearch-evolution rewrites (vigil PRs #46–#136) introduced new exit taxonomies — `SKIP_UNCHANGED`, `NEW_INFO`, `SKIP_QUIET` — that classify quiet-but-correct runs separately from failures. Existing health checks treat any non-`*_OK` exit as worth attention; the analytics widget makes the actual distribution visible so a skill running mostly `SKIP_UNCHANGED` reads as healthy-quiet, not silently broken.
+`heartbeat` runs three times daily and emits a per-skill ✓/✗. `skill-health` files issues for skills that breach degradation thresholds. Neither produces a ranked, fleet-wide view. The autoresearch-evolution rewrites (vigil PRs #46–#136) introduced new exit taxonomies — `SKIP_UNCHANGED`, `NEW_INFO`, `SKIP_QUIET` — that classify quiet-but-correct runs separately from failures. Existing health checks treat any non-`*_OK` exit as potentially worth attention; the analytics view makes the actual distribution visible so a skill running mostly `SKIP_UNCHANGED` reads as healthy-quiet, not silently broken.
 
 ## Steps
 

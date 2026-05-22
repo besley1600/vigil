@@ -1,6 +1,6 @@
 ---
 name: push-recap
-description: Daily deep-dive recap of all pushes — reads diffs, ranks impact, separates user-visible shipments from internal work, delivers a verdict
+description: Daily push recap — reads diffs, ranks by impact, separates user-visible changes from internal work, and leads with a verdict
 var: ""
 tags: [dev]
 ---

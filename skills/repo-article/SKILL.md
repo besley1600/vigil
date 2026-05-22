@@ -1,6 +1,6 @@
 ---
 name: repo-article
-description: Thesis-driven article about a watched repo — falsifiable claim, cited evidence, self-edit quality gate
+description: Write a thesis-driven article about a watched repo — falsifiable claim, evidence-backed, self-edited before publication
 var: ""
 tags: [dev, content]
 ---

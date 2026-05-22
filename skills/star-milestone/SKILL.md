@@ -1,6 +1,6 @@
 ---
 name: star-milestone
-description: Announces when a watched repo crosses a star-count milestone (100, 150, 200, 250, 500, 1000, ...) with a velocity-shaped narrative — time-to-milestone, growth shape, projection, and a tight highlight reel
+description: Detect star-count milestone crossings on watched repos and send a velocity-shaped notification — time-to-milestone, growth shape label, next-milestone projection, and a 3-item highlight reel
 var: ""
 tags: [dev]
 ---

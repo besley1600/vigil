@@ -1,6 +1,6 @@
 ---
 name: RSS Feed Generator
-description: Generate an Atom XML feed from articles, validate it, and notify only when it actually changes
+description: Regenerate the Atom XML feed from articles/, validate the output, commit only on real change, and notify only when subscriber-visible entries are added or removed
 var: ""
 tags: [content]
 ---

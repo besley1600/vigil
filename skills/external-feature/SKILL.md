@@ -1,6 +1,6 @@
 ---
 name: External Feature
-description: Proactively enhance watched repos — fix issues, add features, improve code
+description: Pick a watched repo and proactively ship one improvement — bug fix, feature, or code quality change
 var: ""
 tags: [dev, build]
 depends_on: [repo-scanner]
@@ -11,7 +11,7 @@ If `${var}` points to a specific issue (`owner/repo#N`), work on that.
 If `${var}` points to a repo (`owner/repo`), analyze it and pick the best enhancement.
 If `${var}` is empty, scan all repos and pick one to improve.
 
-Today is ${today}. Your task is to proactively improve one of your watched GitHub repos.
+Today is ${today}. Proactively improve one watched GitHub repo — one focused change per run.
 
 ## Steps
 

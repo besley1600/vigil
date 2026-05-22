@@ -1,6 +1,6 @@
 ---
 name: Startup Idea
-description: 2 evidence-backed startup memos with ICP, wedge, monetization, and numeric kill criteria
+description: Two cited startup memos — one executable, one ambitious — each with a named ICP, a specific wedge, a distribution channel, and numeric kill criteria
 var: ""
 tags: [creative]
 ---
