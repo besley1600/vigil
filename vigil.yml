@@ -122,7 +122,7 @@ skills:
   skill-analytics: { enabled: false, schedule: "30 18 * * 3", model: "claude-sonnet-4-6" } # Wednesday — fleet-level skill-run analytics: ranked run counts, exit-taxonomy distribution, anomaly flags (significance-gated)
   reflect: { enabled: false, schedule: "0 18 * * *" }
 
-  action-converter: { enabled: true, schedule: "0 20 * * *" }
+  action-converter: { enabled: false, schedule: "0 20 * * *" }
   startup-idea: { enabled: false, schedule: "0 18 * * *" }
   tool-builder: { enabled: false, schedule: "reactive", var: "" } # reactive — build automation scripts from recurring tasks
   skill-repair: { enabled: false, schedule: "reactive", var: "" } # reactive — auto-fix failing skills
