@@ -211,12 +211,10 @@ function Nav() {
   return (
     <>
       <style>{`
-        .nav-links { display: flex; }
-        .nav-ctас  { display: flex; }
+        .nav-links  { display: flex; }
         .nav-burger { display: none; }
         @media (max-width: 640px) {
           .nav-links  { display: none !important; }
-          .nav-ctас   { display: none !important; }
           .nav-burger { display: flex !important; }
         }
       `}</style>
@@ -235,7 +233,7 @@ function Nav() {
             <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>VIGIL</span>
           </a>
 
-          {/* Desktop links */}
+          {/* Desktop: links + CTAs grouped on the right */}
           <div className="nav-links" style={{ alignItems: 'center', gap: '2rem' }}>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               {NAV_LINKS.map((label) => (
@@ -246,20 +244,18 @@ function Nav() {
                 >{label}</a>
               ))}
             </div>
-          </div>
-
-          {/* Desktop CTAs */}
-          <div className="nav-ctас" style={{ gap: '0.75rem' }}>
-            <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
-              style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1px solid #2E3058', color: '#a1a1aa', fontSize: '0.875rem', textDecoration: 'none', transition: 'all 0.15s' }}
-              onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = '#3A3D68'; el.style.color = '#fafafa' }}
-              onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = '#2E3058'; el.style.color = '#a1a1aa' }}
-            >GitHub</a>
-            <a href={APP_URL} rel="noopener noreferrer"
-              style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', transition: 'opacity 0.15s' }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
-            >Open App →</a>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
+                style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1px solid #2E3058', color: '#a1a1aa', fontSize: '0.875rem', textDecoration: 'none', transition: 'all 0.15s' }}
+                onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = '#3A3D68'; el.style.color = '#fafafa' }}
+                onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = '#2E3058'; el.style.color = '#a1a1aa' }}
+              >GitHub</a>
+              <a href={APP_URL} rel="noopener noreferrer"
+                style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', transition: 'opacity 0.15s' }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+              >Open App →</a>
+            </div>
           </div>
 
           {/* Mobile burger */}
