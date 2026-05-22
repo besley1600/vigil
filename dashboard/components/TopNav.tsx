@@ -169,13 +169,12 @@ export function TopNav({
 
       {/* Mobile: hamburger button */}
       <button
-        className="md:hidden ml-auto mr-4 flex flex-col justify-center gap-1.5 p-1.5 hover:opacity-70 transition-opacity"
+        className="md:hidden ml-auto mr-4 flex flex-col justify-center gap-[5px] p-1.5 hover:opacity-70 transition-opacity"
         onClick={() => setMobileMenuOpen(o => !o)}
         aria-label="Menu"
       >
-        <span className="w-5 h-px bg-primary-70 transition-all" />
-        <span className="w-5 h-px bg-primary-70 transition-all" />
-        <span className="w-5 h-px bg-primary-70 transition-all" />
+        <span className="block w-5 transition-all" style={{ height: '1.5px', backgroundColor: 'rgba(255,255,255,0.9)', transform: mobileMenuOpen ? 'rotate(45deg) translate(2px, 3.5px)' : 'none' }} />
+        <span className="block w-5 transition-all" style={{ height: '1.5px', backgroundColor: 'rgba(255,255,255,0.9)', transform: mobileMenuOpen ? 'rotate(-45deg) translate(2px, -3.5px)' : 'none' }} />
       </button>
 
       {/* Mobile: dropdown menu */}

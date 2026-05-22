@@ -181,97 +181,119 @@ function VigilLogo({ size = 32 }: { size?: number }) {
 
 // ── Nav ───────────────────────────────────────────────────────────────────────
 
+const NAV_LINKS = ['Features', 'How it works', 'Download'] as const
+
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20)
+    const handler = () => {
+      setScrolled(window.scrollY > 20)
+      if (window.scrollY > 20) setMobileOpen(false)
+    }
     window.addEventListener('scroll', handler)
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  const navBg = scrolled || mobileOpen ? 'rgba(13,13,26,0.96)' : 'transparent'
+  const navBorder = scrolled || mobileOpen ? '1px solid rgba(99,102,241,0.15)' : '1px solid transparent'
+
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        padding: '0 1.5rem',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: scrolled ? 'rgba(18,18,36,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(99,102,241,0.15)' : '1px solid transparent',
-        transition: 'all 0.25s ease',
-      }}
-    >
-      <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-        <VigilLogo size={28} />
-        <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>VIGIL</span>
-      </a>
+    <>
+      <style>{`
+        .nav-desktop { display: flex; }
+        .nav-burger  { display: none; }
+        @media (max-width: 640px) {
+          .nav-desktop { display: none !important; }
+          .nav-burger  { display: flex !important; }
+        }
+      `}</style>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-        <div style={{ display: 'flex', gap: '1.5rem' }}>
-          {['Features', 'How it works', 'Download'].map((label) => (
-            <a
-              key={label}
-              href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
-              style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#fafafa')}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
-            >
-              {label}
-            </a>
-          ))}
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        backgroundColor: navBg,
+        backdropFilter: scrolled || mobileOpen ? 'blur(20px)' : 'none',
+        borderBottom: navBorder,
+        transition: 'background-color 0.25s ease, border-color 0.25s ease',
+      }}>
+        {/* Main bar */}
+        <div style={{ padding: '0 1.5rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+            <VigilLogo size={28} />
+            <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>VIGIL</span>
+          </a>
+
+          {/* Desktop links + CTAs */}
+          <div className="nav-desktop" style={{ alignItems: 'center', gap: '2rem' }}>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
+              {NAV_LINKS.map((label) => (
+                <a key={label} href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}
+                  onMouseEnter={(e) => ((e.currentTarget).style.color = '#fafafa')}
+                  onMouseLeave={(e) => ((e.currentTarget).style.color = '#a1a1aa')}
+                >{label}</a>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
+                style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1px solid rgba(99,102,241,0.25)', color: '#d4d4d8', fontSize: '0.875rem', textDecoration: 'none', transition: 'all 0.15s' }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)'; e.currentTarget.style.color = '#fafafa' }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.25)'; e.currentTarget.style.color = '#d4d4d8' }}
+              >GitHub</a>
+              <a href={APP_URL} target="_blank" rel="noopener noreferrer"
+                style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', boxShadow: '0 0 16px rgba(79,70,229,0.4)', transition: 'all 0.15s' }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
+              >Open App →</a>
+            </div>
+          </div>
+
+          {/* Mobile burger — two lines that become ✕ */}
+          <button
+            className="nav-burger"
+            onClick={() => setMobileOpen(o => !o)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', flexDirection: 'column', gap: '5px', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <span style={{
+              display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa',
+              transition: 'transform 0.2s ease, opacity 0.2s ease',
+              transform: mobileOpen ? 'rotate(45deg) translate(2.5px, 3.5px)' : 'none',
+            }} />
+            <span style={{
+              display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa',
+              transition: 'transform 0.2s ease, opacity 0.2s ease',
+              transform: mobileOpen ? 'rotate(-45deg) translate(2.5px, -3.5px)' : 'none',
+            }} />
+          </button>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <a
-            href={`https://github.com/${GITHUB_REPO}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: '0.375rem 0.875rem',
-              borderRadius: '6px',
-              border: '1px solid rgba(99,102,241,0.25)',
-              backgroundColor: 'transparent',
-              color: '#d4d4d8',
-              fontSize: '0.875rem',
-              textDecoration: 'none',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.5)'; el.style.color = '#fafafa' }}
-            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.25)'; el.style.color = '#d4d4d8' }}
-          >
-            GitHub
-          </a>
-          <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: '0.375rem 0.875rem',
-              borderRadius: '6px',
-              background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
-              color: '#fff',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              boxShadow: '0 0 16px rgba(79,70,229,0.4)',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.opacity = '0.85'; el.style.boxShadow = '0 0 24px rgba(79,70,229,0.6)' }}
-            onMouseLeave={(e) => { const el = e.currentTarget; el.style.opacity = '1'; el.style.boxShadow = '0 0 16px rgba(79,70,229,0.4)' }}
-          >
-            Open App →
-          </a>
-        </div>
-      </div>
-    </nav>
+        {/* Mobile dropdown */}
+        {mobileOpen && (
+          <div style={{ borderTop: '1px solid rgba(99,102,241,0.12)', padding: '1rem 1.5rem 1.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {NAV_LINKS.map((label) => (
+                <a key={label} href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  onClick={() => setMobileOpen(false)}
+                  style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', padding: '0.75rem 0', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'block' }}
+                >{label}</a>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.25rem' }}>
+              <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                style={{ padding: '0.625rem 1rem', borderRadius: '6px', border: '1px solid rgba(99,102,241,0.25)', color: '#d4d4d8', fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center' }}
+              >GitHub</a>
+              <a href={APP_URL} target="_blank" rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                style={{ padding: '0.625rem 1rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center', boxShadow: '0 0 16px rgba(79,70,229,0.4)' }}
+              >Open App →</a>
+            </div>
+          </div>
+        )}
+      </nav>
+    </>
   )
 }
 
