@@ -36,6 +36,16 @@ const GITHUB_REPO = 'besley1600/vigil'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || '/app'
 const RELEASES_BASE = `https://github.com/${GITHUB_REPO}/releases/latest/download`
 
+// ── Token — update TOKEN_CA when contract is deployed ────────────────────────
+const TOKEN_CA: string | null = null // TODO: replace with real contract address
+const BANKR_URL = TOKEN_CA ? `https://bankr.bot/discover/${TOKEN_CA}` : null
+
+const SOCIALS = [
+  { label: 'X / Twitter', href: 'https://x.com/NightWatch_0' },
+  { label: 'GitHub', href: `https://github.com/${GITHUB_REPO}` },
+  { label: 'Bankr', href: BANKR_URL },
+]
+
 const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: number }>; url: string; ext: string }[] = [
   {
     platform: 'macOS',
@@ -822,6 +832,176 @@ function Download() {
   )
 }
 
+// ── Token ─────────────────────────────────────────────────────────────────────
+
+function Token() {
+  const [copied, setCopied] = useState(false)
+
+  const copy = () => {
+    if (!TOKEN_CA) return
+    navigator.clipboard.writeText(TOKEN_CA)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <section
+      style={{
+        padding: '6rem 1.5rem',
+        borderTop: '1px solid #2E3058',
+        borderBottom: '1px solid #2E3058',
+        backgroundColor: '#131528',
+      }}
+    >
+      <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.3rem 0.875rem',
+            borderRadius: '100px',
+            border: '1px solid #2E3058',
+            backgroundColor: '#181A32',
+            fontSize: '0.8rem',
+            color: '#a1a1aa',
+            marginBottom: '1.5rem',
+          }}
+        >
+          <span style={{ color: '#34d399', fontSize: '0.65rem' }}>●</span>
+          $VIGIL Token
+        </div>
+
+        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
+          Own a piece of the network
+        </h2>
+        <p style={{ color: '#71717a', fontSize: '1rem', lineHeight: 1.65, margin: '0 0 2.5rem', maxWidth: '46ch', marginLeft: 'auto', marginRight: 'auto' }}>
+          The $VIGIL token powers the ecosystem. Holders get access to premium models, priority execution, and governance rights as the platform grows.
+        </p>
+
+        {/* Contract address */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '0.75rem',
+            backgroundColor: '#0F1124',
+            border: '1px solid #2E3058',
+            borderRadius: '8px',
+            padding: '0.875rem 1rem',
+            marginBottom: '1.5rem',
+          }}
+        >
+          <div style={{ textAlign: 'left', minWidth: 0 }}>
+            <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
+              Contract Address
+            </div>
+            <div
+              style={{
+                fontSize: '0.8rem',
+                fontFamily: 'var(--font-mono)',
+                color: TOKEN_CA ? '#a1a1aa' : '#52525b',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {TOKEN_CA ?? 'Coming soon'}
+            </div>
+          </div>
+          <button
+            onClick={copy}
+            disabled={!TOKEN_CA}
+            style={{
+              flexShrink: 0,
+              padding: '0.375rem 0.75rem',
+              borderRadius: '5px',
+              border: '1px solid #2E3058',
+              backgroundColor: TOKEN_CA ? '#181A32' : 'transparent',
+              color: copied ? '#34d399' : '#71717a',
+              fontSize: '0.72rem',
+              fontFamily: 'var(--font-mono)',
+              cursor: TOKEN_CA ? 'pointer' : 'default',
+              transition: 'all 0.15s',
+              opacity: TOKEN_CA ? 1 : 0.4,
+            }}
+          >
+            {copied ? 'Copied' : 'Copy'}
+          </button>
+        </div>
+
+        {/* Buy button */}
+        {BANKR_URL ? (
+          <a
+            href={BANKR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 2rem',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: '0.95rem',
+              textDecoration: 'none',
+              boxShadow: '0 0 30px rgba(79,70,229,0.3)',
+              transition: 'opacity 0.15s',
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+          >
+            Buy on Bankr
+          </a>
+        ) : (
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 2rem',
+              borderRadius: '8px',
+              border: '1px solid #2E3058',
+              color: '#52525b',
+              fontWeight: 700,
+              fontSize: '0.95rem',
+              cursor: 'default',
+            }}
+          >
+            Buy on Bankr — Coming soon
+          </div>
+        )}
+
+        {/* Socials */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginTop: '2.5rem' }}>
+          {SOCIALS.map(({ label, href }) =>
+            href ? (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontSize: '0.825rem', color: '#52525b', textDecoration: 'none', transition: 'color 0.15s' }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#a1a1aa')}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
+              >
+                {label}
+              </a>
+            ) : (
+              <span key={label} style={{ fontSize: '0.825rem', color: '#3a3a4a', cursor: 'default' }}>
+                {label}
+              </span>
+            )
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Footer() {
   return (
     <footer
@@ -848,12 +1028,12 @@ function Footer() {
           </span>
         </div>
 
-        <div style={{ display: 'flex', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           {[
+            { label: 'X / Twitter', href: 'https://x.com/NightWatch_0' },
             { label: 'GitHub', href: `https://github.com/${GITHUB_REPO}` },
             { label: 'Docs', href: `https://github.com/${GITHUB_REPO}#readme` },
             { label: 'Issues', href: `https://github.com/${GITHUB_REPO}/issues` },
-            { label: 'Releases', href: `https://github.com/${GITHUB_REPO}/releases` },
           ].map(({ label, href }) => (
             <a
               key={label}
@@ -893,6 +1073,7 @@ export default function LandingPage() {
         <HowItWorks />
         <Packs />
         <Download />
+        <Token />
       </main>
       <Footer />
     </div>
