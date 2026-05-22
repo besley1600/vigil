@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor } from 'lucide-react'
+import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, GitBranch, Lock } from 'lucide-react'
 
 // ── Platform brand icons (inline SVG — Lucide has no brand logos) ─────────────
 
@@ -98,6 +98,16 @@ const FEATURES: { Icon: LucideIcon; title: string; desc: string }[] = [
     title: 'Native desktop app',
     desc: 'Mac, Windows, and Linux app with a visual editor, tray integration, and auto-updates.',
   },
+  {
+    Icon: GitBranch,
+    title: 'Multi-repository management',
+    desc: 'Connect any of your GitHub repos and switch between them instantly. Each repo holds its own independent skill config, schedules, and activation state.',
+  },
+  {
+    Icon: Lock,
+    title: 'Per-user credential isolation',
+    desc: 'Every user authenticates with their own GitHub account via OAuth. No shared tokens, no operator data ever leaking — complete isolation by design.',
+  },
 ]
 
 const PACKS = [
@@ -148,13 +158,13 @@ const PACKS = [
 const STEPS = [
   {
     n: '01',
-    title: 'Fork and configure',
-    desc: 'Fork the repo, set your Anthropic API key and GitHub token as repo secrets. Takes two minutes.',
+    title: 'Connect your GitHub',
+    desc: 'Sign in with GitHub OAuth. Vigil connects to your repositories securely — no manual token setup, no shared credentials.',
   },
   {
     n: '02',
-    title: 'Enable skills',
-    desc: 'Open the dashboard, toggle the skills you want, set their schedules. Changes sync to your repo instantly.',
+    title: 'Activate a repository',
+    desc: 'Select any of your repos, flip the activation switch, then toggle skills and set their schedules. Each repo holds its own independent config.',
   },
   {
     n: '03',
@@ -181,111 +191,114 @@ function VigilLogo({ size = 32 }: { size?: number }) {
   )
 }
 
+const NAV_LINKS = ['Features', 'How it works', 'Download'] as const
+
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20)
+    const handler = () => {
+      setScrolled(window.scrollY > 20)
+      if (window.scrollY > 20) setMobileOpen(false)
+    }
     window.addEventListener('scroll', handler)
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  const solid = scrolled || mobileOpen
+
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        padding: '0 1.5rem',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: scrolled ? 'rgba(15,17,36,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid #2E3058' : '1px solid transparent',
+    <>
+      <style>{`
+        .nav-links { display: flex; }
+        .nav-ctас  { display: flex; }
+        .nav-burger { display: none; }
+        @media (max-width: 640px) {
+          .nav-links  { display: none !important; }
+          .nav-ctас   { display: none !important; }
+          .nav-burger { display: flex !important; }
+        }
+      `}</style>
+
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        backgroundColor: solid ? 'rgba(15,17,36,0.96)' : 'transparent',
+        backdropFilter: solid ? 'blur(12px)' : 'none',
+        borderBottom: solid ? '1px solid #2E3058' : '1px solid transparent',
         transition: 'all 0.2s ease',
-      }}
-    >
-      <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-        <VigilLogo size={28} />
-        <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>
-          VIGIL
-        </span>
-      </a>
+      }}>
+        {/* Main bar */}
+        <div style={{ padding: '0 1.5rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+            <VigilLogo size={28} />
+            <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>VIGIL</span>
+          </a>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-        <div style={{ display: 'flex', gap: '1.5rem' }}>
-          {['Features', 'How it works', 'Download'].map((label) => (
-            <a
-              key={label}
-              href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
-              style={{
-                color: '#a1a1aa',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'color 0.15s',
-              }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#fafafa')}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
-            >
-              {label}
-            </a>
-          ))}
+          {/* Desktop links */}
+          <div className="nav-links" style={{ alignItems: 'center', gap: '2rem' }}>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
+              {NAV_LINKS.map((label) => (
+                <a key={label} href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}
+                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#fafafa')}
+                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
+                >{label}</a>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop CTAs */}
+          <div className="nav-ctас" style={{ gap: '0.75rem' }}>
+            <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
+              style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1px solid #2E3058', color: '#a1a1aa', fontSize: '0.875rem', textDecoration: 'none', transition: 'all 0.15s' }}
+              onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = '#3A3D68'; el.style.color = '#fafafa' }}
+              onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = '#2E3058'; el.style.color = '#a1a1aa' }}
+            >GitHub</a>
+            <a href={APP_URL} rel="noopener noreferrer"
+              style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', transition: 'opacity 0.15s' }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+            >Open App →</a>
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            className="nav-burger"
+            onClick={() => setMobileOpen(o => !o)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', flexDirection: 'column', gap: '5px', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <span style={{ display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa', transition: 'transform 0.2s ease', transform: mobileOpen ? 'rotate(45deg) translate(2.5px, 3.5px)' : 'none' }} />
+            <span style={{ display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa', transition: 'transform 0.2s ease', transform: mobileOpen ? 'rotate(-45deg) translate(2.5px, -3.5px)' : 'none' }} />
+          </button>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <a
-            href={`https://github.com/${GITHUB_REPO}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: '0.375rem 0.875rem',
-              borderRadius: '6px',
-              border: '1px solid #2E3058',
-              backgroundColor: 'transparent',
-              color: '#a1a1aa',
-              fontSize: '0.875rem',
-              textDecoration: 'none',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget
-              el.style.borderColor = '#3A3D68'
-              el.style.color = '#fafafa'
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget
-              el.style.borderColor = '#2E3058'
-              el.style.color = '#a1a1aa'
-            }}
-          >
-            GitHub
-          </a>
-          <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: '0.375rem 0.875rem',
-              borderRadius: '6px',
-              background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
-              color: '#fff',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              transition: 'opacity 0.15s',
-            }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
-          >
-            Open App →
-          </a>
-        </div>
-      </div>
-    </nav>
+        {/* Mobile dropdown */}
+        {mobileOpen && (
+          <div style={{ borderTop: '1px solid #2E3058', padding: '1rem 1.5rem 1.5rem', backgroundColor: 'rgba(15,17,36,0.98)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {NAV_LINKS.map((label) => (
+                <a key={label} href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  onClick={() => setMobileOpen(false)}
+                  style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', padding: '0.75rem 0', borderBottom: '1px solid #1C1E38', display: 'block' }}
+                >{label}</a>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.25rem' }}>
+              <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                style={{ padding: '0.625rem 1rem', borderRadius: '6px', border: '1px solid #2E3058', color: '#a1a1aa', fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center' }}
+              >GitHub</a>
+              <a href={APP_URL} rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
+                style={{ padding: '0.625rem 1rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}
+              >Open App →</a>
+            </div>
+          </div>
+        )}
+      </nav>
+    </>
   )
 }
 
