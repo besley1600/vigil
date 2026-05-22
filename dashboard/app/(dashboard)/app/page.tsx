@@ -269,7 +269,7 @@ export default function Dashboard() {
       <div className="h-screen flex flex-col items-center justify-center bg-eva-black text-primary-100">
         <div className="border border-[rgba(255,255,255,0.12)] bg-eva-white p-8 max-w-sm w-full space-y-4">
           <div className="text-xs font-mono tracking-widest uppercase text-primary-400">Select Repository</div>
-          <p className="text-[11px] font-mono text-primary-50">Choose which repo to manage. It should be a fork of the Vigil template.</p>
+          <p className="text-[11px] font-mono text-primary-50">Choose which repository to manage. Skills will run via GitHub Actions on the selected repo.</p>
           <div className="space-y-1 max-h-72 overflow-y-auto">
             {availableRepos.map(r => (
               <button
