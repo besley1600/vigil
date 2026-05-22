@@ -9,22 +9,25 @@ const REPO_ROOT = resolve(process.cwd(), '..')
 const VIGIL_YML = resolve(REPO_ROOT, 'vigil.yml')
 const SKILL_RE = /^[a-z][a-z0-9-]*$/
 
-function isRemote() {
-  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+function isRemote(request: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
+  const token = request.headers.get('x-github-token')
+  const repo = request.headers.get('x-github-repo')
+  return !!(token && repo)
 }
 
-async function getVigilYml(): Promise<string> {
-  if (isRemote()) {
-    const { content } = await getFileContent('vigil.yml')
+async function getVigilYml(request: Request): Promise<string> {
+  if (isRemote(request)) {
+    const { content } = await getFileContent('vigil.yml', request)
     return content
   }
   if (!existsSync(VIGIL_YML)) throw new Error('vigil.yml not found')
   return readFileSync(VIGIL_YML, 'utf-8')
 }
 
-async function dispatchSkill(skill: string): Promise<void> {
-  if (isRemote()) {
-    await triggerWorkflow(skill)
+async function dispatchSkill(skill: string, request: Request): Promise<void> {
+  if (isRemote(request)) {
+    await triggerWorkflow(skill, request)
     return
   }
   execFileSync('gh', ['workflow', 'run', 'vigil.yml', '-f', `skill=${skill}`], {
@@ -34,7 +37,7 @@ async function dispatchSkill(skill: string): Promise<void> {
 }
 
 export async function POST(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ name: string }> },
 ) {
   try {
@@ -44,7 +47,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid chain name' }, { status: 400 })
     }
 
-    const yamlContent = await getVigilYml()
+    const yamlContent = await getVigilYml(request)
     const doc = parseDocument(yamlContent)
     const chainsNode = doc.get('chains')
     if (!isMap(chainsNode)) {
@@ -93,7 +96,7 @@ export async function POST(
 
     for (const skill of skillsToRun) {
       try {
-        await dispatchSkill(skill)
+        await dispatchSkill(skill, request)
         dispatched.push(skill)
       } catch (e) {
         errors.push(skill)

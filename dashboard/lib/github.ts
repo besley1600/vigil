@@ -6,14 +6,26 @@ const GITHUB_API = 'https://api.github.com'
 // Resolve the repo root — prefer explicit env var (set by Electron for standalone server)
 const REPO_ROOT = process.env.REPO_ROOT || resolve(process.cwd(), '..')
 
-function isLocal() {
-  return !process.env.GITHUB_TOKEN || !process.env.GITHUB_REPO
+function isLocal(request?: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return false
+  if (request) {
+    const token = request.headers.get('x-github-token')
+    const repo = request.headers.get('x-github-repo')
+    if (token && repo) return false
+  }
+  return true
 }
 
-function getConfig() {
-  const token = process.env.GITHUB_TOKEN!
-  const repo = process.env.GITHUB_REPO!
-  return { token, repo }
+function getConfig(request?: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
+    return { token: process.env.GITHUB_TOKEN, repo: process.env.GITHUB_REPO }
+  }
+  if (request) {
+    const token = request.headers.get('x-github-token') || ''
+    const repo = request.headers.get('x-github-repo') || ''
+    return { token, repo }
+  }
+  return { token: process.env.GITHUB_TOKEN!, repo: process.env.GITHUB_REPO! }
 }
 
 function authHeaders(token: string) {
@@ -26,12 +38,12 @@ function authHeaders(token: string) {
 
 // --- Unified interface: local filesystem or GitHub API ---
 
-export async function getFileContent(path: string): Promise<{ content: string; sha: string }> {
-  if (isLocal()) {
+export async function getFileContent(path: string, request?: Request): Promise<{ content: string; sha: string }> {
+  if (isLocal(request)) {
     const content = await readFile(join(REPO_ROOT, path), 'utf-8')
     return { content, sha: '' }
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}`, {
     headers: authHeaders(token),
     cache: 'no-store',
@@ -44,12 +56,12 @@ export async function getFileContent(path: string): Promise<{ content: string; s
   }
 }
 
-export async function updateFile(path: string, content: string, sha: string, _message: string) {
-  if (isLocal()) {
+export async function updateFile(path: string, content: string, sha: string, _message: string, request?: Request) {
+  if (isLocal(request)) {
     await writeFile(join(REPO_ROOT, path), content, 'utf-8')
     return { ok: true }
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}`, {
     method: 'PUT',
     headers: authHeaders(token),
@@ -64,17 +76,17 @@ export async function updateFile(path: string, content: string, sha: string, _me
   return res.json()
 }
 
-export async function createFile(path: string, content: string, message: string) {
-  if (isLocal()) {
+export async function createFile(path: string, content: string, message: string, request?: Request) {
+  if (isLocal(request)) {
     const fullPath = join(REPO_ROOT, path)
     await mkdir(join(fullPath, '..'), { recursive: true })
     await writeFile(fullPath, content, 'utf-8')
     return { ok: true }
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   try {
-    const existing = await getFileContent(path)
-    return updateFile(path, content, existing.sha, message)
+    const existing = await getFileContent(path, request)
+    return updateFile(path, content, existing.sha, message, request)
   } catch {
     // File doesn't exist — create it
   }
@@ -91,8 +103,8 @@ export async function createFile(path: string, content: string, message: string)
   return res.json()
 }
 
-export async function getDirectory(path: string): Promise<Array<{ name: string; type: string; path: string }>> {
-  if (isLocal()) {
+export async function getDirectory(path: string, request?: Request): Promise<Array<{ name: string; type: string; path: string }>> {
+  if (isLocal(request)) {
     const fullPath = join(REPO_ROOT, path)
     try {
       const entries = await readdir(fullPath, { withFileTypes: true })
@@ -105,7 +117,7 @@ export async function getDirectory(path: string): Promise<Array<{ name: string; 
       return []
     }
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}`, {
     headers: authHeaders(token),
     cache: 'no-store',
@@ -115,11 +127,11 @@ export async function getDirectory(path: string): Promise<Array<{ name: string; 
   return Array.isArray(data) ? data : []
 }
 
-export async function triggerWorkflow(skill: string, extraInputs?: Record<string, string>) {
-  if (isLocal()) {
+export async function triggerWorkflow(skill: string, request?: Request, extraInputs?: Record<string, string>) {
+  if (isLocal(request)) {
     throw new Error('Cannot trigger GitHub Actions locally — set GITHUB_TOKEN and GITHUB_REPO to enable remote runs')
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   const res = await fetch(`${GITHUB_API}/repos/${repo}/actions/workflows/vigil.yml/dispatches`, {
     method: 'POST',
     headers: authHeaders(token),
@@ -129,12 +141,12 @@ export async function triggerWorkflow(skill: string, extraInputs?: Record<string
   if (!res.ok) throw new Error(`GitHub API ${res.status}: failed to trigger workflow`)
 }
 
-export async function getWorkflowRuns(perPage = 20) {
-  if (isLocal()) {
+export async function getWorkflowRuns(perPage = 20, request?: Request) {
+  if (isLocal(request)) {
     // Return empty — no GitHub Actions access locally
     return []
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   const res = await fetch(
     `${GITHUB_API}/repos/${repo}/actions/runs?per_page=${perPage}`,
     { headers: authHeaders(token), cache: 'no-store' },
@@ -175,19 +187,19 @@ export async function getRemoteFileContent(remoteRepo: string, path: string): Pr
   return Buffer.from(data.content, 'base64').toString('utf-8')
 }
 
-export async function deleteDirectory(path: string, message: string): Promise<void> {
-  if (isLocal()) {
+export async function deleteDirectory(path: string, message: string, request?: Request): Promise<void> {
+  if (isLocal(request)) {
     await rm(join(REPO_ROOT, path), { recursive: true, force: true })
     return
   }
-  const { token, repo } = getConfig()
+  const { token, repo } = getConfig(request)
   // GitHub API requires deleting files one by one
-  const files = await getDirectory(path)
+  const files = await getDirectory(path, request)
   for (const file of files) {
     if (file.type === 'dir') {
-      await deleteDirectory(`${path}/${file.name}`, message)
+      await deleteDirectory(`${path}/${file.name}`, message, request)
     } else {
-      const { sha } = await getFileContent(`${path}/${file.name}`)
+      const { sha } = await getFileContent(`${path}/${file.name}`, request)
       const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}/${file.name}`, {
         method: 'DELETE',
         headers: authHeaders(token),
@@ -199,8 +211,8 @@ export async function deleteDirectory(path: string, message: string): Promise<vo
   }
 }
 
-export async function fileExists(path: string): Promise<boolean> {
-  if (isLocal()) {
+export async function fileExists(path: string, request?: Request): Promise<boolean> {
+  if (isLocal(request)) {
     try {
       await stat(join(REPO_ROOT, path))
       return true
@@ -209,7 +221,7 @@ export async function fileExists(path: string): Promise<boolean> {
     }
   }
   try {
-    await getFileContent(path)
+    await getFileContent(path, request)
     return true
   } catch {
     return false

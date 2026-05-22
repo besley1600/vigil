@@ -5,8 +5,11 @@ import { triggerWorkflow } from '@/lib/github'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 
-function isRemote() {
-  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+function isRemote(request: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
+  const token = request.headers.get('x-github-token')
+  const repo = request.headers.get('x-github-repo')
+  return !!(token && repo)
 }
 
 export async function POST(
@@ -32,11 +35,11 @@ export async function POST(
       }
     } catch { /* no body is fine */ }
 
-    if (isRemote()) {
+    if (isRemote(request)) {
       const extraInputs: Record<string, string> = {}
       if (skillVar) extraInputs.var = skillVar
       if (model) extraInputs.model = model
-      await triggerWorkflow(name, extraInputs)
+      await triggerWorkflow(name, request, extraInputs)
       return NextResponse.json({ ok: true })
     }
 

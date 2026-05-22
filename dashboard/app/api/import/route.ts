@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         ...skillsEntries.filter(e => e.type === 'dir'),
       ]
 
-      const localSkills = await getDirectory('skills')
+      const localSkills = await getDirectory('skills', request)
       const localNames = new Set(localSkills.map(d => d.name))
 
       const results = await Promise.all(
@@ -86,14 +86,15 @@ export async function POST(request: Request) {
           `skills/${name}/SKILL.md`,
           content,
           `feat: import ${name} skill from ${repo}`,
+          request,
         )
 
         // Add to vigil.yml
         try {
-          const config = await getFileContent('vigil.yml')
+          const config = await getFileContent('vigil.yml', request)
           const updated = addSkillToConfig(config.content, name)
           if (updated !== config.content) {
-            await updateFile('vigil.yml', updated, config.sha, `chore: add ${name} to config`)
+            await updateFile('vigil.yml', updated, config.sha, `chore: add ${name} to config`, request)
           }
         } catch {
           // Config update failed — skill file was still created

@@ -46,11 +46,11 @@ function extractFrontmatter(content: string): { description: string; tags: strin
   return { description, tags }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const [configResult, skillDirs] = await Promise.all([
-      getFileContent('vigil.yml'),
-      getDirectory('skills'),
+      getFileContent('vigil.yml', request),
+      getDirectory('skills', request),
     ])
     const config = parseConfig(configResult.content)
     const dirNames = skillDirs.filter(d => d.type === 'dir').map(d => d.name)
@@ -58,7 +58,7 @@ export async function GET() {
     const meta = await Promise.all(
       dirNames.map(async (name) => {
         try {
-          const { content } = await getFileContent(`skills/${name}/SKILL.md`)
+          const { content } = await getFileContent(`skills/${name}/SKILL.md`, request)
           return { name, ...extractFrontmatter(content) }
         } catch {
           return { name, description: '', tags: [] as string[] }
@@ -90,7 +90,7 @@ export async function GET() {
 export async function PATCH(request: Request) {
   try {
     const { name, enabled, schedule, var: skillVar, model, skillModel, jsonrenderEnabled } = await request.json()
-    const { content, sha } = await getFileContent('vigil.yml')
+    const { content, sha } = await getFileContent('vigil.yml', request)
     let updated = content
 
     if (typeof jsonrenderEnabled === 'boolean') {
@@ -116,7 +116,7 @@ export async function PATCH(request: Request) {
         : typeof jsonrenderEnabled === 'boolean'
           ? `chore: ${jsonrenderEnabled ? 'enable' : 'disable'} json-render channel`
           : `chore: update ${name} config`
-      await updateFile('vigil.yml', updated, sha, msg)
+      await updateFile('vigil.yml', updated, sha, msg, request)
     }
 
     return NextResponse.json({ ok: true })
@@ -133,13 +133,13 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Invalid skill name' }, { status: 400 })
     }
 
-    await deleteDirectory(`skills/${name}`, `chore: delete ${name} skill`)
+    await deleteDirectory(`skills/${name}`, `chore: delete ${name} skill`, request)
 
     try {
-      const { content, sha } = await getFileContent('vigil.yml')
+      const { content, sha } = await getFileContent('vigil.yml', request)
       const updated = removeSkillFromConfig(content, name)
       if (updated !== content) {
-        await updateFile('vigil.yml', updated, sha, `chore: remove ${name} from config`)
+        await updateFile('vigil.yml', updated, sha, `chore: remove ${name} from config`, request)
       }
     } catch { /* config cleanup is best-effort */ }
 

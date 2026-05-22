@@ -5,8 +5,11 @@ import { getWorkflowRuns } from '@/lib/github'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 
-function isRemote() {
-  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+function isRemote(request: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
+  const token = request.headers.get('x-github-token')
+  const repo = request.headers.get('x-github-repo')
+  return !!(token && repo)
 }
 
 function ghRepo(): string | null {
@@ -26,10 +29,10 @@ function ghArgsRepo(): string[] {
   return repo ? ['-R', repo] : []
 }
 
-export async function GET() {
-  if (isRemote()) {
+export async function GET(request: Request) {
+  if (isRemote(request)) {
     try {
-      const raw = await getWorkflowRuns(20)
+      const raw = await getWorkflowRuns(20, request)
       const runs = (raw as Record<string, unknown>[]).map(r => ({
         id: r.id,
         workflow: r.display_title || r.name,
