@@ -7,7 +7,6 @@ const GITHUB_API = 'https://api.github.com'
 const REPO_ROOT = process.env.REPO_ROOT || resolve(process.cwd(), '..')
 
 function isLocal(request?: Request) {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return false
   if (request) {
     const token = request.headers.get('x-github-token')
     const repo = request.headers.get('x-github-repo')
@@ -17,10 +16,23 @@ function isLocal(request?: Request) {
 }
 
 function getConfig(request?: Request) {
-  const token = process.env.GITHUB_TOKEN || request?.headers.get('x-github-token') || ''
-  // Header repo takes precedence over env var — allows project switcher to work
-  const repo = request?.headers.get('x-github-repo') || process.env.GITHUB_REPO || ''
+  const token = request?.headers.get('x-github-token') || ''
+  const repo = request?.headers.get('x-github-repo') || ''
   return { token, repo }
+}
+
+/**
+ * Build a synthetic request that points at SKILLS_REPO using the caller's token.
+ * Used so skill definitions are always read from the operator's Vigil repo
+ * regardless of which repo the user has selected.
+ */
+export function makeSkillsRequest(userToken: string): Request | undefined {
+  const skillsRepo = process.env.SKILLS_REPO || ''
+  if (!skillsRepo || !userToken) return undefined
+  const headers = new Headers()
+  headers.set('x-github-token', userToken)
+  headers.set('x-github-repo', skillsRepo)
+  return new Request('http://internal', { headers })
 }
 
 function authHeaders(token: string) {
@@ -124,7 +136,7 @@ export async function getDirectory(path: string, request?: Request): Promise<Arr
 
 export async function triggerWorkflow(skill: string, request?: Request, extraInputs?: Record<string, string>) {
   if (isLocal(request)) {
-    throw new Error('Cannot trigger GitHub Actions locally — set GITHUB_TOKEN and GITHUB_REPO to enable remote runs')
+    throw new Error('Cannot trigger GitHub Actions locally — connect your GitHub account to enable remote runs')
   }
   const { token, repo } = getConfig(request)
   const res = await fetch(`${GITHUB_API}/repos/${repo}/actions/workflows/vigil.yml/dispatches`, {

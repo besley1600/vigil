@@ -6,10 +6,7 @@ import { getWorkflowRuns } from '@/lib/github'
 const REPO_ROOT = resolve(process.cwd(), '..')
 
 function isRemote(request: Request) {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
-  const token = request.headers.get('x-github-token')
-  const repo = request.headers.get('x-github-repo')
-  return !!(token && repo)
+  return !!(request.headers.get('x-github-token') && request.headers.get('x-github-repo'))
 }
 
 function ghRepo(): string | null {

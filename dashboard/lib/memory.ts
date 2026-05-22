@@ -14,7 +14,6 @@ const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 const ISSUE_PATTERN = /^ISS-\d{3,}$/
 
 function isRemote(request?: Request) {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
   if (request) {
     return !!(request.headers.get('x-github-token') && request.headers.get('x-github-repo'))
   }

@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server'
 import { getFileContent, getDirectory } from '@/lib/github'
 
 export async function GET(request: Request) {
-  const hasToken = !!process.env.GITHUB_TOKEN
-  const repo = process.env.GITHUB_REPO || ''
+  const token = request.headers.get('x-github-token') || ''
+  const repo = request.headers.get('x-github-repo') || ''
 
   let vigilyml = false
   let skillCount = 0
   let apiError = ''
 
-  if (hasToken && repo) {
+  if (token && repo) {
     try {
       await getFileContent('vigil.yml', request)
       vigilyml = true
@@ -20,5 +20,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.json({ hasToken, repo, vigilyml, skillCount, apiError })
+  return NextResponse.json({ hasToken: !!token, repo, vigilyml, skillCount, apiError })
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { execSync } from 'child_process'
 import { resolve } from 'path'
-import { getFileContent, getDirectory, updateFile, createFile, deleteDirectory } from '@/lib/github'
+import { getFileContent, getDirectory, updateFile, createFile, deleteDirectory, makeSkillsRequest } from '@/lib/github'
 import {
   parseConfig,
   addSkillToConfig,
@@ -21,7 +21,6 @@ skills:
 `
 
 function getRepoSlug(): string {
-  if (process.env.GITHUB_REPO) return process.env.GITHUB_REPO
   try {
     const url = execSync('git remote get-url origin', { stdio: 'pipe', cwd: resolve(process.cwd(), '..') }).toString().trim()
     const m = url.match(/github\.com[/:]([\w.-]+\/[\w.-]+?)(?:\.git)?$/)
@@ -56,12 +55,20 @@ function extractFrontmatter(content: string): { description: string; tags: strin
 }
 
 export async function GET(request: Request) {
+  // Require user credentials — no env-var fallback for user-facing data
+  const userToken = request.headers.get('x-github-token')
+  const userRepo = request.headers.get('x-github-repo')
+  if (!userToken || !userRepo) {
+    return NextResponse.json({
+      skills: [], model: 'claude-sonnet-4-6', gateway: null, repo: '',
+      notSetup: true, notSetupReason: 'Not authenticated', hasToken: false, repoEnabled: false,
+    })
+  }
+
   try {
-    // Skills definitions (SKILL.md files) always come from the Vigil repo.
-    // If GITHUB_REPO env var is set, use it; otherwise fall back to the selected repo
-    // (pure OAuth mode where the user's selected repo IS their Vigil fork).
-    const hasEnvVars = !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
-    const skillsReq = hasEnvVars ? undefined : request
+    // Skill definitions (SKILL.md files) come from SKILLS_REPO when set,
+    // otherwise from the user's selected repo (their own Vigil fork).
+    const skillsReq = makeSkillsRequest(userToken) ?? request
 
     let skillDirs: Array<{ name: string; type: string; path: string }> = []
     try {

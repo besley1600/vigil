@@ -9,7 +9,6 @@ const REPO_ROOT = resolve(process.cwd(), '..')
 const REMOTE_OUTPUTS_PATH = 'dashboard/outputs'
 
 function isRemote(request: Request) {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
   return !!(request.headers.get('x-github-token') && request.headers.get('x-github-repo'))
 }
 

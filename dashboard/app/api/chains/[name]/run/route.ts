@@ -10,10 +10,7 @@ const VIGIL_YML = resolve(REPO_ROOT, 'vigil.yml')
 const SKILL_RE = /^[a-z][a-z0-9-]*$/
 
 function isRemote(request: Request) {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
-  const token = request.headers.get('x-github-token')
-  const repo = request.headers.get('x-github-repo')
-  return !!(token && repo)
+  return !!(request.headers.get('x-github-token') && request.headers.get('x-github-repo'))
 }
 
 async function getVigilYml(request: Request): Promise<string> {

@@ -4,16 +4,16 @@ import { resolve } from 'path'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 
-function isRemote() {
-  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+function isRemote(request?: Request) {
+  return !!(request?.headers.get('x-github-token') && request?.headers.get('x-github-repo'))
 }
 
 function run(cmd: string) {
   return execSync(cmd, { stdio: 'pipe', cwd: REPO_ROOT }).toString().trim()
 }
 
-export async function GET() {
-  if (isRemote()) {
+export async function GET(request: Request) {
+  if (isRemote(request)) {
     // Changes go directly via GitHub API — nothing to sync locally
     return NextResponse.json({ hasChanges: false, changedFiles: 0, behind: 0 })
   }
