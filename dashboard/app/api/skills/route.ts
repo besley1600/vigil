@@ -74,19 +74,13 @@ export async function GET(request: Request) {
     try {
       skillDirs = await getDirectory('skills', skillsReq)
     } catch {
-      if (hasEnvVars) {
-        // Env var repo has no skills dir — nothing to show
-      } else {
-        // No skills on selected repo in OAuth mode
-        const token = request.headers.get('x-github-token')
-        const repo = request.headers.get('x-github-repo') || getRepoSlug()
-        return NextResponse.json({
-          skills: [], model: 'claude-sonnet-4-6', gateway: null, repo,
-          notSetup: true,
-          notSetupReason: 'No skills directory found in selected repository',
-          hasToken: !!token,
-        })
-      }
+      // No skills directory found — return notSetup
+      return NextResponse.json({
+        skills: [], model: 'claude-sonnet-4-6', gateway: null, repo: userRepo,
+        notSetup: true,
+        notSetupReason: 'No skills directory found in selected repository',
+        hasToken: true,
+      })
     }
 
     // Config (enabled/schedule/etc.) always comes from the SELECTED repo.
