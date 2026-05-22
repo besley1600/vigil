@@ -17,15 +17,10 @@ function isLocal(request?: Request) {
 }
 
 function getConfig(request?: Request) {
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
-    return { token: process.env.GITHUB_TOKEN, repo: process.env.GITHUB_REPO }
-  }
-  if (request) {
-    const token = request.headers.get('x-github-token') || ''
-    const repo = request.headers.get('x-github-repo') || ''
-    return { token, repo }
-  }
-  return { token: process.env.GITHUB_TOKEN!, repo: process.env.GITHUB_REPO! }
+  const token = process.env.GITHUB_TOKEN || request?.headers.get('x-github-token') || ''
+  // Header repo takes precedence over env var — allows project switcher to work
+  const repo = request?.headers.get('x-github-repo') || process.env.GITHUB_REPO || ''
+  return { token, repo }
 }
 
 function authHeaders(token: string) {

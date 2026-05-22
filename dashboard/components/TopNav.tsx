@@ -9,25 +9,23 @@ import { AlertCenter } from './AlertCenter'
 
 type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'contribute' | 'settings'
 
+const PROJECT_VIEWS: View[] = ['hq', 'activity', 'analytics', 'chains', 'memory', 'settings']
+
 interface TopNavProps {
   view: View
   setView: (v: View) => void
   selectedSkill: Skill | null
   runs: Run[]
   repo: string
+  availableRepos: string[]
+  onSwitchRepo: (repo: string) => void
   model: string
   gateway: 'direct' | 'bankr'
   authStatus: { authenticated: boolean } | null
   authLoading: boolean
-  pulling: boolean
-  syncing: boolean
-  hasChanges: boolean
-  behind: number
   onSetupAuth: () => void
   onUpdateModel: (m: string) => void
   onShowImport: () => void
-  onPull: () => void
-  onSync: () => void
 }
 
 function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled: boolean): { id: View; label: string; badge?: string }[] {
@@ -50,23 +48,20 @@ export function TopNav({
   selectedSkill,
   runs,
   repo,
+  availableRepos,
+  onSwitchRepo,
   model,
   gateway,
   authStatus,
   authLoading,
-  pulling,
-  syncing,
-  hasChanges,
-  behind,
   onSetupAuth,
   onUpdateModel,
   onShowImport,
-  onPull,
-  onSync,
 }: TopNavProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const modelOptions = gateway === 'bankr' ? [...MODELS, ...BANKR_EXTRA_MODELS] : MODELS
   const tabs = buildTabs(features.CHAINS, features.MEMORY, features.TOKEN)
+  const showRepoSwitcher = availableRepos.length > 1 && PROJECT_VIEWS.includes(view)
 
   return (
     <header className="h-14 border-b border-[rgba(255,255,255,0.07)] bg-[#0E1022] flex items-center shrink-0 relative">
@@ -148,7 +143,17 @@ export function TopNav({
           + Install
         </button>
 
-        {repo && (
+        {showRepoSwitcher ? (
+          <select
+            value={repo}
+            onChange={(e) => onSwitchRepo(e.target.value)}
+            className="bg-eva-white text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono max-w-[160px]"
+          >
+            {availableRepos.map(r => (
+              <option key={r} value={r}>{r.split('/')[1] ?? r}</option>
+            ))}
+          </select>
+        ) : repo ? (
           <a
             href={`https://github.com/${repo}`}
             target="_blank"
@@ -157,34 +162,12 @@ export function TopNav({
           >
             {repo.split('/')[1] ?? 'GitHub'}
           </a>
-        )}
-
-        <button
-          onClick={onPull}
-          disabled={pulling}
-          className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50"
-        >
-          {behind > 0 && (
-            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-orange" />
-          )}
-          {pulling ? '...' : 'Pull'}
-        </button>
-
-        <button
-          onClick={onSync}
-          disabled={syncing || !hasChanges}
-          className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50"
-        >
-          {hasChanges && (
-            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-green" />
-          )}
-          {syncing ? '...' : 'Push'}
-        </button>
+        ) : null}
 
         {features.ALERTS && <AlertCenter runs={runs} />}
       </div>
 
-      {/* Mobile: hamburger button - hidden on desktop */}
+      {/* Mobile: hamburger button */}
       <button
         className="md:hidden ml-auto mr-4 flex flex-col justify-center gap-1.5 p-1.5 hover:opacity-70 transition-opacity"
         onClick={() => setMobileMenuOpen(o => !o)}
@@ -195,24 +178,18 @@ export function TopNav({
         <span className="w-5 h-px bg-primary-70 transition-all" />
       </button>
 
-      {/* Mobile: dropdown menu - hidden on desktop */}
+      {/* Mobile: dropdown menu */}
       {mobileMenuOpen && (
         <>
-          {/* Backdrop */}
           <div
             className="md:hidden fixed inset-0 z-40"
             onClick={() => setMobileMenuOpen(false)}
           />
-          {/* Dropdown panel */}
           <div className="md:hidden absolute top-14 left-0 right-0 bg-[#0E1022] border-b border-[rgba(255,255,255,0.07)] z-50 max-h-[calc(100vh-56px)] overflow-y-auto">
-            {/* Navigation tabs */}
             {tabs.map(tab => (
               <button
                 key={tab.id}
-                onClick={() => {
-                  setView(tab.id)
-                  setMobileMenuOpen(false)
-                }}
+                onClick={() => { setView(tab.id); setMobileMenuOpen(false) }}
                 className={`w-full px-5 py-3 text-xs font-mono uppercase tracking-[1.5px] text-left border-b border-[rgba(255,255,255,0.05)] transition-colors ${
                   view === tab.id
                     ? 'text-eva-orange bg-[rgba(99,102,241,0.08)]'
@@ -222,7 +199,6 @@ export function TopNav({
                 {tab.label}
               </button>
             ))}
-            {/* Actions */}
             <div className="flex flex-col gap-2 px-4 py-3 border-t border-[rgba(255,255,255,0.05)]">
               {gateway === 'bankr' && (
                 <span className="text-[10px] font-mono px-2 py-0.5 bg-eva-orange/15 text-eva-orange uppercase tracking-[1px]">
@@ -239,41 +215,22 @@ export function TopNav({
                 ))}
               </select>
               <button
-                onClick={onShowImport}
+                onClick={() => { onShowImport(); setMobileMenuOpen(false) }}
                 className="bg-eva-orange text-white text-[10px] px-3 py-1.5 font-mono uppercase tracking-[1px] hover:opacity-90 transition-opacity text-left"
               >
                 + Install
               </button>
-              {repo && (
-                <a
-                  href={`https://github.com/${repo}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[10px] text-primary-50 font-mono border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-eva-orange hover:text-eva-orange transition-colors text-center"
+              {showRepoSwitcher && (
+                <select
+                  value={repo}
+                  onChange={(e) => { onSwitchRepo(e.target.value); setMobileMenuOpen(false) }}
+                  className="bg-eva-white text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono"
                 >
-                  GitHub
-                </a>
+                  {availableRepos.map(r => (
+                    <option key={r} value={r}>{r.split('/')[1] ?? r}</option>
+                  ))}
+                </select>
               )}
-              <button
-                onClick={onPull}
-                disabled={pulling}
-                className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50 text-left"
-              >
-                {behind > 0 && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-orange" />
-                )}
-                {pulling ? '...' : 'Pull'}
-              </button>
-              <button
-                onClick={onSync}
-                disabled={syncing || !hasChanges}
-                className="relative text-[10px] font-mono text-primary-50 border border-[rgba(255,255,255,0.1)] px-3 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors disabled:opacity-50 text-left"
-              >
-                {hasChanges && (
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-eva-green" />
-                )}
-                {syncing ? '...' : 'Push'}
-              </button>
             </div>
           </div>
         </>

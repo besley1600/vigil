@@ -56,6 +56,7 @@ export default function Dashboard() {
   const [authStatus, setAuthStatus] = useState<{ authenticated: boolean } | null>(null)
   const [authLoading, setAuthLoading] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [availableRepos, setAvailableRepos] = useState<string[]>([])
 
   const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
@@ -82,6 +83,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchData()
+    fetch('/api/repos').then(r => r.ok ? r.json() : null).then(d => {
+      if (d?.repos?.length) setAvailableRepos(d.repos)
+    }).catch(() => {})
   }, [fetchData])
   useEffect(() => { const id = setInterval(refreshRuns, 10_000); return () => clearInterval(id) }, [refreshRuns])
   useEffect(() => {
@@ -213,14 +217,13 @@ export default function Dashboard() {
         setView={(v) => { setView(v); setSelectedSkill(null) }}
         selectedSkill={skill}
         runs={runs}
-        repo={repo} model={model} gateway={gateway}
+        repo={repo} availableRepos={availableRepos}
+        onSwitchRepo={(r) => { localStorage.setItem('gh_repo', r); setRepo(r); fetchData() }}
+        model={model} gateway={gateway}
         authStatus={authStatus} authLoading={authLoading}
-        pulling={pulling} syncing={syncing} hasChanges={hasChanges} behind={behind}
         onSetupAuth={() => setupAuth()}
         onUpdateModel={updateModel}
         onShowImport={() => setShowImport(true)}
-        onPull={pullFromGithub}
-        onSync={syncToGithub}
       />
 
       <main className="flex-1 overflow-hidden min-h-0 bg-grid flex flex-col">
