@@ -90,13 +90,16 @@ export default function Dashboard() {
     if (ghToken) {
       localStorage.setItem('gh_token', ghToken)
       const repoList = (ghRepos || '').split(',').filter(Boolean)
+      localStorage.setItem('gh_repos', repoList.join(','))
       setAvailableRepos(repoList)
       setShowRepoSelect(true)
       window.history.replaceState({}, '', '/app')
     } else {
       const storedToken = localStorage.getItem('gh_token')
       const storedRepo = localStorage.getItem('gh_repo')
+      const storedRepos = localStorage.getItem('gh_repos')
       if (storedToken && storedRepo) setGhConnected(true)
+      if (storedRepos) setAvailableRepos(storedRepos.split(',').filter(Boolean))
     }
     fetchData()
   }, [fetchData])
@@ -248,6 +251,8 @@ export default function Dashboard() {
         selectedSkill={skill}
         runs={runs}
         repo={repo} model={model} gateway={gateway}
+        availableRepos={availableRepos}
+        onSwitchRepo={(r) => { localStorage.setItem('gh_repo', r); setRepo(r); fetchData() }}
         authStatus={authStatus} authLoading={authLoading}
         pulling={pulling} syncing={syncing} hasChanges={hasChanges} behind={behind}
         onSetupAuth={() => setupAuth()}
