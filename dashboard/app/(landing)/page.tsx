@@ -4,6 +4,24 @@ import { useState, useEffect } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, GitBranch, Lock } from 'lucide-react'
 
+// ── Brand icons ───────────────────────────────────────────────────────────────
+
+function XIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.834L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+    </svg>
+  )
+}
+
+function GithubIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+    </svg>
+  )
+}
+
 // ── Platform brand icons (inline SVG — Lucide has no brand logos) ─────────────
 
 function AppleIcon({ size = 20 }: { size?: number }) {
@@ -202,6 +220,7 @@ function VigilLogo({ size = 32 }: { size?: number }) {
 }
 
 const NAV_LINKS = ['Features', 'How it works', 'Download'] as const
+const TOKEN_NAV_HREF = '#token'
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -245,7 +264,7 @@ function Nav() {
 
           {/* Desktop: links + CTAs grouped on the right */}
           <div className="nav-links" style={{ alignItems: 'center', gap: '2rem' }}>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
               {NAV_LINKS.map((label) => (
                 <a key={label} href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
                   style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}
@@ -253,6 +272,11 @@ function Nav() {
                   onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
                 >{label}</a>
               ))}
+              <a href={TOKEN_NAV_HREF}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#818cf8', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.04em', padding: '0.2rem 0.55rem', borderRadius: '99px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.08)', transition: 'all 0.15s' }}
+                onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.7)'; el.style.color = '#a5b4fc' }}
+                onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.4)'; el.style.color = '#818cf8' }}
+              >$VIGIL</a>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
@@ -290,6 +314,9 @@ function Nav() {
                   style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', padding: '0.75rem 0', borderBottom: '1px solid #1C1E38', display: 'block' }}
                 >{label}</a>
               ))}
+              <a href={TOKEN_NAV_HREF} onClick={() => setMobileOpen(false)}
+                style={{ color: '#818cf8', textDecoration: 'none', fontSize: '0.9rem', padding: '0.75rem 0', fontWeight: 700, display: 'block' }}
+              >$VIGIL Token</a>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.25rem' }}>
               <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
@@ -546,6 +573,85 @@ function Stats() {
         ))}
       </div>
     </section>
+  )
+}
+
+// ── Token Bar ─────────────────────────────────────────────────────────────────
+
+function TokenBar() {
+  const [copied, setCopied] = useState(false)
+
+  const copy = () => {
+    if (!TOKEN_CA) return
+    navigator.clipboard.writeText(TOKEN_CA)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const shortCA = TOKEN_CA
+    ? `${TOKEN_CA.slice(0, 6)}...${TOKEN_CA.slice(-4)}`
+    : 'Coming soon'
+
+  return (
+    <div style={{ borderTop: '1px solid #2E3058', borderBottom: '1px solid #2E3058', backgroundColor: '#0a0b1a', padding: '0.6rem 1.5rem' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+
+        {/* Left: badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#34d399', display: 'inline-block', flexShrink: 0, boxShadow: '0 0 6px rgba(52,211,153,0.6)' }} />
+          <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fafafa', letterSpacing: '0.06em' }}>$VIGIL</span>
+          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: '#3a3d5c', padding: '0.15rem 0.5rem', border: '1px solid #2E3058', borderRadius: '4px' }}>Base chain</span>
+        </div>
+
+        {/* Center: CA + copy */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: '#3a3d5c', letterSpacing: '0.08em', textTransform: 'uppercase' }}>CA</span>
+          <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: TOKEN_CA ? '#a1a1aa' : '#52525b', letterSpacing: '0.03em' }}>{shortCA}</span>
+          <button
+            onClick={copy}
+            disabled={!TOKEN_CA}
+            style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: copied ? '#34d399' : '#52525b', background: 'none', border: '1px solid #2E3058', borderRadius: '3px', padding: '0.1rem 0.4rem', cursor: TOKEN_CA ? 'pointer' : 'default', transition: 'color 0.15s', opacity: TOKEN_CA ? 1 : 0.4 }}
+          >
+            {copied ? '✓' : 'copy'}
+          </button>
+        </div>
+
+        {/* Right: socials + buy */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
+            <a href="https://x.com/NightWatch_0" target="_blank" rel="noopener noreferrer"
+              style={{ color: '#52525b', transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#fafafa')}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
+            ><XIcon size={14} /></a>
+            <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
+              style={{ color: '#52525b', transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#fafafa')}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
+            ><GithubIcon size={14} /></a>
+            {BANKR_URL ? (
+              <a href={BANKR_URL} target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#52525b', textDecoration: 'none', transition: 'color 0.15s', letterSpacing: '0.05em' }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#fafafa')}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
+              >BANKR</a>
+            ) : (
+              <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#2E3058', letterSpacing: '0.05em' }}>BANKR</span>
+            )}
+          </div>
+
+          {BANKR_URL ? (
+            <a href={BANKR_URL} target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4f46e5', border: '1px solid #4f46e5', borderRadius: '4px', padding: '0.25rem 0.625rem', textDecoration: 'none', letterSpacing: '0.06em', transition: 'all 0.15s' }}
+              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = '#4f46e5'; el.style.color = '#fff' }}
+              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = 'transparent'; el.style.color = '#4f46e5' }}
+            >Buy $VIGIL →</a>
+          ) : (
+            <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#2E3058', border: '1px solid #2E3058', borderRadius: '4px', padding: '0.25rem 0.625rem', letterSpacing: '0.06em' }}>Buy soon</span>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -846,6 +952,7 @@ function Token() {
 
   return (
     <section
+      id="token"
       style={{
         padding: '6rem 1.5rem',
         borderTop: '1px solid #2E3058',
@@ -1114,11 +1221,12 @@ export default function LandingPage() {
       <main>
         <Hero />
         <Stats />
+        <TokenBar />
         <Features />
         <HowItWorks />
         <Packs />
-        <Download />
         <Token />
+        <Download />
       </main>
       <Footer />
     </div>
