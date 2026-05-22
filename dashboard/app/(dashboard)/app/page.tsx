@@ -16,7 +16,7 @@ import { ActivityView } from '../../../components/ActivityView'
 import { AnalyticsView } from '../../../components/AnalyticsView'
 import { ChainsView } from '../../../components/ChainsView'
 import { MemoryView } from '../../../components/MemoryView'
-import { SecretsPanel } from '../../../components/SecretsPanel'
+import { SecretsPanel, GitHubAccountPanel } from '../../../components/SecretsPanel'
 import { ImportModal } from '../../../components/ImportModal'
 import { AuthModal } from '../../../components/AuthModal'
 import { FloatingDispatch } from '../../../components/FloatingDispatch'
@@ -60,13 +60,14 @@ export default function Dashboard() {
   const [showRepoSelect, setShowRepoSelect] = useState(false)
   const [availableRepos, setAvailableRepos] = useState<string[]>([])
   const [notSetup, setNotSetup] = useState(false)
+  const [notSetupReason, setNotSetupReason] = useState('')
 
   const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
   const fetchData = useCallback(async () => {
     try {
       const [sr, rr, secr] = await Promise.all([apiFetch('/api/skills'), apiFetch('/api/runs'), apiFetch('/api/secrets')])
-      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); setNotSetup(!!d.notSetup); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
+      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); setNotSetup(!!d.notSetup); setNotSetupReason(d.notSetupReason || ''); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
       if (rr.ok) setRuns((await rr.json()).runs)
       if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets); if (typeof d.ghReady === 'boolean') setGhReady(d.ghReady) }
     } catch (e: unknown) { setError(e instanceof Error ? e.message : 'Failed to connect') }
@@ -278,7 +279,7 @@ export default function Dashboard() {
           <SkillGrid
             skills={skills} runs={runs} busy={busy}
             enabledCount={enabledCount} workingCount={workingCount}
-            notSetup={notSetup}
+            notSetup={notSetup} notSetupReason={notSetupReason}
             onSelect={(name) => setSelectedSkill(name)}
             onToggle={toggleSkill}
             onRun={runSkill}
@@ -320,6 +321,18 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto p-[var(--space-lg)] space-y-[var(--space-xl)]">
               <SecretsPanel secrets={secrets} busy={busy} ghReady={ghReady} onSave={saveSecret} onDelete={deleteSecret} />
+              <GitHubAccountPanel
+                repo={repo}
+                availableRepos={availableRepos}
+                onSwitchRepo={(r) => { localStorage.setItem('gh_repo', r); setRepo(r); fetchData() }}
+                onRefreshRepos={() => { window.location.href = '/api/auth/github' }}
+                onDisconnect={() => {
+                  localStorage.removeItem('gh_token')
+                  localStorage.removeItem('gh_repo')
+                  localStorage.removeItem('gh_repos')
+                  window.location.reload()
+                }}
+              />
             </div>
           </div>
         )}

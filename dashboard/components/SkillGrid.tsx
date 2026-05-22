@@ -12,6 +12,7 @@ interface SkillGridProps {
   enabledCount: number
   workingCount: number
   notSetup?: boolean
+  notSetupReason?: string
   onSelect: (name: string) => void
   onToggle: (name: string, enabled: boolean) => void
   onRun: (name: string, v?: string) => void
@@ -181,7 +182,7 @@ function EmptyState({ onShowImport }: { onShowImport: () => void }) {
 
 // ── Main SkillGrid ────────────────────────────────────────────────────────────
 
-export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notSetup, onSelect, onToggle, onRun, onShowImport }: SkillGridProps) {
+export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notSetup, notSetupReason, onSelect, onToggle, onRun, onShowImport }: SkillGridProps) {
   const [activeDept, setActiveDept] = useState<string>('all')
   const [search, setSearch] = useState('')
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
@@ -212,12 +213,20 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notS
           <div className="text-center">
             <div className="font-display text-xl text-primary-70">Repository not configured</div>
             <div className="text-[11px] font-mono text-primary-50 mt-1">This repo does not have Vigil set up yet.</div>
-            <div className="text-[11px] font-mono text-primary-40 mt-0.5">Fork the Vigil template or install your first skill to get started.</div>
+            {notSetupReason && (
+              <div className="text-[10px] font-mono text-primary-35 mt-1 opacity-60 max-w-xs">{notSetupReason}</div>
+            )}
           </div>
-          <button onClick={onShowImport}
-            className="text-[10px] font-mono border border-[rgba(99,102,241,0.4)] text-eva-orange px-4 py-2 hover:bg-[rgba(99,102,241,0.1)] transition-colors">
-            + Install Skill
-          </button>
+          <div className="flex gap-3">
+            <button onClick={onShowImport}
+              className="text-[10px] font-mono border border-[rgba(99,102,241,0.4)] text-eva-orange px-4 py-2 hover:bg-[rgba(99,102,241,0.1)] transition-colors">
+              + Install Skill
+            </button>
+            <a href="/api/auth/github"
+              className="text-[10px] font-mono border border-[rgba(255,255,255,0.15)] text-primary-50 px-4 py-2 hover:border-[rgba(255,255,255,0.3)] transition-colors">
+              Switch Repo
+            </a>
+          </div>
         </div>
       )
     }

@@ -57,10 +57,16 @@ export async function GET(request: Request) {
       ])
       configContent = configResult.content
       skillDirs = dirs
-    } catch {
-      // Repo not set up as Vigil — return empty skills
-      const repo = getRepoSlug()
-      return NextResponse.json({ skills: [], model: 'claude-sonnet-4-6', gateway: null, repo, notSetup: true })
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : 'Unknown error'
+      const token = request.headers.get('x-github-token')
+      const repo = request.headers.get('x-github-repo') || getRepoSlug()
+      return NextResponse.json({
+        skills: [], model: 'claude-sonnet-4-6', gateway: null, repo,
+        notSetup: true,
+        notSetupReason: reason,
+        hasToken: !!token,
+      })
     }
     const config = parseConfig(configContent)
     const dirNames = skillDirs.filter(d => d.type === 'dir').map(d => d.name)

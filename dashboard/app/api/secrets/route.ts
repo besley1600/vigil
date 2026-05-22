@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 import { execFileSync, execSync } from 'child_process'
+import sodium from 'libsodium-wrappers'
+
+const GITHUB_API = 'https://api.github.com'
 
 const BUILTIN_SECRETS = [
   { name: 'CLAUDE_CODE_OAUTH_TOKEN', group: 'Core', description: 'Claude Code OAuth token (set via Authenticate button)', either: 'auth' },
@@ -25,9 +28,9 @@ const BUILTIN_SECRETS = [
 ]
 
 const BUILTIN_NAMES = new Set(BUILTIN_SECRETS.map(s => s.name))
-
-// Valid env var name pattern
 const VALID_SECRET_NAME = /^[A-Z][A-Z0-9_]{1,}$/
+
+// ── Local mode (gh CLI) ──────────────────────────────────────────────────────
 
 function ghAvailable(): boolean {
   try {
@@ -55,7 +58,7 @@ function ghArgsRepo(): string[] {
   return repo ? ['-R', repo] : []
 }
 
-function listSecrets(): string[] {
+function listSecretsLocal(): string[] {
   try {
     const out = execFileSync('gh', ['secret', 'list', ...ghArgsRepo(), '--json', 'name', '-q', '.[].name'], {
       stdio: 'pipe',
@@ -68,16 +71,95 @@ function listSecrets(): string[] {
   }
 }
 
-export async function GET() {
+// ── Remote mode (GitHub API) ─────────────────────────────────────────────────
+
+function authHeaders(token: string) {
+  return {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  }
+}
+
+function getRemoteConfig(request: Request) {
+  const token = process.env.GITHUB_TOKEN || request.headers.get('x-github-token') || ''
+  const repo = process.env.GITHUB_REPO || request.headers.get('x-github-repo') || ''
+  return { token, repo }
+}
+
+function isRemote(request: Request): boolean {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
+  const token = request.headers.get('x-github-token')
+  const repo = request.headers.get('x-github-repo')
+  return !!(token && repo)
+}
+
+async function listSecretsRemote(token: string, repo: string): Promise<string[]> {
+  const res = await fetch(`${GITHUB_API}/repos/${repo}/actions/secrets?per_page=100`, {
+    headers: authHeaders(token),
+    cache: 'no-store',
+  })
+  if (!res.ok) return []
+  const data = await res.json()
+  return (data.secrets || []).map((s: { name: string }) => s.name)
+}
+
+async function encryptSecret(publicKey: string, value: string): Promise<string> {
+  await sodium.ready
+  const binKey = sodium.from_base64(publicKey, sodium.base64_variants.ORIGINAL)
+  const binSec = sodium.from_string(value)
+  const encrypted = sodium.crypto_box_seal(binSec, binKey)
+  return sodium.to_base64(encrypted, sodium.base64_variants.ORIGINAL)
+}
+
+async function setSecretRemote(token: string, repo: string, name: string, value: string): Promise<void> {
+  const pkRes = await fetch(`${GITHUB_API}/repos/${repo}/actions/secrets/public-key`, {
+    headers: authHeaders(token),
+    cache: 'no-store',
+  })
+  if (!pkRes.ok) throw new Error(`Failed to fetch public key: ${pkRes.status}`)
+  const { key_id, key } = await pkRes.json()
+
+  const encryptedValue = await encryptSecret(key, value)
+  const res = await fetch(`${GITHUB_API}/repos/${repo}/actions/secrets/${name}`, {
+    method: 'PUT',
+    headers: authHeaders(token),
+    body: JSON.stringify({ encrypted_value: encryptedValue, key_id }),
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`Failed to set secret: ${res.status}`)
+}
+
+async function deleteSecretRemote(token: string, repo: string, name: string): Promise<void> {
+  const res = await fetch(`${GITHUB_API}/repos/${repo}/actions/secrets/${name}`, {
+    method: 'DELETE',
+    headers: authHeaders(token),
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`Failed to delete secret: ${res.status}`)
+}
+
+// ── Route handlers ───────────────────────────────────────────────────────────
+
+export async function GET(request: Request) {
+  if (isRemote(request)) {
+    const { token, repo } = getRemoteConfig(request)
+    const setSecretNames = new Set(await listSecretsRemote(token, repo))
+
+    const secrets = BUILTIN_SECRETS.map(s => ({ ...s, isSet: setSecretNames.has(s.name) }))
+    for (const name of setSecretNames) {
+      if (!BUILTIN_NAMES.has(name)) {
+        secrets.push({ name, group: 'Skill Keys', description: 'Custom secret', isSet: true })
+      }
+    }
+
+    return NextResponse.json({ secrets, ghReady: true })
+  }
+
+  // Local mode
   const ghReady = ghAvailable()
-
-  const setSecrets = new Set(ghReady ? listSecrets() : [])
-
-  const secrets = BUILTIN_SECRETS.map(s => ({
-    ...s,
-    isSet: setSecrets.has(s.name),
-  }))
-
+  const setSecrets = new Set(ghReady ? listSecretsLocal() : [])
+  const secrets = BUILTIN_SECRETS.map(s => ({ ...s, isSet: setSecrets.has(s.name) }))
   if (ghReady) {
     for (const name of setSecrets) {
       if (!BUILTIN_NAMES.has(name)) {
@@ -85,31 +167,35 @@ export async function GET() {
       }
     }
   }
-
   return NextResponse.json({ secrets, ghReady })
 }
 
 export async function POST(request: Request) {
-  if (!ghAvailable()) {
-    return NextResponse.json({ error: 'GitHub CLI not authenticated' }, { status: 503 })
-  }
-
   const { name, value } = await request.json()
 
   if (!name || !value) {
     return NextResponse.json({ error: 'name and value required' }, { status: 400 })
   }
-
-  // Allow any valid env var name (builtins + custom)
   if (!VALID_SECRET_NAME.test(name)) {
     return NextResponse.json({ error: 'Invalid secret name — use UPPER_SNAKE_CASE' }, { status: 400 })
   }
 
+  if (isRemote(request)) {
+    const { token, repo } = getRemoteConfig(request)
+    try {
+      await setSecretRemote(token, repo, name, value)
+      return NextResponse.json({ ok: true })
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Failed to set secret'
+      return NextResponse.json({ error: msg }, { status: 500 })
+    }
+  }
+
+  if (!ghAvailable()) {
+    return NextResponse.json({ error: 'GitHub CLI not authenticated' }, { status: 503 })
+  }
   try {
-    execFileSync('gh', ['secret', 'set', name, ...ghArgsRepo(), '-b', value], {
-      stdio: 'pipe',
-      cwd: process.cwd(),
-    })
+    execFileSync('gh', ['secret', 'set', name, ...ghArgsRepo(), '-b', value], { stdio: 'pipe', cwd: process.cwd() })
     return NextResponse.json({ ok: true })
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Failed to set secret'
@@ -118,16 +204,26 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  if (!ghAvailable()) {
-    return NextResponse.json({ error: 'GitHub CLI not authenticated' }, { status: 503 })
-  }
-
   const { name } = await request.json()
 
   if (!name || !VALID_SECRET_NAME.test(name)) {
     return NextResponse.json({ error: 'Invalid secret name' }, { status: 400 })
   }
 
+  if (isRemote(request)) {
+    const { token, repo } = getRemoteConfig(request)
+    try {
+      await deleteSecretRemote(token, repo, name)
+      return NextResponse.json({ ok: true })
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Failed to delete secret'
+      return NextResponse.json({ error: msg }, { status: 500 })
+    }
+  }
+
+  if (!ghAvailable()) {
+    return NextResponse.json({ error: 'GitHub CLI not authenticated' }, { status: 503 })
+  }
   try {
     execFileSync('gh', ['secret', 'delete', name, ...ghArgsRepo()], { stdio: 'pipe', cwd: process.cwd() })
     return NextResponse.json({ ok: true })
