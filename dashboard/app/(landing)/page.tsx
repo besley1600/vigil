@@ -982,10 +982,6 @@ function Token() {
         <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
           Own a piece of the network
         </h2>
-        <p style={{ color: '#71717a', fontSize: '1rem', lineHeight: 1.65, margin: '0 0 2.5rem', maxWidth: '46ch', marginLeft: 'auto', marginRight: 'auto' }}>
-          The $VIGIL token powers the ecosystem. Holders get access to premium models, priority execution, and governance rights as the platform grows.
-        </p>
-
         {/* Contract address */}
         <div
           style={{
