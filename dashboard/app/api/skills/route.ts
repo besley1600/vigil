@@ -50,6 +50,8 @@ export async function GET(request: Request) {
   try {
     let configContent = ''
     let skillDirs: Array<{ name: string; type: string; path: string }> = []
+    // skillsReq: undefined = use env vars (fallback repo), request = use selected repo
+    let skillsReq: Request | undefined = request
     try {
       const [configResult, dirs] = await Promise.all([
         getFileContent('vigil.yml', request),
@@ -57,8 +59,23 @@ export async function GET(request: Request) {
       ])
       configContent = configResult.content
       skillDirs = dirs
-    } catch (err) {
-      const reason = err instanceof Error ? err.message : 'Unknown error'
+    } catch {
+      // Selected repo doesn't have Vigil — fall back to reading skills from the env var repo
+      skillsReq = undefined
+      if (process.env.GITHUB_REPO && process.env.GITHUB_TOKEN) {
+        try {
+          const [configResult, dirs] = await Promise.all([
+            getFileContent('vigil.yml'),
+            getDirectory('skills'),
+          ])
+          configContent = configResult.content
+          skillDirs = dirs
+        } catch { /* fall through to notSetup */ }
+      }
+    }
+
+    if (!configContent && skillDirs.length === 0) {
+      const reason = 'No vigil.yml found in selected repository'
       const token = request.headers.get('x-github-token')
       const repo = request.headers.get('x-github-repo') || getRepoSlug()
       return NextResponse.json({
@@ -74,7 +91,7 @@ export async function GET(request: Request) {
     const meta = await Promise.all(
       dirNames.map(async (name) => {
         try {
-          const { content } = await getFileContent(`skills/${name}/SKILL.md`, request)
+          const { content } = await getFileContent(`skills/${name}/SKILL.md`, skillsReq)
           return { name, ...extractFrontmatter(content) }
         } catch {
           return { name, description: '', tags: [] as string[] }
@@ -95,7 +112,7 @@ export async function GET(request: Request) {
       }
     })
 
-    const repo = getRepoSlug()
+    const repo = request.headers.get('x-github-repo') || getRepoSlug()
     return NextResponse.json({ skills, model: config.model, gateway: config.gateway, repo, jsonrenderEnabled: config.jsonrenderEnabled })
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Unknown error'

@@ -25,7 +25,7 @@ export async function GET(request: Request) {
           .filter((s): s is SearchHit['source'] => (VALID_SOURCES as string[]).includes(s))
       : undefined
 
-    const hits = await searchMemory(q, { limit, sources })
+    const hits = await searchMemory(q, { limit, sources, request })
 
     return NextResponse.json({
       query: q,

@@ -133,7 +133,14 @@ export async function triggerWorkflow(skill: string, request?: Request, extraInp
     body: JSON.stringify({ ref: 'main', inputs: { skill, ...extraInputs } }),
     cache: 'no-store',
   })
-  if (!res.ok) throw new Error(`GitHub API ${res.status}: failed to trigger workflow`)
+  if (!res.ok) {
+    const hint = res.status === 404
+      ? ' — ensure the GitHub token has "workflow" scope and the repo contains .github/workflows/vigil.yml'
+      : res.status === 422
+      ? ' — workflow inputs may be invalid'
+      : ''
+    throw new Error(`GitHub API ${res.status}: failed to trigger workflow${hint}`)
+  }
 }
 
 export async function getWorkflowRuns(perPage = 20, request?: Request) {

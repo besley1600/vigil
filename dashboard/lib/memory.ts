@@ -1,5 +1,6 @@
 import { readdir, readFile, stat } from 'fs/promises'
 import { resolve, join, sep, normalize } from 'path'
+import { getDirectory, getFileContent } from '@/lib/github'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 export const MEMORY_ROOT = join(REPO_ROOT, 'memory')
@@ -12,12 +13,14 @@ const SLUG_PATTERN = /^[a-z0-9][a-z0-9._-]*$/i
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 const ISSUE_PATTERN = /^ISS-\d{3,}$/
 
-/**
- * Resolve a user-supplied child path under a trusted base, refusing any result
- * that escapes the base (symlinks, "..", absolute overrides). Returns null
- * when the path is invalid so callers can surface a 400 rather than leak
- * unexpected files.
- */
+function isRemote(request?: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
+  if (request) {
+    return !!(request.headers.get('x-github-token') && request.headers.get('x-github-repo'))
+  }
+  return false
+}
+
 function safeJoin(base: string, child: string): string | null {
   const joined = normalize(join(base, child))
   const withSep = joined.endsWith(sep) ? joined : joined + sep
@@ -26,8 +29,12 @@ function safeJoin(base: string, child: string): string | null {
   return joined
 }
 
-export async function readMemoryIndex(): Promise<string | null> {
+export async function readMemoryIndex(request?: Request): Promise<string | null> {
   try {
+    if (isRemote(request)) {
+      const { content } = await getFileContent('memory/MEMORY.md', request)
+      return content
+    }
     return await readFile(join(MEMORY_ROOT, 'MEMORY.md'), 'utf-8')
   } catch {
     return null
@@ -41,7 +48,19 @@ export interface TopicFile {
   updatedAt: string
 }
 
-export async function listTopics(): Promise<TopicFile[]> {
+export async function listTopics(request?: Request): Promise<TopicFile[]> {
+  if (isRemote(request)) {
+    try {
+      const entries = await getDirectory('memory/topics', request)
+      return entries
+        .filter(e => e.type === 'file' && e.name.endsWith('.md'))
+        .map(e => ({ slug: e.name.replace(/\.md$/, ''), filename: e.name, size: 0, updatedAt: '' }))
+        .sort((a, b) => a.slug.localeCompare(b.slug))
+    } catch {
+      return []
+    }
+  }
+
   let entries: string[]
   try {
     entries = await readdir(TOPICS_DIR)
@@ -55,27 +74,27 @@ export async function listTopics(): Promise<TopicFile[]> {
     try {
       const s = await stat(full)
       if (!s.isFile()) continue
-      topics.push({
-        slug: name.replace(/\.md$/, ''),
-        filename: name,
-        size: s.size,
-        updatedAt: s.mtime.toISOString(),
-      })
+      topics.push({ slug: name.replace(/\.md$/, ''), filename: name, size: s.size, updatedAt: s.mtime.toISOString() })
     } catch { /* skip unreadable */ }
   }
   topics.sort((a, b) => a.slug.localeCompare(b.slug))
   return topics
 }
 
-export async function readTopic(slug: string): Promise<{ slug: string; content: string; updatedAt: string } | null> {
+export async function readTopic(slug: string, request?: Request): Promise<{ slug: string; content: string; updatedAt: string } | null> {
   if (!SLUG_PATTERN.test(slug)) return null
+  if (isRemote(request)) {
+    try {
+      const { content } = await getFileContent(`memory/topics/${slug}.md`, request)
+      return { slug, content, updatedAt: '' }
+    } catch {
+      return null
+    }
+  }
   const path = safeJoin(TOPICS_DIR, `${slug}.md`)
   if (!path) return null
   try {
-    const [content, s] = await Promise.all([
-      readFile(path, 'utf-8'),
-      stat(path),
-    ])
+    const [content, s] = await Promise.all([readFile(path, 'utf-8'), stat(path)])
     return { slug, content, updatedAt: s.mtime.toISOString() }
   } catch {
     return null
@@ -89,7 +108,19 @@ export interface LogDay {
   updatedAt: string
 }
 
-export async function listLogs(): Promise<LogDay[]> {
+export async function listLogs(request?: Request): Promise<LogDay[]> {
+  if (isRemote(request)) {
+    try {
+      const entries = await getDirectory('memory/logs', request)
+      return entries
+        .filter(e => e.type === 'file' && /^\d{4}-\d{2}-\d{2}\.md$/.test(e.name))
+        .map(e => ({ date: e.name.replace(/\.md$/, ''), filename: e.name, size: 0, updatedAt: '' }))
+        .sort((a, b) => b.date.localeCompare(a.date))
+    } catch {
+      return []
+    }
+  }
+
   let entries: string[]
   try {
     entries = await readdir(LOGS_DIR)
@@ -104,27 +135,27 @@ export async function listLogs(): Promise<LogDay[]> {
     try {
       const s = await stat(full)
       if (!s.isFile()) continue
-      logs.push({
-        date: m[1],
-        filename: name,
-        size: s.size,
-        updatedAt: s.mtime.toISOString(),
-      })
+      logs.push({ date: m[1], filename: name, size: s.size, updatedAt: s.mtime.toISOString() })
     } catch { /* skip unreadable */ }
   }
   logs.sort((a, b) => b.date.localeCompare(a.date))
   return logs
 }
 
-export async function readLog(date: string): Promise<{ date: string; content: string; updatedAt: string } | null> {
+export async function readLog(date: string, request?: Request): Promise<{ date: string; content: string; updatedAt: string } | null> {
   if (!DATE_PATTERN.test(date)) return null
+  if (isRemote(request)) {
+    try {
+      const { content } = await getFileContent(`memory/logs/${date}.md`, request)
+      return { date, content, updatedAt: '' }
+    } catch {
+      return null
+    }
+  }
   const path = safeJoin(LOGS_DIR, `${date}.md`)
   if (!path) return null
   try {
-    const [content, s] = await Promise.all([
-      readFile(path, 'utf-8'),
-      stat(path),
-    ])
+    const [content, s] = await Promise.all([readFile(path, 'utf-8'), stat(path)])
     return { date, content, updatedAt: s.mtime.toISOString() }
   } catch {
     return null
@@ -137,7 +168,19 @@ export interface IssueSummary {
   updatedAt: string
 }
 
-export async function listIssues(): Promise<IssueSummary[]> {
+export async function listIssues(request?: Request): Promise<IssueSummary[]> {
+  if (isRemote(request)) {
+    try {
+      const entries = await getDirectory('memory/issues', request)
+      return entries
+        .filter(e => e.type === 'file' && /^ISS-\d{3,}\.md$/.test(e.name))
+        .map(e => ({ id: e.name.replace(/\.md$/, ''), filename: e.name, updatedAt: '' }))
+        .sort((a, b) => b.id.localeCompare(a.id))
+    } catch {
+      return []
+    }
+  }
+
   let entries: string[]
   try {
     entries = await readdir(ISSUES_DIR)
@@ -152,26 +195,27 @@ export async function listIssues(): Promise<IssueSummary[]> {
     try {
       const s = await stat(full)
       if (!s.isFile()) continue
-      issues.push({
-        id: m[1],
-        filename: name,
-        updatedAt: s.mtime.toISOString(),
-      })
+      issues.push({ id: m[1], filename: name, updatedAt: s.mtime.toISOString() })
     } catch { /* skip unreadable */ }
   }
   issues.sort((a, b) => b.id.localeCompare(a.id))
   return issues
 }
 
-export async function readIssue(id: string): Promise<{ id: string; content: string; updatedAt: string } | null> {
+export async function readIssue(id: string, request?: Request): Promise<{ id: string; content: string; updatedAt: string } | null> {
   if (!ISSUE_PATTERN.test(id)) return null
+  if (isRemote(request)) {
+    try {
+      const { content } = await getFileContent(`memory/issues/${id}.md`, request)
+      return { id, content, updatedAt: '' }
+    } catch {
+      return null
+    }
+  }
   const path = safeJoin(ISSUES_DIR, `${id}.md`)
   if (!path) return null
   try {
-    const [content, s] = await Promise.all([
-      readFile(path, 'utf-8'),
-      stat(path),
-    ])
+    const [content, s] = await Promise.all([readFile(path, 'utf-8'), stat(path)])
     return { id, content, updatedAt: s.mtime.toISOString() }
   } catch {
     return null
@@ -195,27 +239,27 @@ interface Corpus {
   content: string
 }
 
-async function loadCorpus(): Promise<Corpus[]> {
+async function loadCorpus(request?: Request): Promise<Corpus[]> {
   const corpus: Corpus[] = []
 
-  const memory = await readMemoryIndex()
+  const memory = await readMemoryIndex(request)
   if (memory) corpus.push({ source: 'memory', ref: 'MEMORY', filename: 'MEMORY.md', content: memory })
 
-  const topics = await listTopics()
+  const topics = await listTopics(request)
   for (const t of topics) {
-    const full = await readTopic(t.slug)
+    const full = await readTopic(t.slug, request)
     if (full) corpus.push({ source: 'topic', ref: t.slug, filename: t.filename, content: full.content })
   }
 
-  const logs = await listLogs()
+  const logs = await listLogs(request)
   for (const l of logs) {
-    const full = await readLog(l.date)
+    const full = await readLog(l.date, request)
     if (full) corpus.push({ source: 'log', ref: l.date, filename: l.filename, content: full.content })
   }
 
-  const issues = await listIssues()
+  const issues = await listIssues(request)
   for (const i of issues) {
-    const full = await readIssue(i.id)
+    const full = await readIssue(i.id, request)
     if (full) corpus.push({ source: 'issue', ref: i.id, filename: i.filename, content: full.content })
   }
 
@@ -234,7 +278,6 @@ function buildSnippet(lines: string[], hitLine: number, needle: string): string 
   const start = Math.max(0, hitLine - 1)
   const end = Math.min(lines.length, hitLine + 2)
   const window = lines.slice(start, end).join('\n').trim()
-  // Bold-ish marker for the matched substring — callers can render plain text.
   if (!needle) return window.slice(0, 400)
   const re = new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig')
   return window.replace(re, m => `**${m}**`).slice(0, 400)
@@ -242,7 +285,7 @@ function buildSnippet(lines: string[], hitLine: number, needle: string): string 
 
 export async function searchMemory(
   query: string,
-  opts: { limit?: number; sources?: SearchHit['source'][] } = {},
+  opts: { limit?: number; sources?: SearchHit['source'][]; request?: Request } = {},
 ): Promise<SearchHit[]> {
   const terms = tokenize(query)
   if (terms.length === 0) return []
@@ -250,7 +293,7 @@ export async function searchMemory(
   const limit = Math.max(1, Math.min(opts.limit ?? 20, 100))
   const allow = opts.sources && opts.sources.length > 0 ? new Set(opts.sources) : null
 
-  const corpus = await loadCorpus()
+  const corpus = await loadCorpus(opts.request)
   const hits: SearchHit[] = []
 
   for (const doc of corpus) {
@@ -258,7 +301,6 @@ export async function searchMemory(
     const lines = doc.content.split('\n')
     const lower = doc.content.toLowerCase()
 
-    // Document-level frequency per term — used for ranking.
     let totalMatches = 0
     let distinctTerms = 0
     for (const term of terms) {
@@ -270,8 +312,6 @@ export async function searchMemory(
     }
     if (totalMatches === 0) continue
 
-    // Pick the best snippet: first line that contains the longest matching term,
-    // falling back to any line with any term.
     const termsByLength = [...terms].sort((a, b) => b.length - a.length)
     let hitLine = -1
     let hitTerm = ''
@@ -289,8 +329,8 @@ export async function searchMemory(
 
     const score =
       totalMatches +
-      distinctTerms * 2 + // reward documents that match more query terms
-      (doc.source === 'memory' ? 5 : 0) // boost the index file slightly
+      distinctTerms * 2 +
+      (doc.source === 'memory' ? 5 : 0)
 
     hits.push({
       source: doc.source,

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 import { listLogs, listTopics, listIssues, readMemoryIndex } from '@/lib/memory'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const [memory, topics, logs, issues] = await Promise.all([
-      readMemoryIndex(),
-      listTopics(),
-      listLogs(),
-      listIssues(),
+      readMemoryIndex(request),
+      listTopics(request),
+      listLogs(request),
+      listIssues(request),
     ])
 
     return NextResponse.json({

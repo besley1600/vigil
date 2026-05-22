@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const origin = new URL(request.url).origin
   const params = new URLSearchParams({
     client_id: clientId,
-    scope: 'repo',
+    scope: 'repo workflow',
     redirect_uri: `${origin}/api/auth/github/callback`,
   })
   return NextResponse.redirect(`https://github.com/login/oauth/authorize?${params}`)

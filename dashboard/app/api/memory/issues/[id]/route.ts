@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server'
 import { readIssue } from '@/lib/memory'
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params
-    const issue = await readIssue(id)
+    const issue = await readIssue(id, request)
     if (!issue) {
       return NextResponse.json(
         { error: `No issue found for id '${id}' (expected format: ISS-NNN)` },

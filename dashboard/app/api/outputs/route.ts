@@ -8,8 +8,9 @@ const OUTPUTS_DIR = join(process.cwd(), 'outputs')
 const REPO_ROOT = resolve(process.cwd(), '..')
 const REMOTE_OUTPUTS_PATH = 'dashboard/outputs'
 
-function isRemote() {
-  return !!(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO)
+function isRemote(request: Request) {
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) return true
+  return !!(request.headers.get('x-github-token') && request.headers.get('x-github-repo'))
 }
 
 function parseOutput(filename: string, raw: string) {
@@ -28,10 +29,10 @@ function parseOutput(filename: string, raw: string) {
   }
 }
 
-export async function GET() {
-  if (isRemote()) {
+export async function GET(request: Request) {
+  if (isRemote(request)) {
     try {
-      const entries = await getDirectory(REMOTE_OUTPUTS_PATH)
+      const entries = await getDirectory(REMOTE_OUTPUTS_PATH, request)
       const jsonFiles = entries
         .filter(e => e.type === 'file' && e.name.endsWith('.json'))
         .map(e => e.name)
@@ -45,7 +46,7 @@ export async function GET() {
       const outputs = await Promise.all(
         jsonFiles.map(async (filename) => {
           try {
-            const { content } = await getFileContent(`${REMOTE_OUTPUTS_PATH}/${filename}`)
+            const { content } = await getFileContent(`${REMOTE_OUTPUTS_PATH}/${filename}`, request)
             return parseOutput(filename, content)
           } catch {
             return null
@@ -87,8 +88,8 @@ export async function GET() {
   }
 }
 
-export async function POST() {
-  if (isRemote()) {
+export async function POST(request: Request) {
+  if (isRemote(request)) {
     // No local repo to pull — outputs are read live from GitHub API
     return NextResponse.json({ ok: true })
   }

@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server'
 import { readTopic } from '@/lib/memory'
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
     const { slug } = await params
-    const topic = await readTopic(slug)
+    const topic = await readTopic(slug, request)
     if (!topic) {
       return NextResponse.json(
         { error: `No topic found for slug '${slug}'` },

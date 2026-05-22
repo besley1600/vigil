@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { listIssues } from '@/lib/memory'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const issues = await listIssues()
+    const issues = await listIssues(request)
     return NextResponse.json({ count: issues.length, issues })
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Failed to list issues'

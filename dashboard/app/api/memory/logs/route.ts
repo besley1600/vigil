@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     const date = url.searchParams.get('date')
 
     if (date) {
-      const log = await readLog(date)
+      const log = await readLog(date, request)
       if (!log) {
         return NextResponse.json(
           { error: `No log found for ${date} (expected YYYY-MM-DD)` },
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
       return NextResponse.json(log)
     }
 
-    const logs = await listLogs()
+    const logs = await listLogs(request)
     return NextResponse.json({ count: logs.length, logs })
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Failed to read logs'
