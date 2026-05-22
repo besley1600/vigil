@@ -198,6 +198,23 @@ export async function PATCH(request: Request) {
       }
     }
 
+    // When enabling a repo, install the workflow file if not already present
+    if (repoEnabled === true) {
+      try {
+        await getFileContent('.github/workflows/vigil.yml', request)
+        // Already exists — leave it untouched
+      } catch {
+        try {
+          const userToken = request.headers.get('x-github-token') || ''
+          const skillsReq = makeSkillsRequest(userToken)
+          if (skillsReq) {
+            const { content: workflowContent } = await getFileContent('.github/workflows/vigil.yml', skillsReq)
+            await createFile('.github/workflows/vigil.yml', workflowContent, 'chore: install Vigil workflow', request)
+          }
+        } catch { /* best-effort — don't fail the whole enable if workflow install fails */ }
+      }
+    }
+
     return NextResponse.json({ ok: true })
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Unknown error'
