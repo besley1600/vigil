@@ -13,6 +13,8 @@ interface SkillGridProps {
   workingCount: number
   notSetup?: boolean
   notSetupReason?: string
+  repoEnabled?: boolean
+  onEnableRepo?: () => void
   onSelect: (name: string) => void
   onToggle: (name: string, enabled: boolean) => void
   onRun: (name: string, v?: string) => void
@@ -182,7 +184,7 @@ function EmptyState({ onShowImport }: { onShowImport: () => void }) {
 
 // ── Main SkillGrid ────────────────────────────────────────────────────────────
 
-export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notSetup, notSetupReason, onSelect, onToggle, onRun, onShowImport }: SkillGridProps) {
+export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notSetup, notSetupReason, repoEnabled, onEnableRepo, onSelect, onToggle, onRun, onShowImport }: SkillGridProps) {
   const [activeDept, setActiveDept] = useState<string>('all')
   const [search, setSearch] = useState('')
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
@@ -234,7 +236,27 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notS
   }
 
   return (
-    <div className="flex flex-1 min-h-0">
+    <div className="flex flex-col flex-1 min-h-0">
+
+      {/* ── Repo disabled banner ─────────────────────────────────────────── */}
+      {repoEnabled === false && (
+        <div className="shrink-0 flex items-center justify-between gap-4 px-5 py-2.5 bg-[rgba(255,165,0,0.07)] border-b border-[rgba(255,165,0,0.18)]">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-eva-amber shrink-0" />
+            <span className="text-[11px] font-mono text-eva-amber">This repository is inactive — skills are configured but nothing will run until you activate it.</span>
+          </div>
+          {onEnableRepo && (
+            <button
+              onClick={onEnableRepo}
+              className="shrink-0 text-[10px] font-mono px-3 py-1.5 bg-eva-amber text-[#0E1022] hover:opacity-90 transition-opacity uppercase tracking-[1px]"
+            >
+              Activate
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="flex flex-1 min-h-0">
 
       {/* ── Left sidebar - hidden on mobile ─────────────────────────────── */}
       <aside className="hidden md:flex md:flex-col w-48 shrink-0 border-r border-[rgba(255,255,255,0.07)] bg-[#13152B]">
@@ -386,6 +408,7 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notS
           </div>
         )}
       </div>
+    </div>
     </div>
   )
 }

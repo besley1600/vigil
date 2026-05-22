@@ -59,6 +59,7 @@ export default function Dashboard() {
   const [availableRepos, setAvailableRepos] = useState<string[]>([])
   const [showRepoSelect, setShowRepoSelect] = useState(false)
   const [needsGitHub, setNeedsGitHub] = useState(false)
+  const [repoEnabled, setRepoEnabled] = useState<boolean | undefined>(undefined)
 
   const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
@@ -71,6 +72,7 @@ export default function Dashboard() {
         if (d.model) setModel(d.model)
         if (d.gateway?.provider) setGateway(d.gateway.provider)
         if (d.repo) setRepo(d.repo)
+        if (typeof d.repoEnabled === 'boolean') setRepoEnabled(d.repoEnabled)
         // No credentials at all (server env vars not set, no user token) → show Connect GitHub
         if (d.notSetup && !d.hasToken && !localStorage.getItem('gh_token')) setNeedsGitHub(true)
       }
@@ -138,6 +140,13 @@ export default function Dashboard() {
       if (r.ok) { flash(`${n} started`); for (const d of [2000, 5000, 10000]) setTimeout(refreshRuns, d) }
       else { const d = await r.json(); flash(d.error || 'Failed') }
     } finally { setBusy(b => ({ ...b, [`r-${n}`]: false })) }
+  }
+
+  const enableRepo = async () => {
+    try {
+      const r = await apiFetch('/api/skills', { method: 'PATCH', body: JSON.stringify({ repoEnabled: true }) })
+      if (r.ok) { setRepoEnabled(true); flash('Repository activated') }
+    } catch {}
   }
 
   const updateSchedule = async (n: string, s: string) => {
@@ -312,6 +321,8 @@ export default function Dashboard() {
           <SkillGrid
             skills={skills} runs={runs} busy={busy}
             enabledCount={enabledCount} workingCount={workingCount}
+            repoEnabled={repoEnabled}
+            onEnableRepo={enableRepo}
             onSelect={(name) => setSelectedSkill(name)}
             onToggle={toggleSkill}
             onRun={runSkill}

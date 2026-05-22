@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { execFileSync } from 'child_process'
 import { resolve } from 'path'
-import { triggerWorkflow } from '@/lib/github'
+import { triggerWorkflow, getFileContent } from '@/lib/github'
+import { parseConfig } from '@/lib/config'
 
 const REPO_ROOT = resolve(process.cwd(), '..')
 
@@ -36,6 +37,24 @@ export async function POST(
     } catch { /* no body is fine */ }
 
     if (isRemote(request)) {
+      // Refuse to run if the repo hasn't been explicitly enabled
+      try {
+        const { content } = await getFileContent('vigil.yml', request)
+        const config = parseConfig(content)
+        if (!config.repoEnabled) {
+          return NextResponse.json(
+            { error: 'This repository is not enabled. Enable it in HQ settings before running skills.' },
+            { status: 403 },
+          )
+        }
+      } catch {
+        // No vigil.yml = not enabled
+        return NextResponse.json(
+          { error: 'This repository is not enabled. Enable it in HQ settings before running skills.' },
+          { status: 403 },
+        )
+      }
+
       const extraInputs: Record<string, string> = {}
       if (skillVar) extraInputs.var = skillVar
       if (model) extraInputs.model = model

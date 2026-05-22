@@ -8,11 +8,13 @@ import {
   updateSkillInConfig,
   updateModelInConfig,
   updateJsonrenderInConfig,
+  updateRepoEnabledInConfig,
   removeSkillFromConfig,
   type SkillConfig,
 } from '@/lib/config'
 
-const DEFAULT_VIGIL_YML = `model: claude-sonnet-4-6
+const DEFAULT_VIGIL_YML = `enabled: false
+model: claude-sonnet-4-6
 
 skills:
   heartbeat: {enabled: true, schedule: "0 12 * * *"}
@@ -96,6 +98,7 @@ export async function GET(request: Request) {
           model: 'claude-sonnet-4-6',
           gateway: { provider: 'direct' as const },
           jsonrenderEnabled: false,
+          repoEnabled: false,
           skills: {} as Record<string, SkillConfig>,
         }
 
@@ -131,6 +134,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       skills, model: config.model, gateway: config.gateway, repo,
       jsonrenderEnabled: config.jsonrenderEnabled,
+      repoEnabled: config.repoEnabled,
     })
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Unknown error'
@@ -140,7 +144,7 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { name, enabled, schedule, var: skillVar, model, skillModel, jsonrenderEnabled } = await request.json()
+    const { name, enabled, schedule, var: skillVar, model, skillModel, jsonrenderEnabled, repoEnabled } = await request.json()
 
     // Read config from the selected repo; create from template if missing
     let existingContent = ''
@@ -157,6 +161,9 @@ export async function PATCH(request: Request) {
 
     let updated = existingContent
 
+    if (typeof repoEnabled === 'boolean') {
+      updated = updateRepoEnabledInConfig(updated, repoEnabled)
+    }
     if (typeof jsonrenderEnabled === 'boolean') {
       updated = updateJsonrenderInConfig(updated, jsonrenderEnabled)
     }
@@ -175,11 +182,13 @@ export async function PATCH(request: Request) {
     }
 
     if (updated !== existingContent || isNew) {
-      const msg = model
-        ? `chore: set model to ${model}`
-        : typeof jsonrenderEnabled === 'boolean'
-          ? `chore: ${jsonrenderEnabled ? 'enable' : 'disable'} json-render channel`
-          : `chore: update ${name} config`
+      const msg = typeof repoEnabled === 'boolean'
+        ? `chore: ${repoEnabled ? 'enable' : 'disable'} repository`
+        : model
+          ? `chore: set model to ${model}`
+          : typeof jsonrenderEnabled === 'boolean'
+            ? `chore: ${jsonrenderEnabled ? 'enable' : 'disable'} json-render channel`
+            : `chore: update ${name} config`
 
       if (isNew) {
         await createFile('vigil.yml', updated, msg, request)

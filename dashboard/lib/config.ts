@@ -16,6 +16,7 @@ export interface VigilConfig {
   model: string
   gateway: GatewayConfig
   jsonrenderEnabled: boolean
+  repoEnabled: boolean
 }
 
 /**
@@ -43,6 +44,8 @@ export function parseConfig(raw: string): VigilConfig {
   }
 
   const model = String(doc.get('model') ?? 'claude-sonnet-4-6')
+  // Absent means existing Vigil install (backwards compat) → treat as enabled
+  const repoEnabled = doc.get('enabled') !== false
 
   let gateway: GatewayConfig = { provider: 'direct' }
   const gatewayNode = doc.get('gateway')
@@ -60,7 +63,7 @@ export function parseConfig(raw: string): VigilConfig {
     }
   }
 
-  return { skills, model, gateway, jsonrenderEnabled }
+  return { skills, model, gateway, jsonrenderEnabled, repoEnabled }
 }
 
 /**
@@ -99,6 +102,15 @@ export function updateSkillInConfig(
     }
   }
 
+  return doc.toString()
+}
+
+/**
+ * Update top-level repo-level enabled flag.
+ */
+export function updateRepoEnabledInConfig(raw: string, enabled: boolean): string {
+  const doc = parseDocument(raw)
+  doc.set('enabled', enabled)
   return doc.toString()
 }
 
