@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, ArrowRight, CheckCircle2, Clock, Wrench, ShieldCheck } from 'lucide-react'
+import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, ArrowRight, CheckCircle2, Clock, Wrench, ShieldCheck, GitBranch, Lock } from 'lucide-react'
 
 // ── Platform brand icons ──────────────────────────────────────────────────────
 
@@ -86,6 +86,20 @@ const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; 
     color: '#fb7185',
     bg: 'rgba(251,113,133,0.1)',
   },
+  {
+    Icon: GitBranch,
+    title: 'Multi-repository management',
+    desc: 'Connect any of your GitHub repos and switch between them instantly. Every repo holds its own independent skill config, schedules, and activation state.',
+    color: '#f472b6',
+    bg: 'rgba(244,114,182,0.1)',
+  },
+  {
+    Icon: Lock,
+    title: 'Per-user credential isolation',
+    desc: 'Every user authenticates with their own GitHub account via OAuth. No shared tokens, no operator data ever leaking — complete per-user isolation by design.',
+    color: '#a3e635',
+    bg: 'rgba(163,230,53,0.08)',
+  },
 ]
 
 const PACKS = [
@@ -99,8 +113,8 @@ const PACKS = [
 ]
 
 const STEPS = [
-  { n: '01', title: 'Fork and configure', desc: 'Fork the repo, set your Anthropic API key and GitHub token as repo secrets. Takes two minutes.' },
-  { n: '02', title: 'Enable skills', desc: 'Open the dashboard, toggle the skills you want, set their schedules. Changes sync to your repo instantly.' },
+  { n: '01', title: 'Connect your GitHub', desc: 'Sign in with GitHub OAuth. Vigil connects to your repositories securely — no manual token setup, no shared credentials, no leaking.' },
+  { n: '02', title: 'Activate a repository', desc: 'Select any of your repos, flip the activation switch, then toggle skills and set their schedules. Each repo holds its own independent config.' },
   { n: '03', title: 'It runs forever', desc: 'GitHub Actions handles execution. Agents run on cron, react to events, and fix themselves when they fail.' },
 ]
 
@@ -418,7 +432,7 @@ function Hero() {
         }}
       >
         Deploy an AI workforce that reviews your PRs, monitors your stack, publishes your content, and
-        fixes itself when it breaks &mdash; all from a single GitHub repo. No infrastructure. No surprise bills.
+        fixes itself when it breaks &mdash; across any of your GitHub repositories. No infrastructure. No surprise bills. Each repo runs its own independent agent config.
       </p>
 
       {/* CTAs */}
@@ -1113,8 +1127,8 @@ function DeployYourOwn() {
   const vercelUrl =
     `https://vercel.com/new/clone?repository-url=https://github.com/${GITHUB_REPO}` +
     `&root=dashboard&project-name=vigil-dashboard` +
-    `&env=GITHUB_TOKEN,GITHUB_REPO` +
-    `&envDescription=GitHub%20PAT%20(repo%2Bworkflow)%20and%20your%20vigil%20repo%20(owner%2Frepo)`
+    `&env=SKILLS_REPO` +
+    `&envDescription=The%20GitHub%20repo%20containing%20skill%20definitions%20(e.g.%20besley1600%2Fvigil)`
 
   return (
     <section
@@ -1146,8 +1160,8 @@ function DeployYourOwn() {
           Deploy your own dashboard
         </h2>
         <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: 1.65, margin: '0 0 2rem', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
-          Host the Vigil dashboard on Vercel in one click. Connect it to your GitHub fork and manage
-          your agents from anywhere, on any device.
+          Host the Vigil dashboard on Vercel in one click. Users connect their own GitHub accounts
+          via OAuth — no shared tokens, complete per-user isolation out of the box.
         </p>
 
         <a
@@ -1198,11 +1212,10 @@ function DeployYourOwn() {
               fontWeight: 600,
             }}
           >
-            Required env vars
+            Required env var
           </p>
           {[
-            { name: 'GITHUB_TOKEN', desc: 'PAT with repo + workflow scopes' },
-            { name: 'GITHUB_REPO', desc: 'Your fork in owner/repo format' },
+            { name: 'SKILLS_REPO', desc: 'Skills definitions repo (e.g. besley1600/vigil)' },
           ].map(({ name, desc }) => (
             <div key={name} style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem', alignItems: 'baseline' }}>
               <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#818cf8', minWidth: '160px' }}>
@@ -1211,6 +1224,9 @@ function DeployYourOwn() {
               <span style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>{desc}</span>
             </div>
           ))}
+          <p style={{ margin: '0.875rem 0 0', fontSize: '0.78rem', color: '#71717a', lineHeight: 1.55 }}>
+            Users connect their own GitHub accounts via OAuth when they visit your app — no per-user token configuration needed.
+          </p>
         </div>
       </div>
     </section>
@@ -1292,7 +1308,7 @@ function FinalCTA() {
           </span>
         </h2>
         <p style={{ color: '#a1a1aa', fontSize: '1.1rem', maxWidth: '46ch', margin: '0 auto 2.5rem', lineHeight: 1.65 }}>
-          Fork the repo. Set two secrets. Your AI team is operational. Free forever on GitHub&apos;s infrastructure.
+          Open the app, connect your GitHub account, and activate a repository. Your AI team is operational in under two minutes. Free forever on GitHub&apos;s infrastructure.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
