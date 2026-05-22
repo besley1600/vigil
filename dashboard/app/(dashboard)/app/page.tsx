@@ -59,13 +59,14 @@ export default function Dashboard() {
   const [ghConnected, setGhConnected] = useState(false)
   const [showRepoSelect, setShowRepoSelect] = useState(false)
   const [availableRepos, setAvailableRepos] = useState<string[]>([])
+  const [notSetup, setNotSetup] = useState(false)
 
   const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
   const fetchData = useCallback(async () => {
     try {
       const [sr, rr, secr] = await Promise.all([apiFetch('/api/skills'), apiFetch('/api/runs'), apiFetch('/api/secrets')])
-      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
+      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); setNotSetup(!!d.notSetup); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
       if (rr.ok) setRuns((await rr.json()).runs)
       if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets); if (typeof d.ghReady === 'boolean') setGhReady(d.ghReady) }
     } catch (e: unknown) { setError(e instanceof Error ? e.message : 'Failed to connect') }
@@ -92,16 +93,26 @@ export default function Dashboard() {
       const repoList = (ghRepos || '').split(',').filter(Boolean)
       localStorage.setItem('gh_repos', repoList.join(','))
       setAvailableRepos(repoList)
-      setShowRepoSelect(true)
       window.history.replaceState({}, '', '/app')
+      if (repoList.length === 1) {
+        // Auto-select single repo and load immediately
+        localStorage.setItem('gh_repo', repoList[0])
+        setGhConnected(true)
+        fetchData()
+      } else if (repoList.length > 1) {
+        setShowRepoSelect(true)
+        setLoading(false)
+      } else {
+        fetchData()
+      }
     } else {
       const storedToken = localStorage.getItem('gh_token')
       const storedRepo = localStorage.getItem('gh_repo')
       const storedRepos = localStorage.getItem('gh_repos')
       if (storedToken && storedRepo) setGhConnected(true)
       if (storedRepos) setAvailableRepos(storedRepos.split(',').filter(Boolean))
+      fetchData()
     }
-    fetchData()
   }, [fetchData])
   useEffect(() => { const id = setInterval(refreshRuns, 10_000); return () => clearInterval(id) }, [refreshRuns])
   useEffect(() => {
@@ -267,6 +278,7 @@ export default function Dashboard() {
           <SkillGrid
             skills={skills} runs={runs} busy={busy}
             enabledCount={enabledCount} workingCount={workingCount}
+            notSetup={notSetup}
             onSelect={(name) => setSelectedSkill(name)}
             onToggle={toggleSkill}
             onRun={runSkill}

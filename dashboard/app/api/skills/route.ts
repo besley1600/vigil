@@ -48,11 +48,21 @@ function extractFrontmatter(content: string): { description: string; tags: strin
 
 export async function GET(request: Request) {
   try {
-    const [configResult, skillDirs] = await Promise.all([
-      getFileContent('vigil.yml', request),
-      getDirectory('skills', request),
-    ])
-    const config = parseConfig(configResult.content)
+    let configContent = ''
+    let skillDirs: Array<{ name: string; type: string; path: string }> = []
+    try {
+      const [configResult, dirs] = await Promise.all([
+        getFileContent('vigil.yml', request),
+        getDirectory('skills', request),
+      ])
+      configContent = configResult.content
+      skillDirs = dirs
+    } catch {
+      // Repo not set up as Vigil — return empty skills
+      const repo = getRepoSlug()
+      return NextResponse.json({ skills: [], model: 'claude-sonnet-4-6', gateway: null, repo, notSetup: true })
+    }
+    const config = parseConfig(configContent)
     const dirNames = skillDirs.filter(d => d.type === 'dir').map(d => d.name)
 
     const meta = await Promise.all(

@@ -11,6 +11,7 @@ interface SkillGridProps {
   busy: Record<string, boolean>
   enabledCount: number
   workingCount: number
+  notSetup?: boolean
   onSelect: (name: string) => void
   onToggle: (name: string, enabled: boolean) => void
   onRun: (name: string, v?: string) => void
@@ -180,7 +181,7 @@ function EmptyState({ onShowImport }: { onShowImport: () => void }) {
 
 // ── Main SkillGrid ────────────────────────────────────────────────────────────
 
-export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSelect, onToggle, onRun, onShowImport }: SkillGridProps) {
+export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notSetup, onSelect, onToggle, onRun, onShowImport }: SkillGridProps) {
   const [activeDept, setActiveDept] = useState<string>('all')
   const [search, setSearch] = useState('')
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
@@ -200,7 +201,28 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, onSe
     return matchesDept && matchesSearch
   })
 
-  if (skills.length === 0) return <EmptyState onShowImport={onShowImport} />
+  if (skills.length === 0) {
+    if (notSetup) {
+      return (
+        <div className="flex flex-col items-center justify-center h-full gap-6">
+          <div className="logo-mark">
+            <div className="logo-mark-inner" />
+            <span className="logo-mark-letter">V</span>
+          </div>
+          <div className="text-center">
+            <div className="font-display text-xl text-primary-70">Repository not configured</div>
+            <div className="text-[11px] font-mono text-primary-50 mt-1">This repo does not have Vigil set up yet.</div>
+            <div className="text-[11px] font-mono text-primary-40 mt-0.5">Fork the Vigil template or install your first skill to get started.</div>
+          </div>
+          <button onClick={onShowImport}
+            className="text-[10px] font-mono border border-[rgba(99,102,241,0.4)] text-eva-orange px-4 py-2 hover:bg-[rgba(99,102,241,0.1)] transition-colors">
+            + Install Skill
+          </button>
+        </div>
+      )
+    }
+    return <EmptyState onShowImport={onShowImport} />
+  }
 
   return (
     <div className="flex flex-1 min-h-0">
