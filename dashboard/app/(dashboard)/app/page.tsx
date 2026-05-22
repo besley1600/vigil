@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import type { Skill, Run, Secret, SkillOutput } from '../../../lib/types'
 import { MODELS } from '../../../lib/constants'
 import { features } from '../../../lib/features'
-import { apiFetch, getGitHubHeaders } from '../../../lib/apiFetch'
+import { apiFetch } from '../../../lib/apiFetch'
 import VigilCursor from '../../../components/ui/VigilCursor'
 import { LoadingScreen } from '../../../components/LoadingScreen'
 import { ErrorScreen } from '../../../components/ErrorScreen'
@@ -16,7 +16,7 @@ import { ActivityView } from '../../../components/ActivityView'
 import { AnalyticsView } from '../../../components/AnalyticsView'
 import { ChainsView } from '../../../components/ChainsView'
 import { MemoryView } from '../../../components/MemoryView'
-import { SecretsPanel, GitHubAccountPanel } from '../../../components/SecretsPanel'
+import { SecretsPanel } from '../../../components/SecretsPanel'
 import { ImportModal } from '../../../components/ImportModal'
 import { AuthModal } from '../../../components/AuthModal'
 import { FloatingDispatch } from '../../../components/FloatingDispatch'
@@ -56,18 +56,13 @@ export default function Dashboard() {
   const [authStatus, setAuthStatus] = useState<{ authenticated: boolean } | null>(null)
   const [authLoading, setAuthLoading] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
-  const [ghConnected, setGhConnected] = useState(false)
-  const [showRepoSelect, setShowRepoSelect] = useState(false)
-  const [availableRepos, setAvailableRepos] = useState<string[]>([])
-  const [notSetup, setNotSetup] = useState(false)
-  const [notSetupReason, setNotSetupReason] = useState('')
 
   const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
   const fetchData = useCallback(async () => {
     try {
       const [sr, rr, secr] = await Promise.all([apiFetch('/api/skills'), apiFetch('/api/runs'), apiFetch('/api/secrets')])
-      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); setNotSetup(!!d.notSetup); setNotSetupReason(d.notSetupReason || ''); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
+      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
       if (rr.ok) setRuns((await rr.json()).runs)
       if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets); if (typeof d.ghReady === 'boolean') setGhReady(d.ghReady) }
     } catch (e: unknown) { setError(e instanceof Error ? e.message : 'Failed to connect') }
@@ -86,34 +81,7 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const ghToken = params.get('gh_token')
-    const ghRepos = params.get('gh_repos')
-    if (ghToken) {
-      localStorage.setItem('gh_token', ghToken)
-      const repoList = (ghRepos || '').split(',').filter(Boolean)
-      localStorage.setItem('gh_repos', repoList.join(','))
-      setAvailableRepos(repoList)
-      window.history.replaceState({}, '', '/app')
-      if (repoList.length === 1) {
-        // Auto-select single repo and load immediately
-        localStorage.setItem('gh_repo', repoList[0])
-        setGhConnected(true)
-        fetchData()
-      } else if (repoList.length > 1) {
-        setShowRepoSelect(true)
-        setLoading(false)
-      } else {
-        fetchData()
-      }
-    } else {
-      const storedToken = localStorage.getItem('gh_token')
-      const storedRepo = localStorage.getItem('gh_repo')
-      const storedRepos = localStorage.getItem('gh_repos')
-      if (storedToken && storedRepo) setGhConnected(true)
-      if (storedRepos) setAvailableRepos(storedRepos.split(',').filter(Boolean))
-      fetchData()
-    }
+    fetchData()
   }, [fetchData])
   useEffect(() => { const id = setInterval(refreshRuns, 10_000); return () => clearInterval(id) }, [refreshRuns])
   useEffect(() => {
@@ -230,23 +198,6 @@ export default function Dashboard() {
   if (loading) return <LoadingScreen />
   if (error) return <ErrorScreen error={error} />
 
-  if (!ghConnected && !repo && Object.keys(getGitHubHeaders()).length === 0) {
-    return (
-      <div className="h-screen flex flex-col items-center justify-center bg-eva-black text-primary-100">
-        <div className="border border-[rgba(255,255,255,0.12)] bg-eva-white p-10 max-w-sm w-full text-center space-y-6">
-          <div className="text-sm font-mono tracking-widest uppercase text-primary-400">Vigil</div>
-          <p className="text-sm text-primary-300">Connect your GitHub repo to enable skill management.</p>
-          <a
-            href="/api/auth/github"
-            className="block w-full py-2.5 bg-primary-600 hover:bg-primary-500 text-primary-100 text-xs font-mono tracking-wide transition-colors"
-          >
-            Connect GitHub
-          </a>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="h-screen flex flex-col bg-eva-black text-primary-100 overflow-hidden">
       <VigilCursor />
@@ -263,8 +214,6 @@ export default function Dashboard() {
         selectedSkill={skill}
         runs={runs}
         repo={repo} model={model} gateway={gateway}
-        availableRepos={availableRepos}
-        onSwitchRepo={(r) => { localStorage.setItem('gh_repo', r); setRepo(r); fetchData() }}
         authStatus={authStatus} authLoading={authLoading}
         pulling={pulling} syncing={syncing} hasChanges={hasChanges} behind={behind}
         onSetupAuth={() => setupAuth()}
@@ -279,7 +228,6 @@ export default function Dashboard() {
           <SkillGrid
             skills={skills} runs={runs} busy={busy}
             enabledCount={enabledCount} workingCount={workingCount}
-            notSetup={notSetup} notSetupReason={notSetupReason}
             onSelect={(name) => setSelectedSkill(name)}
             onToggle={toggleSkill}
             onRun={runSkill}
@@ -321,18 +269,6 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto p-[var(--space-lg)] space-y-[var(--space-xl)]">
               <SecretsPanel secrets={secrets} busy={busy} ghReady={ghReady} onSave={saveSecret} onDelete={deleteSecret} />
-              <GitHubAccountPanel
-                repo={repo}
-                availableRepos={availableRepos}
-                onSwitchRepo={(r) => { localStorage.setItem('gh_repo', r); setRepo(r); fetchData() }}
-                onRefreshRepos={() => { window.location.href = '/api/auth/github' }}
-                onDisconnect={() => {
-                  localStorage.removeItem('gh_token')
-                  localStorage.removeItem('gh_repo')
-                  localStorage.removeItem('gh_repos')
-                  window.location.reload()
-                }}
-              />
             </div>
           </div>
         )}
@@ -352,30 +288,6 @@ export default function Dashboard() {
 
       {showImport && <ImportModal onClose={() => setShowImport(false)} onImport={importSkill} />}
       {showAuthModal && <AuthModal loading={authLoading} onClose={() => setShowAuthModal(false)} onAuth={(key) => setupAuth(key)} />}
-
-      {showRepoSelect && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-          <div className="border border-[rgba(255,255,255,0.12)] bg-eva-white p-8 max-w-sm w-full space-y-4">
-            <div className="text-xs font-mono tracking-widest uppercase text-primary-400">Select Repository</div>
-            <div className="space-y-1 max-h-64 overflow-y-auto">
-              {availableRepos.map(r => (
-                <button
-                  key={r}
-                  className="w-full text-left px-3 py-2 text-xs font-mono text-primary-200 hover:bg-primary-800 transition-colors"
-                  onClick={() => {
-                    localStorage.setItem('gh_repo', r)
-                    setGhConnected(true)
-                    setShowRepoSelect(false)
-                    fetchData()
-                  }}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {features.DISPATCH && <FloatingDispatch skills={skills} busy={busy} onRun={runSkill} />}
 

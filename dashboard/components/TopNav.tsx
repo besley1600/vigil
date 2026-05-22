@@ -17,8 +17,6 @@ interface TopNavProps {
   repo: string
   model: string
   gateway: 'direct' | 'bankr'
-  availableRepos?: string[]
-  onSwitchRepo?: (repo: string) => void
   authStatus: { authenticated: boolean } | null
   authLoading: boolean
   pulling: boolean
@@ -54,8 +52,6 @@ export function TopNav({
   repo,
   model,
   gateway,
-  availableRepos = [],
-  onSwitchRepo,
   authStatus,
   authLoading,
   pulling,
@@ -152,18 +148,7 @@ export function TopNav({
           + Install
         </button>
 
-        {availableRepos.length > 1 && onSwitchRepo ? (
-          <select
-            value={repo}
-            onChange={(e) => onSwitchRepo(e.target.value)}
-            className="bg-eva-white text-primary-70 text-[10px] px-2 py-1.5 border border-[rgba(255,255,255,0.1)] outline-none cursor-pointer font-mono max-w-[160px]"
-            title="Switch repository"
-          >
-            {availableRepos.map(r => (
-              <option key={r} value={r}>{r.split('/')[1] ?? r}</option>
-            ))}
-          </select>
-        ) : repo ? (
+        {repo && (
           <a
             href={`https://github.com/${repo}`}
             target="_blank"
@@ -172,7 +157,7 @@ export function TopNav({
           >
             {repo.split('/')[1] ?? 'GitHub'}
           </a>
-        ) : null}
+        )}
 
         <button
           onClick={onPull}
