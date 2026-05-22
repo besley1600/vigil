@@ -292,3 +292,4 @@ channels:
 # Polls for messages every 5 minutes on Telegram/Discord/Slack.
 telegram:
   enabled: true
+enabled: true
