@@ -57,13 +57,23 @@ export default function Dashboard() {
   const [authLoading, setAuthLoading] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [availableRepos, setAvailableRepos] = useState<string[]>([])
+  const [showRepoSelect, setShowRepoSelect] = useState(false)
+  const [needsGitHub, setNeedsGitHub] = useState(false)
 
   const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
   const fetchData = useCallback(async () => {
     try {
       const [sr, rr, secr] = await Promise.all([apiFetch('/api/skills'), apiFetch('/api/runs'), apiFetch('/api/secrets')])
-      if (sr.ok) { const d = await sr.json(); setSkills(d.skills); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }
+      if (sr.ok) {
+        const d = await sr.json()
+        setSkills(d.skills)
+        if (d.model) setModel(d.model)
+        if (d.gateway?.provider) setGateway(d.gateway.provider)
+        if (d.repo) setRepo(d.repo)
+        // No credentials at all (server env vars not set, no user token) → show Connect GitHub
+        if (d.notSetup && !d.hasToken && !localStorage.getItem('gh_token')) setNeedsGitHub(true)
+      }
       if (rr.ok) setRuns((await rr.json()).runs)
       if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets); if (typeof d.ghReady === 'boolean') setGhReady(d.ghReady) }
     } catch (e: unknown) { setError(e instanceof Error ? e.message : 'Failed to connect') }
@@ -82,10 +92,30 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    fetchData()
-    fetch('/api/repos').then(r => r.ok ? r.json() : null).then(d => {
-      if (d?.repos?.length) setAvailableRepos(d.repos)
-    }).catch(() => {})
+    const params = new URLSearchParams(window.location.search)
+    const ghToken = params.get('gh_token')
+    const ghRepos = params.get('gh_repos')
+
+    if (ghToken) {
+      // Returning from GitHub OAuth — store credentials
+      localStorage.setItem('gh_token', ghToken)
+      const repoList = (ghRepos || '').split(',').filter(Boolean)
+      localStorage.setItem('gh_repos', repoList.join(','))
+      setAvailableRepos(repoList)
+      window.history.replaceState({}, '', '/app')
+      if (repoList.length === 1) {
+        localStorage.setItem('gh_repo', repoList[0])
+        fetchData()
+      } else {
+        setShowRepoSelect(true)
+        setLoading(false)
+      }
+    } else {
+      // Restore session from localStorage
+      const storedRepos = localStorage.getItem('gh_repos')
+      if (storedRepos) setAvailableRepos(storedRepos.split(',').filter(Boolean))
+      fetchData()
+    }
   }, [fetchData])
   useEffect(() => { const id = setInterval(refreshRuns, 10_000); return () => clearInterval(id) }, [refreshRuns])
   useEffect(() => {
@@ -201,6 +231,57 @@ export default function Dashboard() {
 
   if (loading) return <LoadingScreen />
   if (error) return <ErrorScreen error={error} />
+
+  if (needsGitHub) {
+    return (
+      <div className="h-screen flex flex-col items-center justify-center bg-eva-black text-primary-100">
+        <div className="border border-[rgba(255,255,255,0.12)] bg-eva-white p-10 max-w-sm w-full text-center space-y-6">
+          <svg width="18" height="18" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" className="mx-auto" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="8" height="8" fill="none" stroke="#06B6D4" strokeWidth="1.3" transform="rotate(45 6.5 6.5)" style={{filter:'drop-shadow(0 0 3px rgba(6,182,212,0.7))'}}/>
+            <circle cx="6.5" cy="6.5" r="1.2" fill="#ffffff"/>
+          </svg>
+          <div>
+            <div className="font-display text-xl text-primary-100">Connect GitHub</div>
+            <p className="text-[11px] font-mono text-primary-50 mt-2">Link your GitHub account to manage skills across your projects.</p>
+          </div>
+          <a
+            href="/api/auth/github"
+            className="block w-full py-2.5 bg-eva-orange hover:opacity-90 text-white text-xs font-mono uppercase tracking-[1px] transition-opacity"
+          >
+            Connect GitHub
+          </a>
+        </div>
+      </div>
+    )
+  }
+
+  if (showRepoSelect) {
+    return (
+      <div className="h-screen flex flex-col items-center justify-center bg-eva-black text-primary-100">
+        <div className="border border-[rgba(255,255,255,0.12)] bg-eva-white p-8 max-w-sm w-full space-y-4">
+          <div className="text-xs font-mono tracking-widest uppercase text-primary-400">Select Repository</div>
+          <p className="text-[11px] font-mono text-primary-50">Choose which repo to manage. It should be a fork of the Vigil template.</p>
+          <div className="space-y-1 max-h-72 overflow-y-auto">
+            {availableRepos.map(r => (
+              <button
+                key={r}
+                className="w-full text-left px-3 py-2.5 text-xs font-mono text-primary-200 hover:bg-[rgba(255,255,255,0.06)] border border-transparent hover:border-[rgba(255,255,255,0.1)] transition-colors"
+                onClick={() => {
+                  localStorage.setItem('gh_repo', r)
+                  setRepo(r)
+                  setShowRepoSelect(false)
+                  setLoading(true)
+                  fetchData()
+                }}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="h-screen flex flex-col bg-eva-black text-primary-100 overflow-hidden">
