@@ -145,7 +145,7 @@ export default function Dashboard() {
   const enableRepo = async () => {
     try {
       const r = await apiFetch('/api/skills', { method: 'PATCH', body: JSON.stringify({ repoEnabled: true }) })
-      if (r.ok) { setRepoEnabled(true); flash('Repository activated') }
+      if (r.ok) { setRepoEnabled(true); flash('Repository activated — add ANTHROPIC_API_KEY to your repo secrets to run skills') }
     } catch {}
   }
 

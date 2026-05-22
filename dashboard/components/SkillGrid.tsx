@@ -243,7 +243,9 @@ export function SkillGrid({ skills, runs, busy, enabledCount, workingCount, notS
         <div className="shrink-0 flex items-center justify-between gap-4 px-5 py-2.5 bg-[rgba(255,165,0,0.07)] border-b border-[rgba(255,165,0,0.18)]">
           <div className="flex items-center gap-2.5 min-w-0">
             <span className="w-1.5 h-1.5 rounded-full bg-eva-amber shrink-0" />
-            <span className="text-[11px] font-mono text-eva-amber">This repository is inactive — skills are configured but nothing will run until you activate it.</span>
+            <span className="text-[11px] font-mono text-eva-amber">
+              This repository is inactive. Activating will install the Vigil workflow and create <code className="text-eva-amber">vigil.yml</code>. You&apos;ll also need an <code className="text-eva-amber">ANTHROPIC_API_KEY</code> repo secret for skills to run.
+            </span>
           </div>
           {onEnableRepo && (
             <button
