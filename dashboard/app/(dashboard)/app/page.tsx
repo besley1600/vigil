@@ -19,7 +19,6 @@ import { MemoryView } from '../../../components/MemoryView'
 import { SecretsPanel } from '../../../components/SecretsPanel'
 import { ImportModal } from '../../../components/ImportModal'
 import { AuthModal } from '../../../components/AuthModal'
-import { FloatingDispatch } from '../../../components/FloatingDispatch'
 import { KeyboardShortcuts } from '../../../components/KeyboardShortcuts'
 import { ContributeView } from '../../../components/ContributeView'
 
@@ -384,7 +383,6 @@ export default function Dashboard() {
       {showImport && <ImportModal onClose={() => setShowImport(false)} onImport={importSkill} />}
       {showAuthModal && <AuthModal loading={authLoading} onClose={() => setShowAuthModal(false)} onAuth={(key) => setupAuth(key)} />}
 
-      {features.DISPATCH && <FloatingDispatch skills={skills} busy={busy} onRun={runSkill} />}
 
       {features.KEYBOARD && (
         <KeyboardShortcuts

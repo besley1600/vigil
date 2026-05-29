@@ -30,6 +30,14 @@ function LinuxIcon({ size = 20 }: { size?: number }) {
   )
 }
 
+function GithubIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+    </svg>
+  )
+}
+
 // ── Config ────────────────────────────────────────────────────────────────────
 
 const GITHUB_REPO = 'besley1600/vigil'
@@ -43,69 +51,79 @@ const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: numbe
   { platform: 'Linux', arch: 'x64', Icon: LinuxIcon, url: `${RELEASES_BASE}/Vigil-Linux-x64.AppImage`, ext: '.AppImage' },
 ]
 
-const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; bg: string }[] = [
+// Grid area assignments for bento — 3-col layout, 4 rows, 9 cells total
+const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; bg: string; area: string }[] = [
   {
     Icon: Zap,
     title: 'GitHub Actions runtime',
-    desc: "Runs on GitHub's infrastructure — no VPS, no Docker, no Lambda. Free for public repos.",
+    desc: "Runs on GitHub's infrastructure. No VPS, no Docker, no Lambda. Free for public repos.",
     color: '#818cf8',
-    bg: 'rgba(99,102,241,0.12)',
+    bg: 'rgba(99,102,241,0.1)',
+    area: 'github',
   },
   {
     Icon: RefreshCw,
     title: 'Self-healing agents',
     desc: 'Skills monitor their own output quality and repair themselves when they break.',
     color: '#34d399',
-    bg: 'rgba(52,211,153,0.1)',
+    bg: 'rgba(52,211,153,0.08)',
+    area: 'self-heal',
   },
   {
     Icon: Puzzle,
     title: '119 pre-built skills',
-    desc: 'PR reviews, market monitoring, content writing, vulnerability scans — drop-in and go.',
+    desc: 'PR reviews, market monitoring, content writing, vulnerability scans. Drop-in and go.',
     color: '#a78bfa',
-    bg: 'rgba(167,139,250,0.1)',
+    bg: 'rgba(167,139,250,0.08)',
+    area: 'skills',
   },
   {
     Icon: GitMerge,
     title: 'Skill chaining',
     desc: 'Compose agents into pipelines with parallel steps, conditional logic, and output passing.',
     color: '#22d3ee',
-    bg: 'rgba(34,211,238,0.1)',
+    bg: 'rgba(34,211,238,0.08)',
+    area: 'chain',
   },
   {
     Icon: Bot,
     title: 'Multi-model routing',
     desc: 'Run Claude, GPT, Gemini, or Kimi per-skill. Switch models without rewriting logic.',
     color: '#fbbf24',
-    bg: 'rgba(251,191,36,0.1)',
+    bg: 'rgba(251,191,36,0.08)',
+    area: 'model',
   },
   {
     Icon: Monitor,
     title: 'Native desktop app',
     desc: 'Mac, Windows, and Linux app with a visual editor, tray integration, and auto-updates.',
     color: '#fb7185',
-    bg: 'rgba(251,113,133,0.1)',
+    bg: 'rgba(251,113,133,0.08)',
+    area: 'desktop',
   },
   {
     Icon: GitBranch,
     title: 'Multi-repository management',
     desc: 'Connect any of your GitHub repos and switch between them instantly. Every repo holds its own independent skill config, schedules, and activation state.',
     color: '#f472b6',
-    bg: 'rgba(244,114,182,0.1)',
+    bg: 'rgba(244,114,182,0.08)',
+    area: 'multirepo',
   },
   {
     Icon: Lock,
     title: 'Per-user credential isolation',
-    desc: 'Every user authenticates with their own GitHub account via OAuth. No shared tokens, no operator data ever leaking — complete per-user isolation by design.',
+    desc: 'Every user authenticates with their own GitHub account via OAuth. No shared tokens, complete per-user isolation by design.',
     color: '#a3e635',
-    bg: 'rgba(163,230,53,0.08)',
+    bg: 'rgba(163,230,53,0.06)',
+    area: 'creds',
   },
   {
     Icon: Bell,
     title: 'Multi-channel notifications',
-    desc: 'Push alerts to Telegram, Discord, or Slack the moment a skill runs, flags an anomaly, or repairs itself. Each channel is opt-in — set a secret and it activates.',
+    desc: 'Push alerts to Telegram, Discord, or Slack the moment a skill runs, flags an anomaly, or repairs itself. Each channel is opt-in.',
     color: '#fb923c',
-    bg: 'rgba(251,146,60,0.08)',
+    bg: 'rgba(251,146,60,0.06)',
+    area: 'notifs',
   },
 ]
 
@@ -120,9 +138,9 @@ const PACKS = [
 ]
 
 const STEPS = [
-  { n: '01', title: 'Connect your GitHub', desc: 'Sign in with GitHub OAuth. Vigil connects to your repositories securely — no manual token setup, no shared credentials, no leaking.' },
-  { n: '02', title: 'Activate a repository', desc: 'Select any of your repos, flip the activation switch, then toggle skills and set their schedules. Each repo holds its own independent config.' },
-  { n: '03', title: 'It runs forever', desc: 'GitHub Actions handles execution. Agents run on cron, react to events, and fix themselves when they fail.' },
+  { title: 'Connect your GitHub', desc: 'Sign in with GitHub OAuth. Vigil connects to your repositories securely. No manual token setup, no shared credentials.' },
+  { title: 'Activate a repository', desc: 'Select any repo, flip the activation switch, then toggle skills and set schedules. Each repo holds its own independent config.' },
+  { title: 'It runs forever', desc: 'GitHub Actions handles execution. Agents run on cron, react to events, and fix themselves when they fail.' },
 ]
 
 const SKILL_NAMES_A = [
@@ -149,6 +167,7 @@ const AGENT_OUTPUTS = [
     body: 'Found missing auth check on /api/admin/users and a potential SQL injection on line 234. Left 3 inline review comments and requested changes.',
     tag: '3 comments posted',
     tagColor: '#34d399',
+    featured: true,
   },
   {
     skill: 'morning-brief',
@@ -156,9 +175,10 @@ const AGENT_OUTPUTS = [
     iconColor: '#818cf8',
     ago: '6h ago',
     title: 'Delivered your 8am digest',
-    body: '9 Hacker News stories, 2 AI research papers, ETH +3.1%, BTC flat. Sent to Telegram at 08:02. Clipped 4 links to your reading list.',
+    body: '9 Hacker News stories, 2 AI research papers, ETH +3.1%, BTC flat. Sent to Telegram at 08:02.',
     tag: 'Sent to Telegram',
     tagColor: '#818cf8',
+    featured: false,
   },
   {
     skill: 'self-repair',
@@ -166,9 +186,10 @@ const AGENT_OUTPUTS = [
     iconColor: '#fbbf24',
     ago: '14h ago',
     title: 'Fixed itself without your help',
-    body: 'crypto-monitor failed 3× due to a CoinGecko rate-limit change. Diagnosed root cause, patched the fetcher, verified output format, opened PR #193.',
+    body: 'crypto-monitor failed 3x due to a CoinGecko rate-limit change. Diagnosed root cause, patched the fetcher, opened PR #193.',
     tag: 'Auto-fixed',
     tagColor: '#fbbf24',
+    featured: false,
   },
   {
     skill: 'vulnerability-scan',
@@ -176,9 +197,10 @@ const AGENT_OUTPUTS = [
     iconColor: '#22d3ee',
     ago: '1d ago',
     title: 'Patched 2 CVEs before you woke up',
-    body: 'Scanned 847 dependencies. Found CVE-2024-38374 in lodash (medium) and CVE-2024-41110 in axios (high). Auto-opened patch PR with test verification.',
+    body: 'Scanned 847 dependencies. Found CVE-2024-38374 in lodash and CVE-2024-41110 in axios (high). Auto-opened patch PR with test verification.',
     tag: 'Patch PR opened',
     tagColor: '#22d3ee',
+    featured: false,
   },
 ]
 
@@ -238,14 +260,12 @@ function Nav() {
         borderBottom: navBorder,
         transition: 'background-color 0.25s ease, border-color 0.25s ease',
       }}>
-        {/* Main bar */}
         <div style={{ padding: '0 1.5rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
             <VigilLogo size={28} />
             <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fafafa', letterSpacing: '0.05em' }}>VIGIL</span>
           </a>
 
-          {/* Desktop links + CTAs */}
           <div className="nav-desktop" style={{ alignItems: 'center', gap: '2rem' }}>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               {NAV_LINKS.map((label) => (
@@ -266,31 +286,21 @@ function Nav() {
                 style={{ padding: '0.375rem 0.875rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', boxShadow: '0 0 16px rgba(79,70,229,0.4)', transition: 'all 0.15s' }}
                 onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
                 onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
-              >Open App →</a>
+              >Open App</a>
             </div>
           </div>
 
-          {/* Mobile burger — two lines that become ✕ */}
           <button
             className="nav-burger"
             onClick={() => setMobileOpen(o => !o)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', flexDirection: 'column', gap: '5px', alignItems: 'center', justifyContent: 'center' }}
           >
-            <span style={{
-              display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa',
-              transition: 'transform 0.2s ease, opacity 0.2s ease',
-              transform: mobileOpen ? 'rotate(45deg) translate(2.5px, 3.5px)' : 'none',
-            }} />
-            <span style={{
-              display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa',
-              transition: 'transform 0.2s ease, opacity 0.2s ease',
-              transform: mobileOpen ? 'rotate(-45deg) translate(2.5px, -3.5px)' : 'none',
-            }} />
+            <span style={{ display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa', transition: 'transform 0.2s ease, opacity 0.2s ease', transform: mobileOpen ? 'rotate(45deg) translate(2.5px, 3.5px)' : 'none' }} />
+            <span style={{ display: 'block', width: '22px', height: '1.5px', backgroundColor: '#fafafa', transition: 'transform 0.2s ease, opacity 0.2s ease', transform: mobileOpen ? 'rotate(-45deg) translate(2.5px, -3.5px)' : 'none' }} />
           </button>
         </div>
 
-        {/* Mobile dropdown */}
         {mobileOpen && (
           <div style={{ borderTop: '1px solid rgba(99,102,241,0.12)', padding: '1rem 1.5rem 1.5rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
@@ -309,7 +319,7 @@ function Nav() {
               <a href={APP_URL} target="_blank" rel="noopener noreferrer"
                 onClick={() => setMobileOpen(false)}
                 style={{ padding: '0.625rem 1rem', borderRadius: '6px', background: 'linear-gradient(135deg,#4f46e5,#6366f1)', color: '#fff', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center', boxShadow: '0 0 16px rgba(79,70,229,0.4)' }}
-              >Open App →</a>
+              >Open App</a>
             </div>
           </div>
         )}
@@ -325,208 +335,218 @@ function Hero() {
     <section
       id="hero"
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '8rem 1.5rem 0',
+        padding: '5.5rem 1.5rem 3rem',
         position: 'relative',
         overflow: 'hidden',
-        textAlign: 'center',
       }}
     >
-      {/* Dot grid */}
+      <style>{`
+        @media (prefers-reduced-motion: reduce) {
+          .animate-slide-up-1,
+          .animate-slide-up-2,
+          .animate-slide-up-3,
+          .animate-slide-up-4 { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+        .hero-split {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 3.5rem;
+          align-items: center;
+          max-width: 1200px;
+          margin: 0 auto;
+          width: 100%;
+        }
+        @media (max-width: 900px) {
+          .hero-split {
+            grid-template-columns: 1fr;
+          }
+          .hero-screenshot {
+            order: 2;
+          }
+          .hero-text {
+            text-align: center !important;
+          }
+          .hero-ctas {
+            justify-content: center !important;
+          }
+        }
+      `}</style>
+
+      {/* Dot grid background */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.15) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
-          WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
-          maskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 90% 80% at 40% 40%, black 30%, transparent 100%)',
+          maskImage: 'radial-gradient(ellipse 90% 80% at 40% 40%, black 30%, transparent 100%)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Primary glow */}
+      {/* Subtle gradient glow */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: '15%',
-          left: '50%',
-          width: '900px',
-          height: '600px',
-          background: 'radial-gradient(ellipse, rgba(79,70,229,0.22) 0%, rgba(99,102,241,0.08) 45%, transparent 70%)',
-          animation: 'glow-breathe 6s ease-in-out infinite',
+          top: '10%',
+          left: '25%',
+          width: '700px',
+          height: '500px',
+          background: 'radial-gradient(ellipse, rgba(79,70,229,0.18) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Cyan accent */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          top: '40%',
-          left: '62%',
-          width: '500px',
-          height: '400px',
-          background: 'radial-gradient(ellipse, rgba(6,182,212,0.12) 0%, transparent 65%)',
-          animation: 'glow-breathe-2 8s 2s ease-in-out infinite',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Headline */}
-      <h1
-        className="animate-slide-up-1"
-        style={{
-          fontSize: 'clamp(2.75rem, 8vw, 5.5rem)',
-          fontWeight: 900,
-          lineHeight: 1.05,
-          letterSpacing: '-0.04em',
-          color: '#fafafa',
-          margin: '0 0 1.5rem',
-          maxWidth: '16ch',
-        }}
-      >
-        Your AI team.{' '}
-        <span
-          style={{
-            background: 'linear-gradient(135deg, #818cf8 0%, #06b6d4 60%, #34d399 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
-        >
-          Zero servers.
-        </span>{' '}
-        Runs forever.
-      </h1>
-
-      <p
-        className="animate-slide-up-2"
-        style={{
-          fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-          color: '#a1a1aa',
-          maxWidth: '56ch',
-          lineHeight: 1.65,
-          margin: '0 0 2.75rem',
-        }}
-      >
-        Deploy an AI workforce that reviews your PRs, monitors your stack, publishes your content, and
-        fixes itself when it breaks &mdash; across any of your GitHub repositories. No infrastructure. No surprise bills. Each repo runs its own independent agent config.
-      </p>
-
-      {/* CTAs */}
-      <div
-        className="animate-slide-up-3"
-        style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '5rem' }}
-      >
-        <a
-          href="#download"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.8rem 1.875rem',
-            borderRadius: '8px',
-            background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
-            color: '#fff',
-            fontWeight: 700,
-            fontSize: '1rem',
-            textDecoration: 'none',
-            boxShadow: '0 0 40px rgba(79,70,229,0.4)',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 0 60px rgba(79,70,229,0.6)' }}
-          onMouseLeave={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 0 40px rgba(79,70,229,0.4)' }}
-        >
-          Download Desktop App
-        </a>
-        <a
-          href={APP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.8rem 1.875rem',
-            borderRadius: '8px',
-            border: '1px solid rgba(99,102,241,0.3)',
-            backgroundColor: 'rgba(79,70,229,0.08)',
-            color: '#fafafa',
-            fontWeight: 600,
-            fontSize: '1rem',
-            textDecoration: 'none',
-            backdropFilter: 'blur(8px)',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.6)'; el.style.backgroundColor = 'rgba(79,70,229,0.15)'; el.style.transform = 'translateY(-2px)' }}
-          onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.3)'; el.style.backgroundColor = 'rgba(79,70,229,0.08)'; el.style.transform = 'translateY(0)' }}
-        >
-          Open Web App <ArrowRight size={16} />
-        </a>
-      </div>
-
-      {/* App screenshot */}
-      <div
-        className="animate-slide-up-4"
-        style={{ width: '100%', maxWidth: '1160px', position: 'relative', marginBottom: '-4px' }}
-      >
-        {/* Glow behind screenshot */}
-        <div
-          aria-hidden
-          style={{
-            position: 'absolute',
-            inset: '-8% -5%',
-            background: 'radial-gradient(ellipse 70% 60% at 50% 60%, rgba(79,70,229,0.35) 0%, rgba(6,182,212,0.12) 50%, transparent 75%)',
-            filter: 'blur(50px)',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Window frame */}
-        <div
-          className="animate-float"
-          style={{
-            position: 'relative',
-            borderRadius: '12px 12px 0 0',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderBottom: 'none',
-            overflow: 'hidden',
-            boxShadow: '0 -2px 0 rgba(99,102,241,0.4), 0 40px 120px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06)',
-            transformOrigin: 'center bottom',
-          }}
-        >
-          {/* Title bar */}
-          <div
+      <div className="hero-split">
+        {/* Left: text content */}
+        <div className="hero-text" style={{ textAlign: 'left' }}>
+          <h1
+            className="animate-slide-up-1"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '0.625rem 1rem',
-              background: 'linear-gradient(180deg, #0f0f1e 0%, #13132a 100%)',
-              borderBottom: '1px solid rgba(99,102,241,0.15)',
-              gap: '0.5rem',
+              fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)',
+              fontWeight: 900,
+              lineHeight: 1.05,
+              letterSpacing: '-0.04em',
+              color: '#fafafa',
+              margin: '0 0 1.25rem',
             }}
           >
-            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#f59e0b', display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ flex: 1 }} />
-            <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#71717a', letterSpacing: '0.08em' }}>app.vigilhq.ai</span>
-            <span style={{ flex: 1 }} />
-          </div>
+            Your AI team.{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #818cf8 0%, #06b6d4 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Zero servers.
+            </span>{' '}
+            Runs forever.
+          </h1>
 
-          <img
-            src="/app-preview.png"
-            alt="Vigil dashboard — skills management"
-            style={{ display: 'block', width: '100%', height: 'auto' }}
+          <p
+            className="animate-slide-up-2"
+            style={{
+              fontSize: 'clamp(1rem, 1.8vw, 1.125rem)',
+              color: '#a1a1aa',
+              maxWidth: '44ch',
+              lineHeight: 1.65,
+              margin: '0 0 2.25rem',
+            }}
+          >
+            Run an AI workforce across your GitHub repos. No infrastructure, no bills, no servers to manage.
+          </p>
+
+          <div
+            className="hero-ctas animate-slide-up-3"
+            style={{ display: 'flex', gap: '0.875rem', flexWrap: 'wrap' }}
+          >
+            <a
+              href="#download"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.625rem',
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: '0.9375rem',
+                textDecoration: 'none',
+                boxShadow: '0 0 32px rgba(79,70,229,0.35)',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 0 48px rgba(79,70,229,0.55)' }}
+              onMouseLeave={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 0 32px rgba(79,70,229,0.35)' }}
+            >
+              Download
+            </a>
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.625rem',
+                borderRadius: '8px',
+                border: '1px solid rgba(99,102,241,0.3)',
+                backgroundColor: 'rgba(79,70,229,0.08)',
+                color: '#fafafa',
+                fontWeight: 600,
+                fontSize: '0.9375rem',
+                textDecoration: 'none',
+                backdropFilter: 'blur(8px)',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.55)'; el.style.backgroundColor = 'rgba(79,70,229,0.15)'; el.style.transform = 'translateY(-2px)' }}
+              onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.3)'; el.style.backgroundColor = 'rgba(79,70,229,0.08)'; el.style.transform = 'translateY(0)' }}
+            >
+              Open App <ArrowRight size={15} />
+            </a>
+          </div>
+        </div>
+
+        {/* Right: app screenshot */}
+        <div
+          className="hero-screenshot animate-slide-up-4"
+          style={{ position: 'relative' }}
+        >
+          {/* Glow behind screenshot */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: '-6% -4%',
+              background: 'radial-gradient(ellipse 80% 70% at 50% 55%, rgba(79,70,229,0.28) 0%, rgba(6,182,212,0.1) 55%, transparent 75%)',
+              filter: 'blur(40px)',
+              pointerEvents: 'none',
+            }}
           />
+
+          {/* Browser frame */}
+          <div
+            style={{
+              position: 'relative',
+              borderRadius: '10px',
+              border: '1px solid rgba(255,255,255,0.1)',
+              overflow: 'hidden',
+              boxShadow: '0 -2px 0 rgba(99,102,241,0.35), 0 32px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.5rem 0.875rem',
+                background: 'linear-gradient(180deg, #0f0f1e 0%, #13132a 100%)',
+                borderBottom: '1px solid rgba(99,102,241,0.15)',
+                gap: '0.5rem',
+              }}
+            >
+              <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#f59e0b', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ flex: 1 }} />
+              <span style={{ fontSize: '0.675rem', fontFamily: 'var(--font-mono)', color: '#71717a', letterSpacing: '0.08em' }}>app.vigilhq.ai</span>
+              <span style={{ flex: 1 }} />
+            </div>
+
+            <img
+              src="/app-preview.png"
+              alt="Vigil dashboard"
+              style={{ display: 'block', width: '100%', height: 'auto' }}
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -544,43 +564,60 @@ function Stats() {
   ]
 
   return (
-    <section
-      style={{
-        borderTop: '1px solid rgba(99,102,241,0.2)',
-        borderBottom: '1px solid rgba(99,102,241,0.2)',
-        background: 'linear-gradient(180deg, rgba(79,70,229,0.06) 0%, transparent 100%)',
-        padding: '2.5rem 1.5rem',
-      }}
-    >
-      <div
+    <>
+      <style>{`
+        @media (max-width: 540px) {
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .stats-grid > *:nth-child(2) { border-right: none !important; }
+          .stats-grid > *:nth-child(3) { border-top: 1px solid rgba(99,102,241,0.1); }
+          .stats-grid > *:nth-child(4) { border-top: 1px solid rgba(99,102,241,0.1); border-right: none !important; }
+        }
+      `}</style>
+      <section
         style={{
-          maxWidth: '900px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '1rem',
-          textAlign: 'center',
+          borderTop: '1px solid rgba(99,102,241,0.15)',
+          borderBottom: '1px solid rgba(99,102,241,0.15)',
+          padding: '2.25rem 1.5rem',
         }}
       >
-        {items.map(({ value, label, color }) => (
-          <div key={label}>
+        <div
+          className="stats-grid"
+          style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '0',
+            textAlign: 'center',
+          }}
+        >
+          {items.map(({ value, label, color }, i) => (
             <div
+              key={label}
               style={{
-                fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                fontWeight: 900,
-                color,
-                letterSpacing: '-0.03em',
-                lineHeight: 1,
-                marginBottom: '0.375rem',
+                padding: '0 1rem',
+                borderRight: i < items.length - 1 ? '1px solid rgba(99,102,241,0.1)' : 'none',
               }}
             >
-              {value}
+              <div
+                style={{
+                  fontSize: 'clamp(1.625rem, 3.5vw, 2.375rem)',
+                  fontWeight: 900,
+                  color,
+                  letterSpacing: '-0.04em',
+                  lineHeight: 1,
+                  marginBottom: '0.3rem',
+                  fontFamily: 'var(--font-mono)',
+                }}
+              >
+                {value}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#52525b', letterSpacing: '0.05em' }}>{label}</div>
             </div>
-            <div style={{ fontSize: '0.78rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+    </>
   )
 }
 
@@ -593,47 +630,22 @@ function SkillTicker() {
   return (
     <section
       style={{
-        padding: '3.5rem 0',
+        padding: '3rem 0',
         overflow: 'hidden',
-        borderBottom: '1px solid rgba(99,102,241,0.12)',
-        position: 'relative',
+        borderBottom: '1px solid rgba(99,102,241,0.1)',
       }}
     >
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(ellipse 60% 100% at 50% 50%, rgba(79,70,229,0.06) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <p
-        style={{
-          textAlign: 'center',
-          fontSize: '0.7rem',
-          fontFamily: 'var(--font-mono)',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          color: '#4f46e5',
-          marginBottom: '1.75rem',
-        }}
-      >
-        119 skills available
-      </p>
-
-      <div style={{ overflow: 'hidden', marginBottom: '0.625rem' }}>
-        <div style={{ display: 'flex', gap: '0.75rem', animation: 'marquee-fwd 35s linear infinite', width: 'max-content' }}>
+      <div style={{ overflow: 'hidden', marginBottom: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.625rem', animation: 'marquee-fwd 35s linear infinite', width: 'max-content' }}>
           {rowA.map((name, i) => (
             <span
               key={i}
               style={{
-                padding: '0.3rem 0.75rem',
-                borderRadius: '6px',
-                border: '1px solid rgba(99,102,241,0.2)',
-                backgroundColor: 'rgba(79,70,229,0.07)',
-                fontSize: '0.775rem',
+                padding: '0.275rem 0.7rem',
+                borderRadius: '5px',
+                border: '1px solid rgba(99,102,241,0.18)',
+                backgroundColor: 'rgba(79,70,229,0.06)',
+                fontSize: '0.75rem',
                 fontFamily: 'var(--font-mono)',
                 color: '#a5b4fc',
                 whiteSpace: 'nowrap',
@@ -646,16 +658,16 @@ function SkillTicker() {
       </div>
 
       <div style={{ overflow: 'hidden' }}>
-        <div style={{ display: 'flex', gap: '0.75rem', animation: 'marquee-rev 42s linear infinite', width: 'max-content' }}>
+        <div style={{ display: 'flex', gap: '0.625rem', animation: 'marquee-rev 42s linear infinite', width: 'max-content' }}>
           {rowB.map((name, i) => (
             <span
               key={i}
               style={{
-                padding: '0.3rem 0.75rem',
-                borderRadius: '6px',
-                border: '1px solid rgba(34,211,238,0.15)',
-                backgroundColor: 'rgba(6,182,212,0.06)',
-                fontSize: '0.775rem',
+                padding: '0.275rem 0.7rem',
+                borderRadius: '5px',
+                border: '1px solid rgba(34,211,238,0.12)',
+                backgroundColor: 'rgba(6,182,212,0.05)',
+                fontSize: '0.75rem',
                 fontFamily: 'var(--font-mono)',
                 color: '#67e8f9',
                 whiteSpace: 'nowrap',
@@ -674,106 +686,113 @@ function SkillTicker() {
 
 function AgentOutputs() {
   return (
-    <section style={{ padding: '6rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-        <p
-          style={{
-            fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#6366f1',
-            marginBottom: '0.75rem',
-          }}
-        >
-          Proof of work
-        </p>
-        <h2
-          style={{
-            fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-            fontWeight: 800,
-            color: '#fafafa',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          What your agents did while you slept
-        </h2>
-        <p style={{ color: '#a1a1aa', fontSize: '1.05rem', maxWidth: '48ch', margin: '0 auto', lineHeight: 1.6 }}>
-          Real outputs from real skills. Not cron jobs &mdash; agents that think, act, and fix themselves.
-        </p>
-      </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
-          gap: '1rem',
-        }}
-      >
-        {AGENT_OUTPUTS.map(({ skill, Icon, iconColor, ago, title, body, tag, tagColor }) => (
-          <div
-            key={skill}
+    <>
+      <style>{`
+        .agent-grid {
+          display: grid;
+          grid-template-columns: 1.45fr 1fr;
+          grid-template-rows: repeat(3, auto);
+          gap: 0.875rem;
+        }
+        .agent-featured {
+          grid-row: span 3;
+        }
+        @media (max-width: 768px) {
+          .agent-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .agent-featured {
+            grid-row: span 1 !important;
+          }
+        }
+      `}</style>
+      <section style={{ padding: '5.5rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
+          <h2
             style={{
-              border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: '12px',
-              padding: '1.5rem',
-              background: 'linear-gradient(135deg, rgba(15,15,30,0.9) 0%, rgba(20,20,40,0.95) 100%)',
-              transition: 'border-color 0.2s, transform 0.2s',
-              cursor: 'default',
+              fontSize: 'clamp(1.625rem, 3.5vw, 2.25rem)',
+              fontWeight: 800,
+              color: '#fafafa',
+              margin: '0 0 0.75rem',
+              letterSpacing: '-0.025em',
             }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = iconColor + '44'; el.style.transform = 'translateY(-2px)' }}
-            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.875rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                <div
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: '8px',
-                    backgroundColor: iconColor + '18',
-                    border: '1px solid ' + iconColor + '33',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: iconColor,
-                    flexShrink: 0,
-                  }}
-                >
-                  <Icon size={15} strokeWidth={2} />
-                </div>
-                <code style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#71717a' }}>{skill}</code>
-              </div>
-              <span style={{ fontSize: '0.72rem', color: '#52525b', fontFamily: 'var(--font-mono)' }}>{ago}</span>
-            </div>
+            What your agents did while you slept
+          </h2>
+          <p style={{ color: '#71717a', fontSize: '1rem', maxWidth: '48ch', lineHeight: 1.6, margin: 0 }}>
+            Real outputs from real skills. Not cron jobs, agents that think, act, and fix themselves.
+          </p>
+        </div>
 
-            <h3 style={{ fontSize: '0.975rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
-              {title}
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: '#a1a1aa', lineHeight: 1.6, margin: '0 0 1rem' }}>{body}</p>
-
+        <div className="agent-grid">
+          {AGENT_OUTPUTS.map(({ skill, Icon, iconColor, ago, title, body, tag, tagColor, featured }) => (
             <div
+              key={skill}
+              className={featured ? 'agent-featured' : ''}
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                fontSize: '0.72rem',
-                fontWeight: 600,
-                color: tagColor,
-                backgroundColor: tagColor + '15',
-                border: '1px solid ' + tagColor + '30',
-                padding: '0.2rem 0.625rem',
-                borderRadius: '100px',
+                border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '10px',
+                padding: featured ? '2rem' : '1.375rem',
+                background: 'linear-gradient(135deg, rgba(15,15,30,0.9) 0%, rgba(20,20,40,0.95) 100%)',
+                transition: 'border-color 0.2s, transform 0.2s',
+                cursor: 'default',
+                display: 'flex',
+                flexDirection: 'column',
               }}
+              onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = iconColor + '40'; el.style.transform = 'translateY(-2px)' }}
+              onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)' }}
             >
-              <span style={{ fontSize: '0.55rem' }}>&#9679;</span>
-              {tag}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.875rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div
+                    style={{
+                      width: featured ? 36 : 30,
+                      height: featured ? 36 : 30,
+                      borderRadius: '8px',
+                      backgroundColor: iconColor + '16',
+                      border: '1px solid ' + iconColor + '30',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: iconColor,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Icon size={featured ? 16 : 14} strokeWidth={2} />
+                  </div>
+                  <code style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: '#52525b' }}>{skill}</code>
+                </div>
+                <span style={{ fontSize: '0.7rem', color: '#3f3f46', fontFamily: 'var(--font-mono)' }}>{ago}</span>
+              </div>
+
+              <h3 style={{ fontSize: featured ? '1.0625rem' : '0.9rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+                {title}
+              </h3>
+              <p style={{ fontSize: featured ? '0.9rem' : '0.825rem', color: '#a1a1aa', lineHeight: 1.6, margin: '0 0 1rem', flex: 1 }}>{body}</p>
+
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  fontSize: '0.7rem',
+                  fontWeight: 600,
+                  color: tagColor,
+                  backgroundColor: tagColor + '12',
+                  border: '1px solid ' + tagColor + '28',
+                  padding: '0.2rem 0.575rem',
+                  borderRadius: '100px',
+                  alignSelf: 'flex-start',
+                }}
+              >
+                <span style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: tagColor, display: 'inline-block', flexShrink: 0 }} />
+                {tag}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+    </>
   )
 }
 
@@ -781,80 +800,106 @@ function AgentOutputs() {
 
 function Features() {
   return (
-    <section
-      id="features"
-      style={{
-        padding: '6rem 1.5rem',
-        maxWidth: '1100px',
-        margin: '0 auto',
-        borderTop: '1px solid rgba(99,102,241,0.1)',
-      }}
-    >
-      <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-        <p
-          style={{
-            fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#6366f1',
-            marginBottom: '0.75rem',
-          }}
-        >
-          Built different
-        </p>
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
-          Built for autonomous operation
-        </h2>
-        <p style={{ color: '#a1a1aa', fontSize: '1.05rem', maxWidth: '48ch', margin: '0 auto', lineHeight: 1.6 }}>
-          Every piece is designed to run unattended &mdash; no babysitting, no approval loops, no surprise bills.
-        </p>
-      </div>
-
-      <div
+    <>
+      <style>{`
+        .features-bento {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-areas:
+            "github github self-heal"
+            "skills chain model"
+            "desktop multirepo multirepo"
+            "creds notifs notifs";
+          gap: 0.875rem;
+        }
+        @media (max-width: 900px) {
+          .features-bento {
+            grid-template-columns: repeat(2, 1fr) !important;
+            grid-template-areas:
+              "github github"
+              "self-heal skills"
+              "chain model"
+              "desktop multirepo"
+              "creds notifs" !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .features-bento {
+            grid-template-columns: 1fr !important;
+            grid-template-areas: none !important;
+          }
+          .features-bento > * {
+            grid-area: auto !important;
+          }
+        }
+      `}</style>
+      <section
+        id="features"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
-          gap: '1rem',
+          padding: '5.5rem 1.5rem',
+          maxWidth: '1100px',
+          margin: '0 auto',
+          borderTop: '1px solid rgba(99,102,241,0.1)',
         }}
       >
-        {FEATURES.map(({ Icon, title, desc, color, bg }) => (
-          <div
-            key={title}
-            style={{
-              backgroundColor: 'rgba(15,15,28,0.85)',
-              border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: '12px',
-              padding: '1.75rem',
-              transition: 'border-color 0.2s, transform 0.2s, background-color 0.2s',
-              cursor: 'default',
-            }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = color + '44'; el.style.transform = 'translateY(-3px)'; el.style.backgroundColor = 'rgba(20,20,38,0.95)' }}
-            onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)'; el.style.backgroundColor = 'rgba(15,15,28,0.85)' }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: '10px',
-                backgroundColor: bg,
-                border: '1px solid ' + color + '33',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color,
-                marginBottom: '1rem',
-                flexShrink: 0,
-              }}
-            >
-              <Icon size={19} strokeWidth={1.75} />
-            </div>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
-            <p style={{ fontSize: '0.875rem', color: '#a1a1aa', lineHeight: 1.65, margin: 0 }}>{desc}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.625rem, 3.5vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 0.75rem', letterSpacing: '-0.025em' }}>
+            Built for autonomous operation
+          </h2>
+          <p style={{ color: '#71717a', fontSize: '1rem', maxWidth: '48ch', lineHeight: 1.6, margin: 0 }}>
+            Every piece is designed to run unattended. No babysitting, no approval loops, no surprise bills.
+          </p>
+        </div>
+
+        <div className="features-bento">
+          {FEATURES.map(({ Icon, title, desc, color, bg, area }) => {
+            const isWide = area === 'github' || area === 'multirepo' || area === 'notifs'
+            return (
+              <div
+                key={title}
+                style={{
+                  gridArea: area,
+                  backgroundColor: 'rgba(15,15,28,0.85)',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderRadius: '10px',
+                  padding: isWide ? '2rem 2rem' : '1.625rem',
+                  transition: 'border-color 0.2s, transform 0.2s',
+                  cursor: 'default',
+                  display: 'flex',
+                  flexDirection: isWide ? 'row' : 'column',
+                  gap: isWide ? '1.5rem' : '0',
+                  alignItems: isWide ? 'flex-start' : 'stretch',
+                }}
+                onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = color + '40'; el.style.transform = 'translateY(-2px)' }}
+                onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)' }}
+              >
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: '9px',
+                    backgroundColor: bg,
+                    border: '1px solid ' + color + '30',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color,
+                    marginBottom: isWide ? '0' : '1rem',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Icon size={18} strokeWidth={1.75} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.4rem' }}>{title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: '#71717a', lineHeight: 1.65, margin: 0 }}>{desc}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+    </>
   )
 }
 
@@ -862,68 +907,83 @@ function Features() {
 
 function HowItWorks() {
   return (
-    <section
-      id="how-it-works"
-      style={{
-        padding: '6rem 1.5rem',
-        background: 'linear-gradient(180deg, rgba(10,10,22,0.9) 0%, rgba(15,15,30,0.95) 100%)',
-        borderTop: '1px solid rgba(99,102,241,0.12)',
-        borderBottom: '1px solid rgba(99,102,241,0.12)',
-      }}
-    >
-      <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <p
-            style={{
-              fontSize: '0.75rem',
-              fontFamily: 'var(--font-mono)',
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#6366f1',
-              marginBottom: '0.75rem',
-            }}
-          >
-            Setup
-          </p>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
-            Up and running in minutes
-          </h2>
-          <p style={{ color: '#a1a1aa', fontSize: '1.05rem', margin: 0, lineHeight: 1.6 }}>
-            No infrastructure to provision. No Docker to learn. No bills at the end of the month.
-          </p>
-        </div>
+    <>
+      <style>{`
+        .steps-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0;
+          position: relative;
+        }
+        .steps-grid::before {
+          content: '';
+          position: absolute;
+          top: 11px;
+          left: calc(16.67% + 8px);
+          right: calc(16.67% + 8px);
+          height: 1px;
+          background: linear-gradient(90deg, rgba(79,70,229,0.4) 0%, rgba(6,182,212,0.4) 100%);
+          pointer-events: none;
+        }
+        @media (max-width: 640px) {
+          .steps-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+          .steps-grid::before { display: none; }
+        }
+      `}</style>
+      <section
+        id="how-it-works"
+        style={{
+          padding: '5.5rem 1.5rem',
+          borderTop: '1px solid rgba(99,102,241,0.1)',
+          borderBottom: '1px solid rgba(99,102,241,0.1)',
+        }}
+      >
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '3rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.625rem, 3.5vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 0.75rem', letterSpacing: '-0.025em' }}>
+              Up and running in minutes
+            </h2>
+            <p style={{ color: '#71717a', fontSize: '1rem', margin: 0, lineHeight: 1.6 }}>
+              No infrastructure to provision. No Docker to learn.
+            </p>
+          </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '2rem' }}>
-          {STEPS.map(({ n, title, desc }) => (
-            <div
-              key={n}
-              style={{
-                padding: '1.75rem',
-                borderRadius: '12px',
-                border: '1px solid rgba(99,102,241,0.15)',
-                background: 'rgba(79,70,229,0.04)',
-              }}
-            >
+          <div className="steps-grid">
+            {STEPS.map(({ title, desc }, i) => (
               <div
+                key={title}
                 style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '2rem',
-                  fontWeight: 900,
-                  color: 'rgba(79,70,229,0.25)',
-                  lineHeight: 1,
-                  marginBottom: '1rem',
-                  letterSpacing: '-0.04em',
+                  padding: '0 2rem 0 0',
+                  paddingRight: i < STEPS.length - 1 ? '2rem' : '0',
                 }}
               >
-                {n}
+                {/* Step indicator */}
+                <div
+                  style={{
+                    width: 22,
+                    height: 22,
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(79,70,229,0.15)',
+                    border: '2px solid rgba(79,70,229,0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '1.25rem',
+                    position: 'relative',
+                    zIndex: 1,
+                    flexShrink: 0,
+                  }}
+                >
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#6366f1', display: 'block' }} />
+                </div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
+                <p style={{ fontSize: '0.875rem', color: '#71717a', lineHeight: 1.65, margin: 0 }}>{desc}</p>
               </div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fafafa', margin: '0 0 0.5rem' }}>{title}</h3>
-              <p style={{ fontSize: '0.875rem', color: '#a1a1aa', lineHeight: 1.65, margin: 0 }}>{desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
 
@@ -941,61 +1001,49 @@ function Packs() {
   }
 
   return (
-    <section style={{ padding: '6rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-        <p
-          style={{
-            fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#6366f1',
-            marginBottom: '0.75rem',
-          }}
-        >
-          Quickstart
-        </p>
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
+    <section style={{ padding: '5.5rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '3rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.625rem, 3.5vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 0.75rem', letterSpacing: '-0.025em' }}>
           Curated skill packs
         </h2>
-        <p style={{ color: '#a1a1aa', fontSize: '1.05rem', margin: 0, lineHeight: 1.6 }}>
+        <p style={{ color: '#71717a', fontSize: '1rem', margin: 0, lineHeight: 1.6 }}>
           Install a pack and your agent is operational in seconds. Mix and match.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.875rem' }}>
         {PACKS.map(({ name, skills, desc, tag }) => (
           <div
             key={name}
             style={{
               border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: '12px',
+              borderRadius: '10px',
               padding: '1.375rem',
               backgroundColor: 'rgba(15,15,28,0.85)',
               transition: 'border-color 0.2s, transform 0.2s',
               cursor: 'default',
             }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = (tagColors[tag] ?? '#818cf8') + '55'; el.style.transform = 'translateY(-2px)' }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = (tagColors[tag] ?? '#818cf8') + '50'; el.style.transform = 'translateY(-2px)' }}
             onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(255,255,255,0.07)'; el.style.transform = 'translateY(0)' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.625rem' }}>
-              <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.95rem' }}>{name}</span>
+              <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.9375rem' }}>{name}</span>
               <span
                 style={{
                   fontSize: '0.7rem',
                   fontWeight: 600,
-                  padding: '0.2rem 0.6rem',
+                  padding: '0.175rem 0.55rem',
                   borderRadius: '100px',
-                  backgroundColor: (tagColors[tag] ?? '#818cf8') + '15',
+                  backgroundColor: (tagColors[tag] ?? '#818cf8') + '14',
                   color: tagColors[tag] ?? '#818cf8',
-                  border: '1px solid ' + (tagColors[tag] ?? '#818cf8') + '30',
+                  border: '1px solid ' + (tagColors[tag] ?? '#818cf8') + '28',
                   whiteSpace: 'nowrap',
                 }}
               >
                 {tag}
               </span>
             </div>
-            <p style={{ fontSize: '0.83rem', color: '#a1a1aa', lineHeight: 1.6, margin: '0 0 0.875rem' }}>{desc}</p>
+            <p style={{ fontSize: '0.825rem', color: '#71717a', lineHeight: 1.6, margin: '0 0 0.875rem' }}>{desc}</p>
             <div style={{ fontSize: '0.72rem', color: '#4f46e5', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
               {skills} skills
             </div>
@@ -1013,18 +1061,17 @@ function Download() {
     <section
       id="download"
       style={{
-        padding: '6rem 1.5rem',
-        background: 'linear-gradient(180deg, rgba(10,10,22,0.9) 0%, rgba(15,15,30,0.95) 100%)',
-        borderTop: '1px solid rgba(99,102,241,0.12)',
+        padding: '5.5rem 1.5rem',
+        borderTop: '1px solid rgba(99,102,241,0.1)',
       }}
     >
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.625rem, 3.5vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 0.75rem', letterSpacing: '-0.025em' }}>
             Vigil Desktop
           </h2>
-          <p style={{ color: '#a1a1aa', fontSize: '1.05rem', margin: '0 auto', maxWidth: '44ch', lineHeight: 1.6 }}>
-            Native app for Mac, Windows, and Linux &mdash; visual skill editor, system tray, and auto-updates.
+          <p style={{ color: '#71717a', fontSize: '1rem', margin: 0, maxWidth: '44ch', lineHeight: 1.6 }}>
+            Native app for Mac, Windows, and Linux. Visual skill editor, system tray, and auto-updates.
           </p>
         </div>
 
@@ -1032,7 +1079,7 @@ function Download() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
-            gap: '0.875rem',
+            gap: '0.75rem',
             marginBottom: '2rem',
           }}
         >
@@ -1046,39 +1093,38 @@ function Download() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '1.5rem 1rem',
-                borderRadius: '10px',
-                border: '1px solid rgba(99,102,241,0.2)',
+                padding: '1.375rem 1rem',
+                borderRadius: '9px',
+                border: '1px solid rgba(99,102,241,0.18)',
                 backgroundColor: 'rgba(79,70,229,0.05)',
                 textDecoration: 'none',
-                transition: 'border-color 0.15s, background-color 0.15s',
-                cursor: 'pointer',
+                transition: 'border-color 0.15s, background-color 0.15s, transform 0.15s',
               }}
-              onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.5)'; el.style.backgroundColor = 'rgba(79,70,229,0.1)' }}
-              onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.2)'; el.style.backgroundColor = 'rgba(79,70,229,0.05)' }}
+              onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.45)'; el.style.backgroundColor = 'rgba(79,70,229,0.1)'; el.style.transform = 'translateY(-2px)' }}
+              onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.18)'; el.style.backgroundColor = 'rgba(79,70,229,0.05)'; el.style.transform = 'translateY(0)' }}
             >
-              <span style={{ color: '#d4d4d8' }}><Icon size={28} /></span>
-              <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.9rem' }}>{platform}</span>
-              <span style={{ color: '#a1a1aa', fontSize: '0.75rem' }}>{arch}</span>
+              <span style={{ color: '#d4d4d8' }}><Icon size={26} /></span>
+              <span style={{ fontWeight: 700, color: '#fafafa', fontSize: '0.875rem' }}>{platform}</span>
+              <span style={{ color: '#71717a', fontSize: '0.75rem' }}>{arch}</span>
               <span
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '0.7rem',
+                  fontSize: '0.675rem',
                   color: '#6366f1',
-                  backgroundColor: 'rgba(99,102,241,0.1)',
-                  padding: '0.2rem 0.6rem',
+                  backgroundColor: 'rgba(99,102,241,0.08)',
+                  padding: '0.175rem 0.55rem',
                   borderRadius: '4px',
-                  border: '1px solid rgba(99,102,241,0.25)',
-                  marginTop: '0.25rem',
+                  border: '1px solid rgba(99,102,241,0.22)',
+                  marginTop: '0.2rem',
                 }}
               >
-                ↓ {ext}
+                {ext}
               </span>
             </a>
           ))}
         </div>
 
-        <div style={{ textAlign: 'center' }}>
+        <div>
           <a
             href={`https://github.com/${GITHUB_REPO}/releases`}
             target="_blank"
@@ -1087,18 +1133,18 @@ function Download() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.4rem',
-              fontSize: '0.825rem',
-              color: '#a1a1aa',
+              fontSize: '0.8rem',
+              color: '#71717a',
               textDecoration: 'none',
-              border: '1px solid rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.08)',
               borderRadius: '6px',
-              padding: '0.5rem 1rem',
+              padding: '0.45rem 0.875rem',
               transition: 'color 0.15s, border-color 0.15s',
             }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.color = '#fafafa'; el.style.borderColor = 'rgba(255,255,255,0.25)' }}
-            onMouseLeave={(e) => { const el = e.currentTarget; el.style.color = '#a1a1aa'; el.style.borderColor = 'rgba(255,255,255,0.1)' }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.color = '#fafafa'; el.style.borderColor = 'rgba(255,255,255,0.2)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.color = '#71717a'; el.style.borderColor = 'rgba(255,255,255,0.08)' }}
           >
-            <GithubIcon size={14} /> View all releases on GitHub
+            <GithubIcon size={13} /> View all releases on GitHub
           </a>
         </div>
       </div>
@@ -1118,22 +1164,22 @@ function DeployYourOwn() {
   return (
     <section
       style={{
-        padding: '6rem 1.5rem',
-        borderTop: '1px solid rgba(99,102,241,0.12)',
-        borderBottom: '1px solid rgba(99,102,241,0.12)',
+        padding: '5.5rem 1.5rem',
+        borderTop: '1px solid rgba(99,102,241,0.1)',
+        borderBottom: '1px solid rgba(99,102,241,0.1)',
       }}
     >
-      <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
+      <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            padding: '0.3rem 0.875rem',
+            padding: '0.25rem 0.8rem',
             borderRadius: '100px',
             border: '1px solid rgba(99,102,241,0.2)',
             backgroundColor: 'rgba(79,70,229,0.07)',
-            fontSize: '0.8rem',
+            fontSize: '0.75rem',
             color: '#a5b4fc',
             marginBottom: '1.5rem',
           }}
@@ -1141,12 +1187,12 @@ function DeployYourOwn() {
           Web version
         </div>
 
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontSize: 'clamp(1.625rem, 3.5vw, 2.25rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.025em' }}>
           Deploy your own dashboard
         </h2>
-        <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: 1.65, margin: '0 0 2rem', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ color: '#71717a', fontSize: '1rem', lineHeight: 1.65, margin: '0 0 2rem', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
           Host the Vigil dashboard on Vercel in one click. Users connect their own GitHub accounts
-          via OAuth — no shared tokens, complete per-user isolation out of the box.
+          via OAuth. No shared tokens, complete per-user isolation out of the box.
         </p>
 
         <a
@@ -1162,16 +1208,16 @@ function DeployYourOwn() {
             backgroundColor: '#fafafa',
             color: '#09090b',
             fontWeight: 700,
-            fontSize: '0.95rem',
+            fontSize: '0.9375rem',
             textDecoration: 'none',
             marginBottom: '2.5rem',
-            boxShadow: '0 0 30px rgba(250,250,250,0.1)',
+            boxShadow: '0 0 24px rgba(250,250,250,0.08)',
             transition: 'all 0.2s',
           }}
           onMouseEnter={(e) => { const el = e.currentTarget; el.style.opacity = '0.88'; el.style.transform = 'translateY(-1px)' }}
           onMouseLeave={(e) => { const el = e.currentTarget; el.style.opacity = '1'; el.style.transform = 'translateY(0)' }}
         >
-          <svg width="16" height="16" viewBox="0 0 116 100" fill="#09090b">
+          <svg width="15" height="15" viewBox="0 0 116 100" fill="#09090b">
             <path d="M57.5 0L115 100H0L57.5 0z" />
           </svg>
           Deploy to Vercel
@@ -1180,8 +1226,8 @@ function DeployYourOwn() {
         <div
           style={{
             backgroundColor: 'rgba(15,15,28,0.9)',
-            border: '1px solid rgba(99,102,241,0.18)',
-            borderRadius: '10px',
+            border: '1px solid rgba(99,102,241,0.15)',
+            borderRadius: '9px',
             padding: '1.375rem',
             textAlign: 'left',
           }}
@@ -1189,7 +1235,7 @@ function DeployYourOwn() {
           <p
             style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem',
+              fontSize: '0.675rem',
               color: '#4f46e5',
               margin: '0 0 0.875rem',
               textTransform: 'uppercase',
@@ -1199,18 +1245,14 @@ function DeployYourOwn() {
           >
             Required env var
           </p>
-          {[
-            { name: 'SKILLS_REPO', desc: 'Skills definitions repo (e.g. besley1600/vigil)' },
-          ].map(({ name, desc }) => (
-            <div key={name} style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem', alignItems: 'baseline' }}>
-              <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#818cf8', minWidth: '160px' }}>
-                {name}
-              </code>
-              <span style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>{desc}</span>
-            </div>
-          ))}
-          <p style={{ margin: '0.875rem 0 0', fontSize: '0.78rem', color: '#71717a', lineHeight: 1.55 }}>
-            Users connect their own GitHub accounts via OAuth when they visit your app — no per-user token configuration needed.
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem', alignItems: 'baseline' }}>
+            <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#818cf8', minWidth: '140px' }}>
+              SKILLS_REPO
+            </code>
+            <span style={{ fontSize: '0.8rem', color: '#71717a' }}>Skills definitions repo (e.g. besley1600/vigil)</span>
+          </div>
+          <p style={{ margin: '0.875rem 0 0', fontSize: '0.775rem', color: '#52525b', lineHeight: 1.55 }}>
+            Users connect their own GitHub accounts via OAuth when they visit your app. No per-user token configuration needed.
           </p>
         </div>
       </div>
@@ -1237,11 +1279,10 @@ function FinalCTA() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '800px',
-          height: '500px',
-          background: 'radial-gradient(ellipse, rgba(79,70,229,0.25) 0%, rgba(6,182,212,0.1) 45%, transparent 70%)',
+          width: '700px',
+          height: '450px',
+          background: 'radial-gradient(ellipse, rgba(79,70,229,0.2) 0%, rgba(6,182,212,0.08) 50%, transparent 70%)',
           pointerEvents: 'none',
-          animation: 'glow-breathe 7s ease-in-out infinite',
         }}
       />
       <div
@@ -1249,30 +1290,18 @@ function FinalCTA() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
-          WebkitMaskImage: 'radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 100%)',
-          maskImage: 'radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 80% at 50% 50%, black 20%, transparent 100%)',
+          maskImage: 'radial-gradient(ellipse 70% 80% at 50% 50%, black 20%, transparent 100%)',
           pointerEvents: 'none',
         }}
       />
 
       <div style={{ position: 'relative' }}>
-        <p
-          style={{
-            fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#6366f1',
-            marginBottom: '1rem',
-          }}
-        >
-          Get started
-        </p>
         <h2
           style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontSize: 'clamp(2rem, 5vw, 3.25rem)',
             fontWeight: 900,
             color: '#fafafa',
             margin: '0 0 1.25rem',
@@ -1280,7 +1309,7 @@ function FinalCTA() {
             lineHeight: 1.1,
           }}
         >
-          Stop doing work that<br />
+          Stop doing work that{' '}
           <span
             style={{
               background: 'linear-gradient(135deg, #818cf8, #22d3ee)',
@@ -1292,11 +1321,11 @@ function FinalCTA() {
             doesn&apos;t require a human.
           </span>
         </h2>
-        <p style={{ color: '#a1a1aa', fontSize: '1.1rem', maxWidth: '46ch', margin: '0 auto 2.5rem', lineHeight: 1.65 }}>
-          Open the app, connect your GitHub account, and activate a repository. Your AI team is operational in under two minutes. Free forever on GitHub&apos;s infrastructure.
+        <p style={{ color: '#71717a', fontSize: '1rem', maxWidth: '46ch', margin: '0 auto 2.5rem', lineHeight: 1.65 }}>
+          Connect your GitHub account and activate a repository. Your AI team is operational in under two minutes. Free forever on GitHub&apos;s infrastructure.
         </p>
 
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '0.875rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
             href={`https://github.com/${GITHUB_REPO}`}
             target="_blank"
@@ -1305,20 +1334,20 @@ function FinalCTA() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              padding: '0.875rem 2rem',
+              padding: '0.8125rem 1.875rem',
               borderRadius: '8px',
               background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
               color: '#fff',
               fontWeight: 700,
-              fontSize: '1rem',
+              fontSize: '0.9375rem',
               textDecoration: 'none',
-              boxShadow: '0 0 50px rgba(79,70,229,0.45)',
+              boxShadow: '0 0 40px rgba(79,70,229,0.4)',
               transition: 'all 0.2s',
             }}
-            onMouseEnter={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 0 70px rgba(79,70,229,0.65)' }}
-            onMouseLeave={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 0 50px rgba(79,70,229,0.45)' }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 0 60px rgba(79,70,229,0.6)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 0 40px rgba(79,70,229,0.4)' }}
           >
-            Fork on GitHub <ArrowRight size={16} />
+            Fork on GitHub <ArrowRight size={15} />
           </a>
           <a
             href={APP_URL}
@@ -1328,13 +1357,13 @@ function FinalCTA() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              padding: '0.875rem 2rem',
+              padding: '0.8125rem 1.875rem',
               borderRadius: '8px',
               border: '1px solid rgba(99,102,241,0.3)',
               backgroundColor: 'rgba(79,70,229,0.08)',
               color: '#fafafa',
               fontWeight: 600,
-              fontSize: '1rem',
+              fontSize: '0.9375rem',
               textDecoration: 'none',
               backdropFilter: 'blur(8px)',
               transition: 'all 0.2s',
@@ -1358,7 +1387,7 @@ function Footer() {
       style={{
         padding: '2.5rem 1.5rem',
         background: 'linear-gradient(180deg, rgba(10,10,22,0.95) 0%, #0a0a16 100%)',
-        borderTop: '1px solid rgba(99,102,241,0.12)',
+        borderTop: '1px solid rgba(99,102,241,0.1)',
       }}
     >
       <div
@@ -1374,7 +1403,7 @@ function Footer() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <VigilLogo size={22} />
-          <span style={{ fontSize: '0.875rem', color: '#52525b' }}>Vigil &middot; Open source, MIT license</span>
+          <span style={{ fontSize: '0.825rem', color: '#3f3f46' }}>Vigil &middot; Open source, MIT license</span>
         </div>
 
         <div style={{ display: 'flex', gap: '1.5rem' }}>
@@ -1389,9 +1418,9 @@ function Footer() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontSize: '0.825rem', color: '#52525b', textDecoration: 'none', transition: 'color 0.15s' }}
+              style={{ fontSize: '0.8rem', color: '#3f3f46', textDecoration: 'none', transition: 'color 0.15s' }}
               onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#d4d4d8')}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#52525b')}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#3f3f46')}
             >
               {label}
             </a>
