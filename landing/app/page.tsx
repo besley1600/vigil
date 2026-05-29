@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, ArrowRight, CheckCircle2, Clock, Wrench, ShieldCheck, GitBranch, Lock } from 'lucide-react'
+import { Zap, RefreshCw, Puzzle, GitMerge, Bot, Monitor, ArrowRight, CheckCircle2, Clock, Wrench, ShieldCheck, GitBranch, Lock, Bell } from 'lucide-react'
 
 // ── Platform brand icons ──────────────────────────────────────────────────────
 
@@ -99,6 +99,13 @@ const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; 
     desc: 'Every user authenticates with their own GitHub account via OAuth. No shared tokens, no operator data ever leaking — complete per-user isolation by design.',
     color: '#a3e635',
     bg: 'rgba(163,230,53,0.08)',
+  },
+  {
+    Icon: Bell,
+    title: 'Multi-channel notifications',
+    desc: 'Push alerts to Telegram, Discord, or Slack the moment a skill runs, flags an anomaly, or repairs itself. Each channel is opt-in — set a secret and it activates.',
+    color: '#fb923c',
+    bg: 'rgba(251,146,60,0.08)',
   },
 ]
 
@@ -1054,6 +1061,7 @@ function Download() {
             <a
               key={`${platform}-${arch}`}
               href={url}
+              download
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -1065,6 +1073,7 @@ function Download() {
                 backgroundColor: 'rgba(79,70,229,0.05)',
                 textDecoration: 'none',
                 transition: 'border-color 0.15s, background-color 0.15s',
+                cursor: 'pointer',
               }}
               onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.5)'; el.style.backgroundColor = 'rgba(79,70,229,0.1)' }}
               onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.2)'; el.style.backgroundColor = 'rgba(79,70,229,0.05)' }}
@@ -1076,31 +1085,43 @@ function Download() {
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.7rem',
-                  color: '#71717a',
-                  backgroundColor: 'rgba(99,102,241,0.08)',
-                  padding: '0.2rem 0.5rem',
+                  color: '#6366f1',
+                  backgroundColor: 'rgba(99,102,241,0.1)',
+                  padding: '0.2rem 0.6rem',
                   borderRadius: '4px',
-                  border: '1px solid rgba(99,102,241,0.15)',
+                  border: '1px solid rgba(99,102,241,0.25)',
+                  marginTop: '0.25rem',
                 }}
               >
-                {ext}
+                ↓ {ext}
               </span>
             </a>
           ))}
         </div>
 
-        <p style={{ textAlign: 'center', color: '#52525b', fontSize: '0.8rem' }}>
-          All releases on{' '}
+        <div style={{ textAlign: 'center' }}>
           <a
             href={`https://github.com/${GITHUB_REPO}/releases`}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#a1a1aa', textDecoration: 'underline' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              fontSize: '0.825rem',
+              color: '#a1a1aa',
+              textDecoration: 'none',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '6px',
+              padding: '0.5rem 1rem',
+              transition: 'color 0.15s, border-color 0.15s',
+            }}
+            onMouseEnter={(e) => { const el = e.currentTarget; el.style.color = '#fafafa'; el.style.borderColor = 'rgba(255,255,255,0.25)' }}
+            onMouseLeave={(e) => { const el = e.currentTarget; el.style.color = '#a1a1aa'; el.style.borderColor = 'rgba(255,255,255,0.1)' }}
           >
-            GitHub Releases
+            <GithubIcon size={14} /> View all releases on GitHub
           </a>
-          .
-        </p>
+        </div>
       </div>
     </section>
   )
