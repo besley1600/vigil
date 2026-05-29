@@ -1424,7 +1424,6 @@ export default function LandingPage() {
         <HowItWorks />
         <Packs />
         <Download />
-        <DeployYourOwn />
         <FinalCTA />
       </main>
       <Footer />
