@@ -7,7 +7,7 @@ import { displayName } from '../lib/utils'
 import { features } from '../lib/features'
 import { AlertCenter } from './AlertCenter'
 
-type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'contribute' | 'settings'
+type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'contribute' | 'settings'
 
 const PROJECT_VIEWS: View[] = ['hq', 'activity', 'analytics', 'chains', 'memory', 'settings']
 
@@ -28,7 +28,7 @@ interface TopNavProps {
   onShowImport: () => void
 }
 
-function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled: boolean): { id: View; label: string; badge?: string }[] {
+function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean): { id: View; label: string; badge?: string }[] {
   const tabs: { id: View; label: string; badge?: string }[] = [
     { id: 'hq',        label: 'HQ' },
     { id: 'activity',  label: 'Activity' },
@@ -36,7 +36,6 @@ function buildTabs(chainsEnabled: boolean, memoryEnabled: boolean, tokenEnabled:
   ]
   if (chainsEnabled) tabs.push({ id: 'chains', label: 'Chains' })
   if (memoryEnabled) tabs.push({ id: 'memory', label: 'Memory' })
-  if (tokenEnabled)  tabs.push({ id: 'token',  label: 'Token' })
   tabs.push({ id: 'contribute', label: 'Contribute' })
   tabs.push({ id: 'settings', label: 'Settings' })
   return tabs
@@ -60,7 +59,7 @@ export function TopNav({
 }: TopNavProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const modelOptions = gateway === 'bankr' ? [...MODELS, ...BANKR_EXTRA_MODELS] : MODELS
-  const tabs = buildTabs(features.CHAINS, features.MEMORY, features.TOKEN)
+  const tabs = buildTabs(features.CHAINS, features.MEMORY)
   const showRepoSwitcher = availableRepos.length > 1 && PROJECT_VIEWS.includes(view)
 
   return (

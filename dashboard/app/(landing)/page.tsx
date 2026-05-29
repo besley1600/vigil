@@ -54,14 +54,9 @@ const GITHUB_REPO = 'besley1600/vigil'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || '/app'
 const RELEASES_BASE = `https://github.com/${GITHUB_REPO}/releases/latest/download`
 
-// ── Token — update TOKEN_CA when contract is deployed ────────────────────────
-const TOKEN_CA: string | null = null // TODO: replace with real contract address
-const BANKR_URL = TOKEN_CA ? `https://bankr.bot/discover/${TOKEN_CA}` : null
-
 const SOCIALS = [
   { label: 'X / Twitter', href: 'https://x.com/NightWatch_0' },
   { label: 'GitHub', href: `https://github.com/${GITHUB_REPO}` },
-  { label: 'Bankr', href: BANKR_URL },
 ]
 
 const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: number }>; url: string; ext: string }[] = [
@@ -220,7 +215,6 @@ function VigilLogo({ size = 32 }: { size?: number }) {
 }
 
 const NAV_LINKS = ['Features', 'How it works', 'Download'] as const
-const TOKEN_NAV_HREF = '#token'
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -272,11 +266,6 @@ function Nav() {
                   onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a1a1aa')}
                 >{label}</a>
               ))}
-              <a href={TOKEN_NAV_HREF}
-                style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#818cf8', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.04em', padding: '0.2rem 0.55rem', borderRadius: '99px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.08)', transition: 'all 0.15s' }}
-                onMouseEnter={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.7)'; el.style.color = '#a5b4fc' }}
-                onMouseLeave={(e) => { const el = e.currentTarget; el.style.borderColor = 'rgba(99,102,241,0.4)'; el.style.color = '#818cf8' }}
-              >$VIGIL</a>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
@@ -314,9 +303,6 @@ function Nav() {
                   style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', padding: '0.75rem 0', borderBottom: '1px solid #1C1E38', display: 'block' }}
                 >{label}</a>
               ))}
-              <a href={TOKEN_NAV_HREF} onClick={() => setMobileOpen(false)}
-                style={{ color: '#818cf8', textDecoration: 'none', fontSize: '0.9rem', padding: '0.75rem 0', fontWeight: 700, display: 'block' }}
-              >$VIGIL Token</a>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.25rem' }}>
               <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
@@ -573,85 +559,6 @@ function Stats() {
         ))}
       </div>
     </section>
-  )
-}
-
-// ── Token Bar ─────────────────────────────────────────────────────────────────
-
-function TokenBar() {
-  const [copied, setCopied] = useState(false)
-
-  const copy = () => {
-    if (!TOKEN_CA) return
-    navigator.clipboard.writeText(TOKEN_CA)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const shortCA = TOKEN_CA
-    ? `${TOKEN_CA.slice(0, 6)}...${TOKEN_CA.slice(-4)}`
-    : 'Coming soon'
-
-  return (
-    <div style={{ borderTop: '1px solid #2E3058', borderBottom: '1px solid #2E3058', backgroundColor: '#0a0b1a', padding: '0.6rem 1.5rem' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-
-        {/* Left: badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#34d399', display: 'inline-block', flexShrink: 0, boxShadow: '0 0 6px rgba(52,211,153,0.6)' }} />
-          <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#fafafa', letterSpacing: '0.06em' }}>$VIGIL</span>
-          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: '#3a3d5c', padding: '0.15rem 0.5rem', border: '1px solid #2E3058', borderRadius: '4px' }}>Base chain</span>
-        </div>
-
-        {/* Center: CA + copy */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: '#3a3d5c', letterSpacing: '0.08em', textTransform: 'uppercase' }}>CA</span>
-          <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: TOKEN_CA ? '#a1a1aa' : '#52525b', letterSpacing: '0.03em' }}>{shortCA}</span>
-          <button
-            onClick={copy}
-            disabled={!TOKEN_CA}
-            style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: copied ? '#34d399' : '#52525b', background: 'none', border: '1px solid #2E3058', borderRadius: '3px', padding: '0.1rem 0.4rem', cursor: TOKEN_CA ? 'pointer' : 'default', transition: 'color 0.15s', opacity: TOKEN_CA ? 1 : 0.4 }}
-          >
-            {copied ? '✓' : 'copy'}
-          </button>
-        </div>
-
-        {/* Right: socials + buy */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
-            <a href="https://x.com/NightWatch_0" target="_blank" rel="noopener noreferrer"
-              style={{ color: '#52525b', transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#fafafa')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
-            ><XIcon size={14} /></a>
-            <a href={`https://github.com/${GITHUB_REPO}`} target="_blank" rel="noopener noreferrer"
-              style={{ color: '#52525b', transition: 'color 0.15s', display: 'flex', alignItems: 'center' }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#fafafa')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
-            ><GithubIcon size={14} /></a>
-            {BANKR_URL ? (
-              <a href={BANKR_URL} target="_blank" rel="noopener noreferrer"
-                style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#52525b', textDecoration: 'none', transition: 'color 0.15s', letterSpacing: '0.05em' }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#fafafa')}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
-              >BANKR</a>
-            ) : (
-              <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#2E3058', letterSpacing: '0.05em' }}>BANKR</span>
-            )}
-          </div>
-
-          {BANKR_URL ? (
-            <a href={BANKR_URL} target="_blank" rel="noopener noreferrer"
-              style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#4f46e5', border: '1px solid #4f46e5', borderRadius: '4px', padding: '0.25rem 0.625rem', textDecoration: 'none', letterSpacing: '0.06em', transition: 'all 0.15s' }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = '#4f46e5'; el.style.color = '#fff' }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = 'transparent'; el.style.color = '#4f46e5' }}
-            >Buy $VIGIL →</a>
-          ) : (
-            <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#2E3058', border: '1px solid #2E3058', borderRadius: '4px', padding: '0.25rem 0.625rem', letterSpacing: '0.06em' }}>Buy soon</span>
-          )}
-        </div>
-      </div>
-    </div>
   )
 }
 
@@ -938,217 +845,7 @@ function Download() {
   )
 }
 
-// ── Token ─────────────────────────────────────────────────────────────────────
 
-function Token() {
-  const [copied, setCopied] = useState(false)
-
-  const copy = () => {
-    if (!TOKEN_CA) return
-    navigator.clipboard.writeText(TOKEN_CA)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  return (
-    <section
-      id="token"
-      style={{
-        padding: '6rem 1.5rem',
-        borderTop: '1px solid #2E3058',
-        borderBottom: '1px solid #2E3058',
-        backgroundColor: '#131528',
-      }}
-    >
-      <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.3rem 0.875rem',
-            borderRadius: '100px',
-            border: '1px solid #2E3058',
-            backgroundColor: '#181A32',
-            fontSize: '0.8rem',
-            color: '#a1a1aa',
-            marginBottom: '1.5rem',
-          }}
-        >
-          <span style={{ color: '#34d399', fontSize: '0.65rem' }}>●</span>
-          $VIGIL Token
-        </div>
-
-        <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fafafa', margin: '0 0 1rem', letterSpacing: '-0.02em' }}>
-          Own a piece of the network
-        </h2>
-        {/* Contract address */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '0.75rem',
-            backgroundColor: '#0F1124',
-            border: '1px solid #2E3058',
-            borderRadius: '8px',
-            padding: '0.875rem 1rem',
-            marginBottom: '1.5rem',
-          }}
-        >
-          <div style={{ textAlign: 'left', minWidth: 0 }}>
-            <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#52525b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-              Contract Address
-            </div>
-            <div
-              style={{
-                fontSize: '0.8rem',
-                fontFamily: 'var(--font-mono)',
-                color: TOKEN_CA ? '#a1a1aa' : '#52525b',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {TOKEN_CA ?? 'Coming soon'}
-            </div>
-          </div>
-          <button
-            onClick={copy}
-            disabled={!TOKEN_CA}
-            style={{
-              flexShrink: 0,
-              padding: '0.375rem 0.75rem',
-              borderRadius: '5px',
-              border: '1px solid #2E3058',
-              backgroundColor: TOKEN_CA ? '#181A32' : 'transparent',
-              color: copied ? '#34d399' : '#71717a',
-              fontSize: '0.72rem',
-              fontFamily: 'var(--font-mono)',
-              cursor: TOKEN_CA ? 'pointer' : 'default',
-              transition: 'all 0.15s',
-              opacity: TOKEN_CA ? 1 : 0.4,
-            }}
-          >
-            {copied ? 'Copied' : 'Copy'}
-          </button>
-        </div>
-
-        {/* Buy button */}
-        {BANKR_URL ? (
-          <a
-            href={BANKR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.75rem 2rem',
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, #4f46e5, #6366f1)',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: '0.95rem',
-              textDecoration: 'none',
-              boxShadow: '0 0 30px rgba(79,70,229,0.3)',
-              transition: 'opacity 0.15s',
-            }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.85')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
-          >
-            Buy on Bankr
-          </a>
-        ) : (
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.75rem 2rem',
-              borderRadius: '8px',
-              border: '1px solid #2E3058',
-              color: '#52525b',
-              fontWeight: 700,
-              fontSize: '0.95rem',
-              cursor: 'default',
-            }}
-          >
-            Buy on Bankr — Coming soon
-          </div>
-        )}
-
-        {/* How to buy */}
-        <div style={{ marginTop: '3.5rem', textAlign: 'left' }}>
-          <p style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#4f46e5', marginBottom: '1.5rem', textAlign: 'center' }}>
-            How to buy on Base
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-            {[
-              {
-                n: '01',
-                title: 'Get a Web3 wallet',
-                body: 'Download Coinbase Wallet, MetaMask, or Rainbow. Coinbase Wallet has native Base support and is the easiest starting point.',
-              },
-              {
-                n: '02',
-                title: 'Add ETH to Base',
-                body: 'Buy ETH on Coinbase and withdraw directly to your Base wallet address, or bridge existing ETH using bridge.base.org.',
-              },
-              {
-                n: '03',
-                title: 'Swap for $VIGIL',
-                body: 'Open Bankr or Uniswap on Base, paste the contract address above, and swap your ETH for $VIGIL. Always verify the CA before swapping.',
-              },
-            ].map(({ n, title, body }, i, arr) => (
-              <div
-                key={n}
-                style={{
-                  display: 'flex',
-                  gap: '1.25rem',
-                  padding: '1.25rem 1.5rem',
-                  backgroundColor: '#0F1124',
-                  border: '1px solid #2E3058',
-                  borderBottom: i < arr.length - 1 ? 'none' : '1px solid #2E3058',
-                  borderRadius: i === 0 ? '10px 10px 0 0' : i === arr.length - 1 ? '0 0 10px 10px' : '0',
-                }}
-              >
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#4f46e5', fontWeight: 700, letterSpacing: '0.08em', paddingTop: '2px', flexShrink: 0 }}>{n}</div>
-                <div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fafafa', marginBottom: '0.3rem' }}>{title}</div>
-                  <div style={{ fontSize: '0.825rem', color: '#71717a', lineHeight: 1.6 }}>{body}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Socials */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginTop: '2.5rem' }}>
-          {SOCIALS.map(({ label, href }) =>
-            href ? (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: '0.825rem', color: '#52525b', textDecoration: 'none', transition: 'color 0.15s' }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#a1a1aa')}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#52525b')}
-              >
-                {label}
-              </a>
-            ) : (
-              <span key={label} style={{ fontSize: '0.825rem', color: '#3a3a4a', cursor: 'default' }}>
-                {label}
-              </span>
-            )
-          )}
-        </div>
-      </div>
-    </section>
-  )
-}
 
 function Footer() {
   return (
@@ -1217,11 +914,9 @@ export default function LandingPage() {
       <main>
         <Hero />
         <Stats />
-        <TokenBar />
         <Features />
         <HowItWorks />
         <Packs />
-        <Token />
         <Download />
       </main>
       <Footer />

@@ -23,7 +23,7 @@ import { FloatingDispatch } from '../../../components/FloatingDispatch'
 import { KeyboardShortcuts } from '../../../components/KeyboardShortcuts'
 import { ContributeView } from '../../../components/ContributeView'
 
-type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'token' | 'contribute' | 'settings'
+type View = 'hq' | 'activity' | 'analytics' | 'chains' | 'memory' | 'contribute' | 'settings'
 
 export default function Dashboard() {
   const [view, setView] = useState<View>('hq')
