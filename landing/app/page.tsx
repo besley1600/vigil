@@ -380,27 +380,6 @@ function Hero() {
         }}
       />
 
-      {/* Badge */}
-      <div
-        className="animate-slide-up"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          padding: '0.3rem 1rem',
-          borderRadius: '100px',
-          border: '1px solid rgba(99,102,241,0.3)',
-          backgroundColor: 'rgba(79,70,229,0.1)',
-          fontSize: '0.8rem',
-          color: '#a5b4fc',
-          marginBottom: '2rem',
-          backdropFilter: 'blur(8px)',
-        }}
-      >
-        <span style={{ color: '#34d399', fontSize: '0.65rem', animation: 'pulse-dot 2s ease-in-out infinite' }}>&#9679;</span>
-        Open source &nbsp;&middot;&nbsp; GitHub Actions powered &nbsp;&middot;&nbsp; 119 skills
-      </div>
-
       {/* Headline */}
       <h1
         className="animate-slide-up-1"
