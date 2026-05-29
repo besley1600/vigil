@@ -85,7 +85,7 @@ const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: numbe
     platform: 'Linux',
     arch: 'x64',
     Icon: LinuxIcon,
-    url: `${RELEASES_BASE}/Vigil-x64.AppImage`,
+    url: `${RELEASES_BASE}/Vigil-x86_64.AppImage`,
     ext: '.AppImage',
   },
 ]

@@ -40,7 +40,7 @@ const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: numbe
   { platform: 'macOS', arch: 'Apple Silicon', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-arm64.dmg`, ext: '.dmg' },
   { platform: 'macOS', arch: 'Intel', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-x64.dmg`, ext: '.dmg' },
   { platform: 'Windows', arch: '64-bit', Icon: WindowsIcon, url: `${RELEASES_BASE}/Vigil-Setup-x64.exe`, ext: '.exe' },
-  { platform: 'Linux', arch: 'x64', Icon: LinuxIcon, url: `${RELEASES_BASE}/Vigil-x64.AppImage`, ext: '.AppImage' },
+  { platform: 'Linux', arch: 'x64', Icon: LinuxIcon, url: `${RELEASES_BASE}/Vigil-x86_64.AppImage`, ext: '.AppImage' },
 ]
 
 const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; bg: string }[] = [
