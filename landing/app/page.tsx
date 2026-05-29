@@ -513,40 +513,18 @@ function Hero() {
             }}
           />
 
-          {/* Browser frame */}
-          <div
+          <img
+            src="/app-preview.png"
+            alt="Vigil dashboard"
             style={{
-              position: 'relative',
+              display: 'block',
+              width: '100%',
+              height: 'auto',
               borderRadius: '10px',
               border: '1px solid rgba(255,255,255,0.1)',
-              overflow: 'hidden',
-              boxShadow: '0 -2px 0 rgba(99,102,241,0.35), 0 32px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)',
+              boxShadow: '0 -2px 0 rgba(99,102,241,0.35), 0 32px 100px rgba(0,0,0,0.6)',
             }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0.5rem 0.875rem',
-                background: 'linear-gradient(180deg, #0f0f1e 0%, #13132a 100%)',
-                borderBottom: '1px solid rgba(99,102,241,0.15)',
-                gap: '0.5rem',
-              }}
-            >
-              <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block', flexShrink: 0 }} />
-              <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#f59e0b', display: 'inline-block', flexShrink: 0 }} />
-              <span style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block', flexShrink: 0 }} />
-              <span style={{ flex: 1 }} />
-              <span style={{ fontSize: '0.675rem', fontFamily: 'var(--font-mono)', color: '#71717a', letterSpacing: '0.08em' }}>app.vigilhq.ai</span>
-              <span style={{ flex: 1 }} />
-            </div>
-
-            <img
-              src="/app-preview.png"
-              alt="Vigil dashboard"
-              style={{ display: 'block', width: '100%', height: 'auto' }}
-            />
-          </div>
+          />
         </div>
       </div>
     </section>
