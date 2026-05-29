@@ -37,10 +37,10 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://app.vigilhq.ai'
 const RELEASES_BASE = `https://github.com/${GITHUB_REPO}/releases/latest/download`
 
 const DOWNLOADS: { platform: string; arch: string; Icon: React.FC<{ size?: number }>; url: string; ext: string }[] = [
-  { platform: 'macOS', arch: 'Apple Silicon', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-arm64.dmg`, ext: '.dmg' },
-  { platform: 'macOS', arch: 'Intel', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-x64.dmg`, ext: '.dmg' },
-  { platform: 'Windows', arch: '64-bit', Icon: WindowsIcon, url: `${RELEASES_BASE}/Vigil-Setup-x64.exe`, ext: '.exe' },
-  { platform: 'Linux', arch: 'x64', Icon: LinuxIcon, url: `${RELEASES_BASE}/Vigil-x86_64.AppImage`, ext: '.AppImage' },
+  { platform: 'macOS', arch: 'Apple Silicon', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-macOS-arm64.dmg`, ext: '.dmg' },
+  { platform: 'macOS', arch: 'Intel', Icon: AppleIcon, url: `${RELEASES_BASE}/Vigil-macOS-x64.dmg`, ext: '.dmg' },
+  { platform: 'Windows', arch: '64-bit', Icon: WindowsIcon, url: `${RELEASES_BASE}/Vigil-Windows-x64.exe`, ext: '.exe' },
+  { platform: 'Linux', arch: 'x64', Icon: LinuxIcon, url: `${RELEASES_BASE}/Vigil-Linux-x64.AppImage`, ext: '.AppImage' },
 ]
 
 const FEATURES: { Icon: LucideIcon; title: string; desc: string; color: string; bg: string }[] = [
